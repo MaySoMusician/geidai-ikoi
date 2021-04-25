@@ -80,7 +80,8 @@
   </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
+import Vue from 'vue'
 import {
   CBox,
   CButton,
@@ -96,11 +97,25 @@ import {
   CModalCloseButton,
   CIconButton,
   CFlex,
-  CHeading
+  CHeading,
 } from '@chakra-ui/vue'
 
-export default {
-  name: 'App',
+type Data = {
+  showModal: boolean
+  mainStyles: Record<string, { bg: string; color: string }>
+}
+
+type Computed = {
+  colorMode: string
+  theme: unknown
+  toggleColorMode: unknown
+}
+
+type Methods = {
+  showToast(): void
+}
+
+export default Vue.extend<Data, Methods, Computed, unknown>({
   components: {
     CBox,
     CButton,
@@ -116,45 +131,45 @@ export default {
     CModalCloseButton,
     CIconButton,
     CFlex,
-    CHeading
+    CHeading,
   },
   inject: ['$chakraColorMode', '$toggleColorMode'],
-  data () {
+  data() {
     return {
       showModal: false,
       mainStyles: {
         dark: {
           bg: 'gray.700',
-          color: 'whiteAlpha.900'
+          color: 'whiteAlpha.900',
         },
         light: {
           bg: 'white',
-          color: 'gray.900'
-        }
-      }
+          color: 'gray.900',
+        },
+      },
     }
   },
   computed: {
-    colorMode () {
+    colorMode() {
       return this.$chakraColorMode()
     },
-    theme () {
+    theme() {
       return this.$chakraTheme()
     },
-    toggleColorMode () {
+    toggleColorMode() {
       return this.$toggleColorMode
-    }
+    },
   },
   methods: {
-    showToast () {
+    showToast() {
       this.$toast({
         title: 'Account created.',
         description: "We've created your account for you.",
         status: 'success',
         duration: 10000,
-        isClosable: true
+        isClosable: true,
       })
-    }
-  }
-}
+    },
+  },
+})
 </script>
