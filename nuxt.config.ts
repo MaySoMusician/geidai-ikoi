@@ -1,4 +1,5 @@
 import { NuxtConfig } from '@nuxt/types'
+import nuxtFirebaseConfiguration from './nuxt-firebase.config'
 
 const config: NuxtConfig = {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -44,6 +45,8 @@ const config: NuxtConfig = {
     '@nuxtjs/emotion',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // https://firebase.nuxtjs.org/guide/options/
+    '@nuxtjs/firebase',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -51,6 +54,8 @@ const config: NuxtConfig = {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  firebase: nuxtFirebaseConfiguration,
 }
 
 export default config
