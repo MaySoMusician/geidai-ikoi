@@ -1,4 +1,5 @@
 import { FirebaseModuleConfiguration } from '@nuxtjs/firebase'
+import { mutationNames } from './store/index'
 
 const config: FirebaseModuleConfiguration = {
   config: {
@@ -13,6 +14,10 @@ const config: FirebaseModuleConfiguration = {
   services: {
     auth: {
       preload: true,
+      initialize: {
+        onAuthStateChangedMutation:
+          mutationNames.ON_AUTH_STATE_CHANGED_MUTATION,
+      },
     },
   },
   onFirebaseHosting: true,
