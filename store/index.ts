@@ -1,4 +1,9 @@
-import { GetterTree, ActionTree, MutationTree } from 'vuex'
+import {
+  getAccessorType,
+  getterTree,
+  mutationTree,
+  actionTree,
+} from 'nuxt-typed-vuex'
 
 type User = {
   uid: string
@@ -11,29 +16,34 @@ export const state = () => ({
   user: null as null | User,
 })
 
-export type RootState = ReturnType<typeof state>
-
-export const getters: GetterTree<RootState, RootState> = {
+export const getters = getterTree(state, {
   user: (state) => state.user,
-}
+})
 
 export const mutationNames = {
   ON_AUTH_STATE_CHANGED_MUTATION: 'ON_AUTH_STATE_CHANGED_MUTATION',
 }
 
-export const mutations: MutationTree<RootState> = {
+export const mutations = mutationTree(state, {
   [mutationNames.ON_AUTH_STATE_CHANGED_MUTATION]: (
     state,
     { authUser, _claims }
   ) => {
     if (!authUser) {
       state.user = null
+      console.log('signed out')
     } else {
       const { uid, email, displayName, photoURL } = authUser
-      console.log(email)
       state.user = { uid, email, displayName, photoURL }
     }
   },
-}
+})
 
-export const actions: ActionTree<RootState, RootState> = {}
+export const actions = actionTree({ state, getters, mutations }, {})
+
+export const accessorType = getAccessorType({
+  state,
+  getters,
+  mutations,
+  actions,
+})
