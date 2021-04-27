@@ -1,5 +1,5 @@
 import { VNode } from 'vue'
-import { Theme } from '@chakra-ui/vue/types/chakra'
+import { ChakraTheme, ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
 
 declare module 'vue/types/vue' {
   type ToastOptions = {
@@ -22,7 +22,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     $toast(options: Partial<ToastOptions>): void
     $chakraColorMode(): string
-    $chakraTheme(): Theme
-    $toggleColorMode: unknown
+    $chakraTheme(): ChakraTheme
+    $toggleColorMode: ToggleColorModeFunction
   }
 }
