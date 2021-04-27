@@ -58,6 +58,12 @@ const config: NuxtConfig = {
   build: {},
 
   firebase: nuxtFirebaseConfiguration,
+
+  chakra: {
+    config: {
+      autoImport: true,
+    },
+  },
 }
 
 export default config
