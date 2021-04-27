@@ -2,6 +2,19 @@ import { NuxtConfig } from '@nuxt/types'
 import nuxtFirebaseConfiguration from './nuxt-firebase.config'
 import { extendTheme as chakraUiExtendedTheme } from './nuxt-chakra-ui.config'
 
+const generateLazyFontLinkTags = (preconnect: string, url: string) => {
+  return [
+    { rel: 'preconnect', href: preconnect, crossOrigin: 'anonymous' },
+    { rel: 'preload', as: 'style', href: url },
+    {
+      rel: 'stylesheet',
+      media: 'print',
+      onload: "this.media='all'",
+      href: url,
+    },
+  ]
+}
+
 const config: NuxtConfig = {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -20,7 +33,13 @@ const config: NuxtConfig = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      ...generateLazyFontLinkTags(
+        'https://fonts.gstatic.com',
+        'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap'
+      ),
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
