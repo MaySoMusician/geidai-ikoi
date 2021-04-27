@@ -1,5 +1,6 @@
 import { NuxtConfig } from '@nuxt/types'
 import nuxtFirebaseConfiguration from './nuxt-firebase.config'
+import { extendTheme as chakraUiExtendedTheme } from './nuxt-chakra-ui.config'
 
 const config: NuxtConfig = {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -63,6 +64,7 @@ const config: NuxtConfig = {
     config: {
       autoImport: true,
     },
+    extendTheme: chakraUiExtendedTheme,
   },
 }
 
