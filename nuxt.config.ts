@@ -1,6 +1,9 @@
 import { NuxtConfig } from '@nuxt/types'
 import nuxtFirebaseConfiguration from './nuxt-firebase.config'
-import { extendTheme as chakraUiExtendedTheme } from './nuxt-chakra-ui.config'
+import {
+  extendTheme as chakraUiExtendedTheme,
+  customIcons,
+} from './nuxt-chakra-ui.config'
 
 const generateLazyFontLinkTags = (preconnect: string, url: string) => {
   return [
@@ -84,6 +87,11 @@ const config: NuxtConfig = {
       autoImport: true,
     },
     extendTheme: chakraUiExtendedTheme,
+    icons: {
+      extend: {
+        ...customIcons,
+      },
+    },
   },
 }
 
