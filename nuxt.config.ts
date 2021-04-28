@@ -82,6 +82,10 @@ const config: NuxtConfig = {
 
   firebase: nuxtFirebaseConfiguration,
 
+  emotion: {
+    ssr: false,
+  },
+
   chakra: {
     config: {
       autoImport: true,
