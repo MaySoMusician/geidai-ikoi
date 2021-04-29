@@ -2,7 +2,7 @@
   <div class="container">
     <CThemeProvider>
       <CColorModeProvider>
-        <CBox font-family="body" as="main">
+        <CBox font-family="body">
           <CReset />
           <Nuxt />
         </CBox>
