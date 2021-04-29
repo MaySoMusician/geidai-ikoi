@@ -1,9 +1,14 @@
 <template>
-  <img
+  <!-- <img
     :class="[$style.EmojiCoffee]"
     draggable="false"
     alt="☕"
     src="https://twemoji.maxcdn.com/2/72x72/2615.png"
+  /> -->
+  <img
+    :class="[$style.EmojiCoffee]"
+    draggable="false"
+    src="~assets/coffeeCup.min.svg"
   />
 </template>
 
