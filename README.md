@@ -18,3 +18,5 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+To enable APPLICATION DEBUG (in-app logging), set `APP_DEBUG=1`

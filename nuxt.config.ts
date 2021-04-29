@@ -103,4 +103,14 @@ const config: NuxtConfig = {
   },
 }
 
+if (!config.env) {
+  config.env = {}
+}
+
+if (process.env.APP_DEBUG && process.env.APP_DEBUG !== '0') {
+  // eslint-disable-next-line no-console
+  console.log('!!! APPLICATION DEBUG ENABLED !!!')
+  config.env.APP_DEBUG = process.env.APP_DEBUG
+}
+
 export default config
