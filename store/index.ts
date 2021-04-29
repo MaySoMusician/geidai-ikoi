@@ -31,7 +31,6 @@ export const mutations = mutationTree(state, {
   ) => {
     if (!authUser) {
       state.user = null
-      console.log('signed out')
     } else {
       const { uid, email, displayName, photoURL } = authUser
       state.user = { uid, email, displayName, photoURL }
