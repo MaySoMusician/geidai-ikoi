@@ -60,6 +60,8 @@ const config: NuxtConfig = {
     '@nuxt/typescript-build',
     // https://typed-vuex.roe.dev/
     'nuxt-typed-vuex',
+    // https://github.com/nuxt-community/svg-module
+    '@nuxtjs/svg',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
