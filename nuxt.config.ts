@@ -62,6 +62,8 @@ const config: NuxtConfig = {
     'nuxt-typed-vuex',
     // https://github.com/nuxt-community/svg-module
     '@nuxtjs/svg',
+    // https://github.com/nuxt-community/device-module
+    '@nuxtjs/device',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
