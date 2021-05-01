@@ -1,9 +1,12 @@
 import { NuxtConfig } from '@nuxt/types'
+import { MetaInfo } from 'vue-meta'
+
 import nuxtFirebaseConfiguration from './nuxt-firebase.config'
 import {
   extendTheme as chakraUiExtendedTheme,
   customIcons,
 } from './nuxt-chakra-ui.config'
+import { WEBSITE_NAME, WEBSITE_DESCRIPTION } from './utils/constants'
 
 const generateLazyFontLinkTags = (preconnect: string, url: string) => {
   return [
@@ -18,6 +21,19 @@ const generateLazyFontLinkTags = (preconnect: string, url: string) => {
   ]
 }
 
+const hid = (info: Exclude<MetaInfo['meta'], undefined>[number]) => {
+  if (info.name) {
+    const { name, ...others } = info
+    return { hid: name, name, ...others }
+  }
+  if (info.property) {
+    const { property, ...others } = info
+    return { hid: property, property, ...others }
+  }
+
+  throw new Error('unknown meta info')
+}
+
 const config: NuxtConfig = {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -27,15 +43,17 @@ const config: NuxtConfig = {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'geidai-ikoi',
-    htmlAttrs: {
-      lang: 'ja',
-    },
+    title: WEBSITE_NAME,
+    htmlAttrs: { lang: 'ja' },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { hid: 'robots', name: 'robots', content: 'noindex' },
+      hid({ name: 'description', content: WEBSITE_DESCRIPTION }),
+      hid({ property: 'og:type', content: 'website' }),
+      hid({ property: 'og:site_name', content: WEBSITE_NAME }),
+      hid({ property: 'og:description', content: WEBSITE_DESCRIPTION }),
+      hid({ property: 'og:locale', content: 'website' }),
+      hid({ name: 'robots', content: 'noindex' }),
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
