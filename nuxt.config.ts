@@ -120,6 +120,12 @@ const config: NuxtConfig = {
       },
     },
   },
+
+  publicRuntimeConfig: {
+    configDatabaseId: process.env.NOTION_DATABASE_CONFIG,
+    newsDatabaseId: process.env.NOTION_DATABASE_NEWS,
+    meetLinksDatabaseId: process.env.NOTION_DATABASE_MEETLINKS,
+  },
 }
 
 if (!config.env) {
