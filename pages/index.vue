@@ -104,7 +104,21 @@ function _initializeGoogleAuthProvider(authModule: typeof firebase.auth) {
 
 const appMeetUrl = '/meet'
 
-export default Vue.extend<Data, Methods, Computed, unknown>({
+async function _signIn(self: InstanceType<typeof vue>, { hd }: { hd: string }) {
+  const provider = _initializeGoogleAuthProvider(self.$fireModule.auth)
+  provider.setCustomParameters({ hd })
+  self.$fire.auth.useDeviceLanguage()
+
+  try {
+    await (self.$device.isDesktop
+      ? self.$fire.auth.signInWithPopup(provider)
+      : self.$fire.auth.signInWithRedirect(provider))
+  } catch (e) {
+    debugError(e)
+  }
+}
+
+const vue = Vue.extend<Data, Methods, Computed, unknown>({
   inject: ['$chakraColorMode', '$toggleColorMode'],
   data() {
     return {
@@ -179,19 +193,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         return this.$router.push(appMeetUrl)
       }
 
-      const provider = _initializeGoogleAuthProvider(this.$fireModule.auth)
-      provider.setCustomParameters({
-        hd: 'ms.geidai.ac.jp',
-      })
-      this.$fire.auth.useDeviceLanguage()
-
-      try {
-        await (this.$device.isDesktop
-          ? this.$fire.auth.signInWithPopup(provider)
-          : this.$fire.auth.signInWithRedirect(provider))
-      } catch (e) {
-        debugError(e)
-      }
+      await _signIn(this, { hd: 'ms.geidai.ac.jp' })
     },
     async othersSignIn() {
       if (this.$accessor.user) {
@@ -199,22 +201,12 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         return this.$router.push(appMeetUrl)
       }
 
-      const provider = _initializeGoogleAuthProvider(this.$fireModule.auth)
-      provider.setCustomParameters({
-        hd: 'fa.geidai.ac.jp',
-      })
-      this.$fire.auth.useDeviceLanguage()
-
-      try {
-        await (this.$device.isDesktop
-          ? this.$fire.auth.signInWithPopup(provider)
-          : this.$fire.auth.signInWithRedirect(provider))
-      } catch (e) {
-        debugError(e)
-      }
+      await _signIn(this, { hd: 'fa.geidai.ac.jp' })
     },
   },
 })
+
+export default vue
 </script>
 
 <style lang="scss" module>
