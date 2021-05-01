@@ -1,14 +1,6 @@
 <template>
   <div>
-    <CHeading
-      as="h1"
-      text-align="center"
-      :mt="3"
-      :mb="4"
-      :class="[$style.Title]"
-    >
-      <AppSvgIconCoffee /><span>オンライン憩い</span><AppSvgIconCoffee />
-    </CHeading>
+    <TheWebsiteTitle />
     <CStack :spacing="3" mx="auto" :mb="10" max-w="42rem" align="stretch">
       <CAlert v-for="i in 2" :key="i" status="info">
         <CAlertIcon />
@@ -209,12 +201,4 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
 export default vue
 </script>
 
-<style lang="scss" module>
-.Title span {
-  vertical-align: middle;
-  margin: {
-    left: 6px;
-    right: 6px;
-  }
-}
-</style>
+<style lang="scss" module></style>
