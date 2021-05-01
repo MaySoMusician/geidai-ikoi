@@ -45,7 +45,7 @@
         {{ friendlyMessage }}
       </CHeading>
       <CFlex justify="center" direction="column" align="center">
-        <CButton variant-color="red" mt="3" @click="$router.push('/')">
+        <CButton as="a" variant-color="red" mt="3" href="/">
           <CIcon name="chevron-left" size="2rem" :ml="-3" :mr="0" />ホームへ戻る
         </CButton>
       </CFlex>
