@@ -150,9 +150,12 @@ const AppPopoverContent = {
           display: 'flex',
           flexDirection: 'column',
           rounded: 'md',
-          shadow: 'sm',
           maxWidth: 'xs',
-          _focus: { outline: 0, shadow: 'outline' },
+          /* MODIFIED */
+          shadow: 'md',
+          border: '1px solid #adb1b761',
+          _focus: { outline: 0 /* , shadow: 'outline' */ },
+          /* End of MODIFIED */
           ...this.$attrs,
           id: popoverId,
           tabIndex: -1,
