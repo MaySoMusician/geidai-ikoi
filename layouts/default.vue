@@ -35,15 +35,7 @@
                     box-shadow="lg"
                   >
                     <CPopoverBody>使い方</CPopoverBody>
-                    <CPopoverBody
-                      ><AppDarkModeButton
-                        :color-mode="colorMode"
-                        @click="toggleColorMode"
-                    /></CPopoverBody>
-                    <!-- <TheDarkModeButton
-                      :color-mode="colorMode"
-                      @click="toggleColorMode"
-                    /> -->
+                    <CPopoverBody><TheDarkModeButton /></CPopoverBody>
                   </AppPopoverContent>
                 </CPopover>
               </CFlex>

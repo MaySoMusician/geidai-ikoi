@@ -3,24 +3,28 @@
     mr="3"
     :icon="colorMode === 'light' ? 'moon' : 'sun'"
     :aria-label="`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`"
-    @click="$emit('click')"
+    @click="toggleColorMode"
   />
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue from 'vue'
 
-export type ColorMode = 'light' | 'dark'
+import { ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
 
-type Props = {
-  colorMode: ColorMode
+type Computed = {
+  colorMode: string
+  toggleColorMode: ToggleColorModeFunction
 }
 
-export default Vue.extend<unknown, unknown, unknown, Props>({
-  props: {
-    colorMode: {
-      type: String as PropType<ColorMode>,
-      required: true,
+export default Vue.extend<unknown, unknown, Computed, unknown>({
+  inject: ['$chakraColorMode', '$toggleColorMode'],
+  computed: {
+    colorMode() {
+      return this.$chakraColorMode()
+    },
+    toggleColorMode() {
+      return this.$toggleColorMode
     },
   },
 })
