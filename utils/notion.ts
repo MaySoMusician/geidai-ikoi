@@ -51,6 +51,29 @@ export function isValidMeetLinkItem(target: any): target is MeetLinkItem {
   )
 }
 
+const newsTypes = ['info', 'warning'] as const
+export type NewsType = typeof newsTypes[number]
+
+export interface NewsItem extends NotionDatabaseItem {
+  title: string
+  type: NewsType
+  onPublished?: string
+  content?: string
+  isHidden?: boolean
+}
+
+export function isValidNewsItem(target: any): target is NewsItem {
+  return (
+    _isValidNotionDatabaseItem(target) &&
+    isNotEmptyString(target.title) &&
+    isNotEmptyString(target.type) &&
+    newsTypes.includes(target.type) &&
+    ('onPublished' in target ? isNotEmptyString(target.onPublished) : IGNORE) &&
+    ('content' in target ? isNotEmptyString(target.content) : IGNORE) &&
+    ('isHidden' in target ? typeof target.isHidden === 'boolean' : IGNORE)
+  )
+}
+
 function isNotEmptyString(target: any): target is string {
   return typeof target === 'string' && target !== ''
 }
