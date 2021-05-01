@@ -40,7 +40,7 @@
                         :color-mode="colorMode"
                         @click="toggleColorMode"
                     /></CPopoverBody>
-                    <!-- <AppDarkModeButton
+                    <!-- <TheDarkModeButton
                       :color-mode="colorMode"
                       @click="toggleColorMode"
                     /> -->
