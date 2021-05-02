@@ -7,8 +7,8 @@
           <div :class="[$style.Container]">
             <CBox
               v-bind="mainStyles[colorMode]"
+              :class="[$style.FullHeight]"
               max-w="48rem"
-              min-h="100vh"
               mx="auto"
               px="4px"
               box-shadow="2xl"
@@ -125,6 +125,15 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       this.colorModeFunction = _provided.$chakraColorMode
       this.toggleColorModeFunction = _provided.$toggleColorMode
     }
+
+    this.$nextTick(() => {
+      const setHeight = () => {
+        const vh = window.innerHeight * 0.01
+        document.documentElement.style.setProperty('--vh', `${vh}px`)
+      }
+      window.addEventListener('resize', setHeight)
+      setHeight()
+    })
   },
   methods: {
     signOut() {
@@ -145,6 +154,12 @@ body {
 .Container {
   background: #ced2d6;
 }
+
+.FullHeight {
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
 .Footer {
   position: sticky !important;
   top: 100vh;
