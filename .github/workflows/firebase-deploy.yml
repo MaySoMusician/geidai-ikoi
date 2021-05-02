@@ -1,0 +1,58 @@
+name: Deploy to Firebase
+
+on:
+  push:
+    branches:
+      - default
+
+jobs:
+  ci:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@master
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+
+      - name: Get yarn cache directory path 🛠
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache node_modules 📦
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install firebase-tools
+        run: |
+          npm install -g firebase-tools
+
+      - name: Build app
+        run: |
+          yarn install --frozen-lockfile
+          yarn generate
+        env:
+          NOTION_DATABASE_CONFIG: ${{ secrets.NOTION_DATABASE_CONFIG }}
+          NOTION_DATABASE_NEWS: ${{ secrets.NOTION_DATABASE_NEWS }}
+          NOTION_DATABASE_MEETLINKS: ${{ secrets.NOTION_DATABASE_MEETLINKS }}
+
+      - name: Deploy to Firebase Hosting
+        run: |
+          firebase use default
+          firebase deploy --only hosting --token $FIREBASE_TOKEN
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
