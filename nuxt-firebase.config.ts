@@ -13,6 +13,7 @@ const config: FirebaseModuleConfiguration = {
   },
   services: {
     auth: {
+      persistence: 'session',
       preload: true,
       initialize: {
         onAuthStateChangedMutation:
