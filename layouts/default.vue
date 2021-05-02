@@ -134,6 +134,13 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 })
 </script>
 
+<style>
+html,
+body {
+  height: 100%;
+}
+</style>
+
 <style lang="scss" module>
 .Container {
   background: #ced2d6;
