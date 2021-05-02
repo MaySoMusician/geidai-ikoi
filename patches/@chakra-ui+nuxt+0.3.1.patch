@@ -1,0 +1,17 @@
+diff --git a/node_modules/@chakra-ui/nuxt/lib/plugin.js b/node_modules/@chakra-ui/nuxt/lib/plugin.js
+index afe037f..35f8e3a 100644
+--- a/node_modules/@chakra-ui/nuxt/lib/plugin.js
++++ b/node_modules/@chakra-ui/nuxt/lib/plugin.js
+@@ -3,6 +3,12 @@ import { createClientDirective } from '@chakra-ui/vue/src/directives'
+ 
+ const theme = <%= JSON.stringify(options.theme, null, 2) %>
+ 
++const breakpointSizes = ['sm', 'md', 'lg', 'xl'];
++
++theme.breakpoints.forEach((breakpoint, index) => {
++  theme.breakpoints[breakpointSizes[index]] = breakpoint;
++});
++
+ Vue.prototype.$chakra = {
+   theme,
+   icons: <%= JSON.stringify(options.icons, null, 2) %>
