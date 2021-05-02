@@ -1,62 +1,62 @@
 <template>
   <div>
     <TheWebsiteTitle />
-    <CStack :spacing="3" mx="auto" :mb="10" max-w="42rem" align="stretch">
-      <CAlert v-for="i in 2" :key="i" status="info">
-        <CAlertIcon />
-        <CBox>
-          <CAlertTitle :mr="2">お知らせ</CAlertTitle>
-          <CAlertDescription
-            >お知らせ文章お知らせ文章お知らせ文章お知らせ文章</CAlertDescription
-          >
-        </CBox>
-      </CAlert>
-    </CStack>
+    <TheNewsList
+      mx="auto"
+      :mb="3"
+      max-w="42rem"
+      align="stretch"
+      @loaded="newsLoaded = true"
+    />
 
-    <CHeading as="h2" text-align="center" size="lg" :mt="3" :mb="4">
-      ログイン
-    </CHeading>
-    <CFlex justify="center" direction="column" align="center">
-      <CButton
-        variant-color="blue"
-        font-weight="normal"
-        font-size="xl"
-        w="14em"
-        :mb="3"
-        @click="musicStudentSignIn"
-      >
-        <CIcon name="account" size="2rem" :ml="-1" :mr="2" /><span
-          >音楽学部生はこちら</span
-        >
-      </CButton>
-      <CButton
-        variant="link"
-        variant-color="gray.600"
-        font-weight="normal"
-        font-size="md"
-        @click="othersSignIn"
-      >
-        美術学部生・その他の学生はこちら
-      </CButton>
-      <CModal :is-open="showModal">
-        <CModalOverlay />
-        <CModalContent>
-          <CModalHeader>Are you sure?</CModalHeader>
-          <CModalBody>Deleting user cannot be undone</CModalBody>
-          <CModalFooter>
-            <CButton @click="showModal = false"> Cancel </CButton>
-            <CButton
-              margin-left="3"
-              variant-color="red"
-              @click="showModal = false"
+    <transition name="fade" mode="out-in" @after-enter="() => {}">
+      <div v-if="newsLoaded">
+        <CHeading as="h2" text-align="center" size="lg" :mt="3" :mb="4">
+          ログイン
+        </CHeading>
+        <CFlex justify="center" direction="column" align="center">
+          <CButton
+            variant-color="blue"
+            font-weight="normal"
+            font-size="xl"
+            w="14em"
+            :mb="3"
+            @click="musicStudentSignIn"
+          >
+            <CIcon name="account" size="2rem" :ml="-1" :mr="2" /><span
+              >音楽学部生はこちら</span
             >
-              Delete User
-            </CButton>
-          </CModalFooter>
-          <CModalCloseButton @click="showModal = false" />
-        </CModalContent>
-      </CModal>
-    </CFlex>
+          </CButton>
+          <CButton
+            variant="link"
+            variant-color="gray.600"
+            font-weight="normal"
+            font-size="md"
+            @click="othersSignIn"
+          >
+            美術学部生・その他の学生はこちら
+          </CButton>
+          <CModal :is-open="showModal">
+            <CModalOverlay />
+            <CModalContent>
+              <CModalHeader>Are you sure?</CModalHeader>
+              <CModalBody>Deleting user cannot be undone</CModalBody>
+              <CModalFooter>
+                <CButton @click="showModal = false"> Cancel </CButton>
+                <CButton
+                  margin-left="3"
+                  variant-color="red"
+                  @click="showModal = false"
+                >
+                  Delete User
+                </CButton>
+              </CModalFooter>
+              <CModalCloseButton @click="showModal = false" />
+            </CModalContent>
+          </CModal>
+        </CFlex>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -69,6 +69,7 @@ import { debugLog, debugError } from '@/utils/debug'
 
 type Data = {
   showModal: boolean
+  newsLoaded: boolean
   unwatchUser: (() => void) | null
 }
 
@@ -115,6 +116,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
   data() {
     return {
       showModal: false,
+      newsLoaded: false,
       unwatchUser: null,
     }
   },
@@ -200,5 +202,20 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
 
 export default vue
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter {
+  transform: translateY(0.3rem);
+}
+</style>
 
 <style lang="scss" module></style>
