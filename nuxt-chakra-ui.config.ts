@@ -3,6 +3,7 @@ export const extendTheme: Partial<ChakraTheme> = {
   fonts: {
     heading: "'Noto Sans JP', sans-serif",
     body: "'Noto Sans JP', sans-serif",
+    mono: "'Roboto Mono', monospace",
   },
   /* https://github.com/chakra-ui/chakra-ui/blob/1c8cb04fb0ae90fb9656056d331d314936b0489a/packages/theme/src/foundations/shadows.ts
    * MIT © Segun Adebayo

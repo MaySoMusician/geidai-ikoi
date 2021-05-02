@@ -8,9 +8,8 @@ import {
 } from './nuxt-chakra-ui.config'
 import { WEBSITE_NAME, WEBSITE_DESCRIPTION } from './utils/constants'
 
-const generateLazyFontLinkTags = (preconnect: string, url: string) => {
-  return [
-    { rel: 'preconnect', href: preconnect, crossOrigin: 'anonymous' },
+const generateLazyFontLinkTags = (url: string, preconnect?: string) => {
+  const tags: MetaInfo['link'] = [
     { rel: 'preload', as: 'style', href: url },
     {
       rel: 'stylesheet',
@@ -19,6 +18,13 @@ const generateLazyFontLinkTags = (preconnect: string, url: string) => {
       href: url,
     },
   ]
+  if (preconnect)
+    tags.push({
+      rel: 'preconnect',
+      href: preconnect,
+      crossOrigin: 'anonymous',
+    })
+  return tags
 }
 
 const hid = (info: Exclude<MetaInfo['meta'], undefined>[number]) => {
@@ -58,8 +64,11 @@ const config: NuxtConfig = {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       ...generateLazyFontLinkTags(
-        'https://fonts.gstatic.com',
-        'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap'
+        'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap',
+        'https://fonts.gstatic.com'
+      ),
+      ...generateLazyFontLinkTags(
+        'https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'
       ),
     ],
   },
