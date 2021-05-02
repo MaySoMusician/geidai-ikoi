@@ -89,9 +89,6 @@ type Methods = {
 function _initializeGoogleAuthProvider(authModule: typeof firebase.auth) {
   const provider = new authModule.GoogleAuthProvider()
   provider.addScope('email')
-  provider.setCustomParameters({
-    prompt: 'select_account',
-  })
   return provider
 }
 
@@ -99,7 +96,7 @@ const appMeetUrl = '/meet'
 
 async function _signIn(self: InstanceType<typeof vue>, { hd }: { hd: string }) {
   const provider = _initializeGoogleAuthProvider(self.$fireModule.auth)
-  provider.setCustomParameters({ hd })
+  provider.setCustomParameters({ prompt: 'consent', hd })
   self.$fire.auth.useDeviceLanguage()
 
   try {
