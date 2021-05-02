@@ -4,7 +4,7 @@ import { mutationNames } from './store/index'
 const config: FirebaseModuleConfiguration = {
   config: {
     apiKey: 'AIzaSyApe3b1woPg2ahZaE2Xa59H43rbssUI7Do',
-    authDomain: 'geidai-ikoi-01.firebaseapp.com',
+    authDomain: 'auth8.geidai-ikoi.net',
     projectId: 'geidai-ikoi-01',
     storageBucket: 'geidai-ikoi-01.appspot.com',
     messagingSenderId: '898931287801',
