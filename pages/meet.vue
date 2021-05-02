@@ -137,6 +137,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
     showToast() {},
     signOut() {
       this.$fire.auth.signOut()
+      this.$router.push('/')
     },
     getMeetId(url) {
       return url.replace('https://meet.google.com/', '')
