@@ -11,7 +11,7 @@
     <CText font-size="1.4rem" font-weight="bold" text-align="center">{{
       welcomeMessage
     }}</CText>
-    <transition name="fade" mode="out-in" @after-enter="$emit('loaded')">
+    <transition name="fade" mode="out-in" @after-enter="() => {}">
       <template v-if="newsLoaded">
         <CFlex v-if="$fetchState.pending" key="loading" justify="center">
           <AppSpinnerLoading />
