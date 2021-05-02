@@ -52,6 +52,7 @@
                   <p>&copy; 2021 K･WATANABE a.k.a. MaySoMusician</p>
                   <AppSpacer />
                   <CButton
+                    v-if="showDevSignOutButton"
                     variant="ghost"
                     variant-color="red"
                     font-size="0.8rem"
@@ -82,6 +83,7 @@ type Data = {
   colorModeFunction: (() => ColorMode) | null
   toggleColorModeFunction: ToggleColorModeFunction | null
   mainStyles: Record<string, Partial<{ bg: string; color: string }>>
+  showDevSignOutButton: boolean
 }
 
 type Methods = {
@@ -106,6 +108,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         dark: { bg: 'gray.700', color: 'whiteAlpha.900' },
         light: { bg: 'white', color: 'gray.900' },
       },
+      showDevSignOutButton: !!process.env.APP_DEBUG,
     }
   },
   computed: {
