@@ -18,5 +18,10 @@ export default Vue.extend<unknown, unknown, unknown, unknown>({})
     left: 6px;
     right: 6px;
   }
+  font-size: 1.65rem;
+
+  @media screen and (min-width: 30em) {
+    font-size: 1.875rem;
+  }
 }
 </style>

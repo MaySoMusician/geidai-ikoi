@@ -22,8 +22,12 @@ export default Vue.extend<unknown, unknown, unknown, unknown>({})
 .Emoji {
   &Coffee {
     display: inline;
-    height: 3rem;
+    height: 2rem;
     vertical-align: middle;
+
+    @media screen and (min-width: 30em) {
+      height: 3rem;
+    }
   }
 }
 </style>

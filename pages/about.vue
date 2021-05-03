@@ -8,7 +8,11 @@
           このサイトについて
         </CHeading>
         <template v-for="(content, index) in contents">
-          <CBox :key="index" :px="{ base: '1.5rem', md: '4rem' }" :mb="3">
+          <CBox
+            :key="index"
+            :px="{ base: '1.5rem', sm: '2rem', md: '4rem' }"
+            :mb="3"
+          >
             <CText :pt="2" :pb="2">{{ content.body }}</CText>
             <CText text-align="end" font-size="0.8rem">{{
               content.name
@@ -28,11 +32,12 @@
               v-for="(contact, index) in contacts"
               :key="index"
               :class="[$style.ContactListItem]"
+              :font-size="{ base: 'sm', sm: 'md' }"
             >
               <CListIcon
                 :icon="contact.icon"
                 :color="contact.color || 'gray.500'"
-                size="2rem"
+                :size="{ base: '1.5rem', sm: '2rem' }"
               />
               <CText as="span" :mr="2">{{ contact.prependText }}</CText>
               <CLink
@@ -55,7 +60,7 @@
           帰属表示
         </CHeading>
         <CFlex justify="center">
-          <CText font-size="sm"
+          <CText font-size="sm" text-align="center"
             >Icons made by
             <CLink
               href="https://www.flaticon.com/authors/pixel-perfect"
