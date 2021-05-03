@@ -50,7 +50,29 @@
       </CBox>
     </transition>
     <transition name="fade3" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="3" :pb="4">
+      <CBox :pt="10" :pb="4">
+        <CHeading as="h2" text-align="center" size="md" :mb="4">
+          帰属表示
+        </CHeading>
+        <CFlex justify="center">
+          <CText font-size="sm"
+            >Icons made by
+            <CLink
+              href="https://www.flaticon.com/authors/pixel-perfect"
+              title="Pixel perfect"
+              is-external
+              >Pixel perfect</CLink
+            >
+            from
+            <CLink href="https://www.flaticon.com/" title="Flaticon" is-external
+              >www.flaticon.com</CLink
+            ></CText
+          >
+        </CFlex>
+      </CBox>
+    </transition>
+    <transition name="fade4" mode="out-in" appear @after-enter="() => {}">
+      <CBox :pt="4" :pb="4">
         <CFlex justify="center">
           <CButton
             variant-color="gray"
@@ -184,6 +206,7 @@ export default vue
 @include transition-base('fade', 0.3s);
 @include transition-base('fade2', 0.5s);
 @include transition-base('fade3', 0.7s);
+@include transition-base('fade4', 0.9s);
 </style>
 
 <style lang="scss" module>
