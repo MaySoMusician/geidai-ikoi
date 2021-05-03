@@ -46,7 +46,7 @@
               <!-- main -->
               <Nuxt />
               <!-- /main -->
-              <CBox :class="[$style.Footer]" min-h="1.8rem" :mt="1">
+              <CBox :class="[$style.Footer]" min-h="1.8rem" :mt="4">
                 <CFlex direction="row" justify="space-between" min-h="1.8rem">
                   <CBox
                     font-size="0.75rem"
@@ -73,7 +73,9 @@
                     font-size="0.8rem"
                     font-weight="normal"
                     to="/about"
+                    :ml="2"
                     :mr="1"
+                    white-space="normal"
                     >このサイトについて・連絡先</CButton
                   >
                   <CButton
