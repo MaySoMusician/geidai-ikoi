@@ -36,6 +36,16 @@
           >
             美術学部生・その他の学生はこちら
           </CButton>
+          <CButton
+            as="nuxt-link"
+            variant-color="gray"
+            font-weight="normal"
+            font-size="xl"
+            mt="5rem"
+            to="/about"
+          >
+            このサイトについて
+          </CButton>
           <CModal :is-open="showModal">
             <CModalOverlay />
             <CModalContent>
