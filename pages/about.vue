@@ -49,6 +49,20 @@
         </CFlex>
       </CBox>
     </transition>
+    <transition name="fade3" mode="out-in" appear @after-enter="() => {}">
+      <CBox :pt="3" :pb="4">
+        <CFlex justify="center">
+          <CButton
+            variant-color="gray"
+            font-weight="normal"
+            font-size="xl"
+            @click="$router.back()"
+          >
+            もどる
+          </CButton>
+        </CFlex>
+      </CBox>
+    </transition>
   </div>
 </template>
 
@@ -168,7 +182,8 @@ export default vue
 }
 
 @include transition-base('fade', 0.3s);
-@include transition-base('fade2', 0.6s);
+@include transition-base('fade2', 0.5s);
+@include transition-base('fade3', 0.7s);
 </style>
 
 <style lang="scss" module>
