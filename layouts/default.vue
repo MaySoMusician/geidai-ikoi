@@ -31,10 +31,14 @@
                   <AppPopoverContent
                     z-index="popover"
                     :gutter="2"
-                    max-w="10em"
+                    max-w="13em"
                     box-shadow="lg"
                   >
-                    <CPopoverBody>使い方</CPopoverBody>
+                    <CPopoverBody
+                      ><nuxt-link to="/about"
+                        >このサイトについて</nuxt-link
+                      ></CPopoverBody
+                    >
                     <CPopoverBody><TheDarkModeButton /></CPopoverBody>
                   </AppPopoverContent>
                 </CPopover>
@@ -42,15 +46,36 @@
               <!-- main -->
               <Nuxt />
               <!-- /main -->
-              <CBox :class="[$style.Footer]" h="1.4rem" :mt="1">
-                <CFlex
-                  direction="row"
-                  align="center"
-                  justify="space-between"
-                  h="1.4rem"
-                >
-                  <p>&copy; 2021 K･WATANABE a.k.a. MaySoMusician</p>
+              <CBox :class="[$style.Footer]" min-h="1.8rem" :mt="1">
+                <CFlex direction="row" justify="space-between" min-h="1.8rem">
+                  <CBox
+                    font-size="0.75rem"
+                    color="gray.500"
+                    place-self="flex-end"
+                  >
+                    <CText pb="0.14rem"
+                      >&copy; 2021 K･WATANABE a.k.a. MaySoMusician</CText
+                    ><CText pb="0.1rem"
+                      >Code available at
+                      <CLink
+                        href="https://github.com/MaySoMusician/geidai-ikoi"
+                        is-external
+                        >GitHub</CLink
+                      >, licensed under MIT license.</CText
+                    >
+                  </CBox>
+
                   <AppSpacer />
+                  <CButton
+                    as="nuxt-link"
+                    variant="link"
+                    color="gray.500"
+                    font-size="0.8rem"
+                    font-weight="normal"
+                    to="/about"
+                    :mr="1"
+                    >このサイトについて・連絡先</CButton
+                  >
                   <CButton
                     v-if="showDevSignOutButton"
                     variant="ghost"
@@ -166,7 +191,6 @@ body {
   line-height: 100%;
 
   p {
-    font-size: 0.9rem;
     line-height: 100%;
   }
 
