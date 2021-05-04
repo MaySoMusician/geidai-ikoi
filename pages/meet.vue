@@ -146,19 +146,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 })
 </script>
 
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-enter {
-  transform: translateY(0.3rem);
-}
+<style lang="scss" scoped>
+@include fadeEaseOutCubic('fade', 0s, 0.3rem);
 </style>
 
 <style lang="scss" module></style>
