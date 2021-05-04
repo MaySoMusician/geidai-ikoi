@@ -112,6 +112,11 @@ const config: NuxtConfig = {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
+  // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate/
+  generate: {
+    fallback: true,
+  },
+
   firebase: nuxtFirebaseConfiguration,
 
   emotion: {
