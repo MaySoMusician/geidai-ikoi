@@ -92,6 +92,8 @@ const config: NuxtConfig = {
     '@nuxtjs/svg',
     // https://github.com/nuxt-community/device-module
     '@nuxtjs/device',
+    // https://github.com/nuxt-community/style-resources-module/
+    '@nuxtjs/style-resources',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -139,6 +141,10 @@ const config: NuxtConfig = {
     configDatabaseId: process.env.NOTION_DATABASE_CONFIG,
     newsDatabaseId: process.env.NOTION_DATABASE_NEWS,
     meetLinksDatabaseId: process.env.NOTION_DATABASE_MEETLINKS,
+  },
+
+  styleResources: {
+    scss: ['~assets/abstracts/_mixins.scss'],
   },
 }
 

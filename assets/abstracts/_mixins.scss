@@ -1,0 +1,18 @@
+@mixin fadeEaseOutCubic($name, $delay, $distance) {
+  .#{$name} {
+    &-enter-active,
+    &-leave-active {
+      transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+      transition-delay: $delay;
+    }
+
+    &-enter,
+    &-leave-to {
+      opacity: 0;
+    }
+
+    &-enter {
+      transform: translateY($distance);
+    }
+  }
+}

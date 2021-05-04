@@ -2,7 +2,7 @@
   <div>
     <TheWebsiteTitle />
 
-    <transition name="fade" mode="out-in" appear @after-enter="() => {}">
+    <transition name="fade1" mode="out-in" appear @after-enter="() => {}">
       <CBox :pt="3" :pb="4">
         <CHeading as="h2" text-align="center" size="lg" :mb="4">
           このサイトについて
@@ -189,29 +189,10 @@ export default vue
 </script>
 
 <style lang="scss" scoped>
-@mixin transition-base($name, $delay) {
-  .#{$name} {
-    &-enter-active,
-    &-leave-active {
-      transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
-      transition-delay: $delay;
-    }
-
-    &-enter,
-    &-leave-to {
-      opacity: 0;
-    }
-
-    &-enter {
-      transform: translateY(0.3rem);
-    }
-  }
-}
-
-@include transition-base('fade', 0.3s);
-@include transition-base('fade2', 0.5s);
-@include transition-base('fade3', 0.7s);
-@include transition-base('fade4', 0.9s);
+@include fadeEaseOutCubic('fade1', 0.3s, 0.3rem);
+@include fadeEaseOutCubic('fade2', 0.5s, 0.3rem);
+@include fadeEaseOutCubic('fade3', 0.7s, 0.3rem);
+@include fadeEaseOutCubic('fade4', 0.9s, 0.3rem);
 </style>
 
 <style lang="scss" module>
