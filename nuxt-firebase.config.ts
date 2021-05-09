@@ -8,8 +8,8 @@ const config: FirebaseModuleConfiguration = {
     projectId: 'geidai-ikoi-01',
     storageBucket: 'geidai-ikoi-01.appspot.com',
     messagingSenderId: '898931287801',
-    appId: '1:898931287801:web:4bef235eb465f887c22428',
-    measurementId: 'G-LM2Q0T0TK9',
+    appId: '1:898931287801:web:956cef8b0dc718a9c22428',
+    measurementId: 'G-JN7CYRMKDD',
   },
   services: {
     auth: {
