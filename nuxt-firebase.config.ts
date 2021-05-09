@@ -9,7 +9,7 @@ const config: FirebaseModuleConfiguration = {
     storageBucket: 'geidai-ikoi-01.appspot.com',
     messagingSenderId: '898931287801',
     appId: '1:898931287801:web:4bef235eb465f887c22428',
-    measurementId: '',
+    measurementId: 'G-LM2Q0T0TK9',
   },
   services: {
     auth: {
@@ -20,6 +20,7 @@ const config: FirebaseModuleConfiguration = {
           mutationNames.ON_AUTH_STATE_CHANGED_MUTATION,
       },
     },
+    analytics: true,
   },
   onFirebaseHosting: true,
 }
