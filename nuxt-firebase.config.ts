@@ -20,6 +20,7 @@ const config: FirebaseModuleConfiguration = {
           mutationNames.ON_AUTH_STATE_CHANGED_MUTATION,
       },
     },
+    analytics: false,
   },
   onFirebaseHosting: true,
 }

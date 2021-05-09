@@ -11,7 +11,7 @@
     <CText font-size="1.4rem" font-weight="bold" text-align="center">{{
       welcomeMessage
     }}</CText>
-    <transition name="fade" mode="out-in" @after-enter="() => {}">
+    <transition name="fade1" mode="out-in" @after-enter="meetLinksShown = true">
       <template v-if="newsLoaded">
         <CFlex v-if="$fetchState.pending" key="loading" justify="center">
           <AppSpinnerLoading />
@@ -21,7 +21,9 @@
           v-else
           key="shown"
           :columns="{ base: 1, sm: 2 }"
-          :spacing="4"
+          :p="{ base: '0 5%', sm: '0 6%' }"
+          row-gap="1rem"
+          :column-gap="{ base: '5%', sm: '6%' }"
           :mt="5"
         >
           <CFlex
@@ -29,10 +31,6 @@
             :key="index"
             justify="stretch"
             align="center"
-            :p="{
-              base: '0 10% 0 10%',
-              sm: index % 2 === 0 ? '0 2% 0 15%' : '0 15% 0 2%',
-            }"
           >
             <CButton
               as="a"
@@ -45,6 +43,7 @@
               :href="link.url"
               target="_blank"
               rel="noopener noreferer"
+              @click="logMeetLinkClickEvent(index)"
             >
               <CIcon name="google-hangouts" size="3rem" :mr="1" />
               <CFlex direction="column">
@@ -86,6 +85,7 @@ import {
 type Data = {
   meetLinks: MeetLinkItem[]
   newsLoaded: boolean
+  meetLinksShown: boolean
 }
 
 type Computed = {
@@ -99,6 +99,7 @@ type Methods = {
   showToast(): void
   signOut(): void
   getMeetId(url: string): string
+  logMeetLinkClickEvent(index: number): void
 }
 
 export default Vue.extend<Data, Methods, Computed, unknown>({
@@ -108,6 +109,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
     return {
       meetLinks: [],
       newsLoaded: false,
+      meetLinksShown: false,
     }
   },
   async fetch() {
@@ -142,12 +144,19 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
     getMeetId(url) {
       return url.replace('https://meet.google.com/', '')
     },
+    logMeetLinkClickEvent(index) {
+      const { slug } = this.meetLinksAvailable[index]
+      this.$gtag.event('enter_room', {
+        room_type: 'Google Meet',
+        room_slug: slug,
+      })
+    },
   },
 })
 </script>
 
 <style lang="scss" scoped>
-@include fadeEaseOutCubic('fade', 0s, 0.3rem);
+@include fadeEaseOutCubic('fade1', 0s, 0.3rem);
 </style>
 
 <style lang="scss" module></style>
