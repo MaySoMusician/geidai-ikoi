@@ -145,6 +145,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         // Redirect to application (for users on computers)
         if (newUser) {
           debugLog('Confirmed an user on computer signed in')
+          this.$gtag.event('login', { method: 'Google', login_type: 'desktop' })
           this.$router.push(appMeetUrl)
         }
       }
@@ -159,6 +160,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       if (user) {
         // Redirect to application (for users on mobile devices)
         debugLog('Confirmed an user on mobile signed in')
+        this.$gtag.event('login', { method: 'Google', login_type: 'mobile' })
         await this.$router.push(appMeetUrl)
       }
     } catch (e) {
