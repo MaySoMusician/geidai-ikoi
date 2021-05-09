@@ -43,6 +43,7 @@
               :href="link.url"
               target="_blank"
               rel="noopener noreferer"
+              @click="logMeetLinkClickEvent(index)"
             >
               <CIcon name="google-hangouts" size="3rem" :mr="1" />
               <CFlex direction="column">
@@ -98,6 +99,7 @@ type Methods = {
   showToast(): void
   signOut(): void
   getMeetId(url: string): string
+  logMeetLinkClickEvent(index: number): void
 }
 
 export default Vue.extend<Data, Methods, Computed, unknown>({
@@ -141,6 +143,13 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
     },
     getMeetId(url) {
       return url.replace('https://meet.google.com/', '')
+    },
+    logMeetLinkClickEvent(index) {
+      const { slug } = this.meetLinksAvailable[index]
+      this.$gtag.event('enter_room', {
+        room_type: 'Google Meet',
+        room_slug: slug,
+      })
     },
   },
 })
