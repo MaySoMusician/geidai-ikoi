@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div :class="[$style.PageAbout]">
     <TheWebsiteTitle />
 
     <transition name="fade1" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="3" :pb="4">
+      <CBox as="section" :pt="3" :pb="4">
         <CHeading as="h2" text-align="center" size="lg" :mb="4">
           このサイトについて
         </CHeading>
@@ -22,7 +22,7 @@
       </CBox>
     </transition>
     <transition name="fade2" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="3" :pb="4">
+      <CBox as="section" :pt="3" :pb="4">
         <CHeading as="h2" text-align="center" size="lg" :mb="4">
           連絡先
         </CHeading>
@@ -55,7 +55,7 @@
       </CBox>
     </transition>
     <transition name="fade3" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="10" :pb="4">
+      <CBox as="section" :pt="10" :pb="4">
         <CHeading as="h2" text-align="center" size="md" :mb="4">
           帰属表示
         </CHeading>
@@ -77,7 +77,7 @@
       </CBox>
     </transition>
     <transition name="fade4" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="4" :pb="4">
+      <CBox as="section" :pt="4" :pb="4">
         <CFlex justify="center">
           <CButton
             variant-color="gray"
@@ -203,6 +203,12 @@ export default vue
     > a {
       vertical-align: middle;
     }
+  }
+}
+
+.PageAbout {
+  section a {
+    color: #00a3c4;
   }
 }
 </style>
