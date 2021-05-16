@@ -141,6 +141,7 @@ const config: NuxtConfig = {
     configDatabaseId: process.env.NOTION_DATABASE_CONFIG,
     newsDatabaseId: process.env.NOTION_DATABASE_NEWS,
     meetLinksDatabaseId: process.env.NOTION_DATABASE_MEETLINKS,
+    advertisementsDatabaseId: process.env.NOTION_DATABASE_ADVERTISEMENTS,
   },
 
   styleResources: {
