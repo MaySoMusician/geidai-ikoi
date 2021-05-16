@@ -94,7 +94,6 @@ export interface AdvertisementItem extends NotionDatabaseItem {
 export function isValidAdvertisementItem(
   target: any
 ): target is AdvertisementItem {
-  console.log(target.thumbnail)
   return (
     _isValidNotionDatabaseItem(target) &&
     isNotEmptyString(target.slug) &&
