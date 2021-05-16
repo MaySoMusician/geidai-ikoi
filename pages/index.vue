@@ -118,6 +118,22 @@ async function _signIn(self: InstanceType<typeof vue>, { hd }: { hd: string }) {
   }
 }
 
+function setUserDepartment(
+  self: InstanceType<typeof vue>,
+  user: firebase.User
+) {
+  if (!user.email?.endsWith('.geidai.ac.jp')) return
+
+  const department = /[^@]*@(.*).geidai.ac.jp/.exec(
+    user.email.toLowerCase()
+  )?.[1]
+
+  if (!department) return
+
+  // @ts-ignore
+  self.$gtag.query('set', 'user_properties', { user_department: department })
+}
+
 const vue = Vue.extend<Data, Methods, Computed, unknown>({
   inject: ['$chakraColorMode', '$toggleColorMode'],
   data() {
@@ -145,6 +161,8 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         // Redirect to application (for users on computers)
         if (newUser) {
           debugLog('Confirmed an user on computer signed in')
+          setUserDepartment(this, newUser)
+          this.$gtag.event('login', { method: 'Google', login_type: 'desktop' })
           this.$router.push(appMeetUrl)
         }
       }
@@ -159,6 +177,8 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       if (user) {
         // Redirect to application (for users on mobile devices)
         debugLog('Confirmed an user on mobile signed in')
+        setUserDepartment(this, user)
+        this.$gtag.event('login', { method: 'Google', login_type: 'mobile' })
         await this.$router.push(appMeetUrl)
       }
     } catch (e) {
