@@ -10,6 +10,13 @@
       >
         <CImage :src="getAdvertiseThumbnail(index)" size="100%" />
       </CPseudoBox>
+      <CPseudoBox
+        transition="all 0.3s"
+        :_hover="{ opacity: 0.7, cursor: 'pointer' }"
+        @click="showWhatsThis = true"
+      >
+        <img src="~assets/whatsThis.min.svg" size="100%" />
+      </CPseudoBox>
     </CGrid>
 
     <AdvertisementGridItemModal
@@ -23,6 +30,20 @@
       :author="selectedItem && selectedItem.author"
       :link="selectedItem && selectedItem.link"
       @clickDetails="openAdvertiseLink(selectedIndex)"
+    />
+
+    <AdvertisementGridItemModal
+      :is-open="showWhatsThis"
+      :on-close="() => (showWhatsThis = false)"
+      is-centered
+      :size="{ base: 'sm', sm: 'md', md: 'lg' }"
+      thumbnail="WHATS_THIS"
+      title="宣伝コーナーを設置しました"
+      description="サークルの勧誘、演奏会のお知らせ、伴奏者の募集 etc...
+              藝大生に見てもらいたい、知ってもらいたい情報を載せて、活動の輪を広げませんか？"
+      author=""
+      link=""
+      @clickDetails="() => {}"
     />
   </div>
 </template>
@@ -40,6 +61,7 @@ type Data = {
   items: AdvertisementItem[]
   showModal: boolean
   selectedIndex: number
+  showWhatsThis: boolean
 }
 
 type Methods = {
@@ -61,6 +83,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       items: [],
       showModal: false,
       selectedIndex: -1,
+      showWhatsThis: false,
     }
   },
   async fetch() {
