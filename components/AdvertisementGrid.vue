@@ -11,51 +11,19 @@
         <CImage :src="getAdvertiseThumbnail(index)" size="100%" />
       </CPseudoBox>
     </CGrid>
-    <CModal
+
+    <AdvertisementGridItemModal
       :is-open="showModal"
       :on-close="closeDetails"
       is-centered
       :size="{ base: 'sm', sm: 'md', md: 'lg' }"
-    >
-      <CModalContent>
-        <CModalHeader></CModalHeader>
-        <CModalCloseButton />
-        <CModalBody :pt="3">
-          <template v-if="selectedItem">
-            <CImage
-              :src="getAdvertiseThumbnail(selectedIndex)"
-              size="100%"
-              max-w="512px"
-            />
-            <CFlex justify="center" direction="column" :pt="2">
-              <CBox v-if="selectedItem.title" text-align="start">{{
-                selectedItem.title
-              }}</CBox>
-              <CBox
-                v-if="selectedItem.description"
-                text-align="start"
-                :px="1"
-                >{{ selectedItem.description }}</CBox
-              >
-              <CBox text-align="end">{{ selectedItem.author }}</CBox>
-            </CFlex>
-            <CFlex justify="center" :pb="2">
-              <CButton
-                variant-color="blue"
-                variant="solid"
-                size="sm"
-                min-w="5em"
-                font-weight="normal"
-                @click="openAdvertiseLink(selectedItem)"
-                >詳細</CButton
-              >
-            </CFlex>
-          </template></CModalBody
-        >
-        <!-- <CModalFooter></CModalFooter> -->
-      </CModalContent>
-      <CModalOverlay />
-    </CModal>
+      :thumbnail="selectedItem && getAdvertiseThumbnail(selectedIndex)"
+      :title="selectedItem && selectedItem.title"
+      :description="selectedItem && selectedItem.description"
+      :author="selectedItem && selectedItem.author"
+      :link="selectedItem && selectedItem.link"
+      @clickDetails="openAdvertiseLink(selectedIndex)"
+    />
   </div>
 </template>
 
@@ -66,6 +34,7 @@ import {
   isValidAdvertisementItem,
   AdvertisementItem,
 } from '@/utils/notion'
+import AdvertisementGridItemModal from './AdvertisementGridItemModal.vue'
 
 type Data = {
   items: AdvertisementItem[]
@@ -76,7 +45,7 @@ type Data = {
 type Methods = {
   viewDetails(index: number): void
   closeDetails(): void
-  openAdvertiseLink(item: AdvertisementItem): void
+  openAdvertiseLink(index: number): void
   getAdvertiseThumbnail(index: number): string
 }
 
@@ -86,6 +55,7 @@ type Computed = {
 }
 
 export default Vue.extend<Data, Methods, Computed, unknown>({
+  components: { AdvertisementGridItemModal },
   data() {
     return {
       items: [],
@@ -121,8 +91,9 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       this.showModal = false
       this.selectedIndex = -1
     },
-    openAdvertiseLink(item) {
-      const { link } = item
+    openAdvertiseLink(index) {
+      if (index < 0) return ''
+      const { link } = this.itemsAvailable[index]
       if (!link) return
 
       // this.$gtag.event()
@@ -130,6 +101,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       window.open(link, '_blank', 'noopener,noreferrer')
     },
     getAdvertiseThumbnail(index) {
+      if (index < 0) return ''
+
       const { thumbnail } = this.itemsAvailable[index]
       if (!thumbnail) return ''
       return thumbnail[0].url
