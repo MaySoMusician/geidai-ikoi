@@ -35,15 +35,24 @@
           >
         </CFlex>
         <CFlex justify="center" :pb="2">
-          <CButton
-            variant-color="blue"
-            variant="solid"
-            size="sm"
-            min-w="5em"
-            font-weight="normal"
-            @click="$emit('clickDetails')"
-            >詳細</CButton
-          >
+          <template v-if="link">
+            <CButton
+              v-if="link.startsWith('/')"
+              as="nuxt-link"
+              v-bind="linkButtonAttrs"
+              :to="link"
+              @click="$emit('clickDetails')"
+              >{{ linkText }}</CButton
+            >
+            <CButton
+              v-else
+              as="a"
+              v-bind="linkButtonAttrs"
+              :href="link"
+              @click="$emit('clickDetails')"
+              >{{ linkText }}</CButton
+            >
+          </template>
         </CFlex></CModalBody
       >
       <!-- <CModalFooter></CModalFooter> -->
@@ -55,7 +64,9 @@
 <script lang="ts">
 import Vue from 'vue'
 
-type Data = {}
+type Data = {
+  linkButtonAttrs: Record<string, string>
+}
 
 type Methods = {}
 
@@ -67,6 +78,7 @@ type Props = {
   description?: string
   author?: string
   link?: string
+  linkText: string
 }
 
 export default Vue.extend<Data, Methods, Computed, Props>({
@@ -91,9 +103,23 @@ export default Vue.extend<Data, Methods, Computed, Props>({
       type: String,
       default: '',
     },
+    linkText: {
+      type: String,
+      default: '詳細',
+    },
   },
   data() {
-    return {}
+    return {
+      linkButtonAttrs: {
+        variantColor: 'blue',
+        variant: 'solid',
+        size: 'sm',
+        minW: '5em',
+        fontWeight: 'normal',
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      },
+    }
   },
   computed: {},
   methods: {},
