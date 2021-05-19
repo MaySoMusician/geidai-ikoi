@@ -49,6 +49,7 @@ jobs:
           NOTION_DATABASE_CONFIG: ${{ secrets.NOTION_DATABASE_CONFIG }}
           NOTION_DATABASE_NEWS: ${{ secrets.NOTION_DATABASE_NEWS }}
           NOTION_DATABASE_MEETLINKS: ${{ secrets.NOTION_DATABASE_MEETLINKS }}
+          NOTION_DATABASE_ADVERTISEMENTS: ${{ secrets.NOTION_DATABASE_ADVERTISEMENTS }}
 
       - name: Deploy to Firebase Hosting
         run: |

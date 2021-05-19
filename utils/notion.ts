@@ -1,6 +1,12 @@
 const NOTION_API_BASEURL = 'https://notion-api.splitbee.io/v1'
 const IGNORE = true as const
 
+export interface NotionMediaItem {
+  name: string
+  url: string
+  rawUrl: string
+}
+
 export function fetchNotionData(type: string, id: string) {
   return fetch(`${NOTION_API_BASEURL}/${type}/${id}`, {
     method: 'GET',
@@ -74,6 +80,47 @@ export function isValidNewsItem(target: any): target is NewsItem {
   )
 }
 
+export interface AdvertisementItem extends NotionDatabaseItem {
+  slug: string
+  title?: string
+  author: string
+  description?: string
+  thumbnail?: NotionMediaItem[]
+  link?: string
+  category?: string[]
+  isHidden?: boolean
+}
+
+export function isValidAdvertisementItem(
+  target: any
+): target is AdvertisementItem {
+  return (
+    _isValidNotionDatabaseItem(target) &&
+    isNotEmptyString(target.slug) &&
+    ('title' in target ? isNotEmptyString(target.title) : IGNORE) &&
+    isNotEmptyString(target.author) &&
+    ('description' in target ? isNotEmptyString(target.description) : IGNORE) &&
+    ('thumbnail' in target
+      ? Array.isArray(target.thumbnail) &&
+        target.thumbnail.every((v: any) => isNotionMediaItem(v))
+      : IGNORE) &&
+    ('link' in target ? isNotEmptyString(target.link) : IGNORE) &&
+    ('category' in target
+      ? Array.isArray(target.category) &&
+        target.category.every((v: any) => isNotEmptyString(v))
+      : IGNORE) &&
+    ('isHidden' in target ? typeof target.isHidden === 'boolean' : IGNORE)
+  )
+}
+
 function isNotEmptyString(target: any): target is string {
   return typeof target === 'string' && target !== ''
+}
+
+function isNotionMediaItem(target: any): target is NotionMediaItem {
+  return (
+    isNotEmptyString(target.name) &&
+    isNotEmptyString(target.url) &&
+    isNotEmptyString(target.rawUrl)
+  )
 }

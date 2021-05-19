@@ -1,5 +1,5 @@
 diff --git a/node_modules/@chakra-ui/nuxt/lib/plugin.js b/node_modules/@chakra-ui/nuxt/lib/plugin.js
-index afe037f..35f8e3a 100644
+index afe037f..a5b8897 100644
 --- a/node_modules/@chakra-ui/nuxt/lib/plugin.js
 +++ b/node_modules/@chakra-ui/nuxt/lib/plugin.js
 @@ -3,6 +3,12 @@ import { createClientDirective } from '@chakra-ui/vue/src/directives'
@@ -15,3 +15,14 @@ index afe037f..35f8e3a 100644
  Vue.prototype.$chakra = {
    theme,
    icons: <%= JSON.stringify(options.icons, null, 2) %>
+@@ -17,5 +23,9 @@ if (process.client) {
+ 
+   // VScrollLock
+   const VScrollLock = require('v-scroll-lock').default
+-  Vue.use(VScrollLock)
++  Vue.use(VScrollLock, {
++    bodyScrollOptions: {
++      reserveScrollBarGap: true,
++    }
++  })
+ } 

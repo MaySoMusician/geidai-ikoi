@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div :class="[$style.PageAbout]">
     <TheWebsiteTitle />
 
     <transition name="fade1" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="3" :pb="4">
+      <CBox as="section" :pt="3" :pb="4">
         <CHeading as="h2" text-align="center" size="lg" :mb="4">
           このサイトについて
         </CHeading>
@@ -22,7 +22,7 @@
       </CBox>
     </transition>
     <transition name="fade2" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="3" :pb="4">
+      <CBox as="section" :pt="3" :pb="4">
         <CHeading as="h2" text-align="center" size="lg" :mb="4">
           連絡先
         </CHeading>
@@ -55,7 +55,7 @@
       </CBox>
     </transition>
     <transition name="fade3" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="10" :pb="4">
+      <CBox as="section" :pt="10" :pb="4">
         <CHeading as="h2" text-align="center" size="md" :mb="4">
           帰属表示
         </CHeading>
@@ -77,7 +77,40 @@
       </CBox>
     </transition>
     <transition name="fade4" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="4" :pb="4">
+      <CBox as="section" :pt="10" :pb="4">
+        <CHeading as="h2" text-align="center" size="md" :mb="4">
+          プライバシー ポリシー
+        </CHeading>
+        <CBox
+          font-size="sm"
+          :px="{ base: '1.5rem', sm: '2rem', md: '4rem' }"
+          text-indent="1em"
+        >
+          <CText
+            >本サイトでは、Webサイト・サービスの改善のためにGoogle
+            アナリティクスを使用しています。</CText
+          >
+          <CText
+            >Google
+            アナリティクスは、データを収集するために、Cookieの設定・読取、個人を特定しない端末情報などの送信を行います（IPアドレスは匿名化されます）。</CText
+          ><CText
+            >詳しい仕組みは<CLink
+              href="https://www.google.com/intl/ja/policies/privacy/partners"
+              is-external
+              >こちら</CLink
+            >をご覧ください。</CText
+          ><CText mt="0.8em"
+            >皆さまの使用状況にあわせてサイトを改良するために、データを収集・使用しておりますので、どうかご協力よろしくお願いいたします。データを収集されたくない場合は、ブラウザのCookieを無効にするか、<CLink
+              href="https://tools.google.com/dlpage/gaoptout?hl=ja"
+              is-external
+              >専用のアドオン</CLink
+            >（PCのみ）をご利用ください。</CText
+          >
+        </CBox>
+      </CBox>
+    </transition>
+    <transition name="fade5" mode="out-in" appear @after-enter="() => {}">
+      <CBox as="section" :pt="4" :pb="4">
         <CFlex justify="center">
           <CButton
             variant-color="gray"
@@ -200,6 +233,7 @@ export default vue
 @include fadeEaseOutCubic('fade2', 0.5s, 0.3rem);
 @include fadeEaseOutCubic('fade3', 0.7s, 0.3rem);
 @include fadeEaseOutCubic('fade4', 0.9s, 0.3rem);
+@include fadeEaseOutCubic('fade5', 1.1s, 0.3rem);
 </style>
 
 <style lang="scss" module>
@@ -210,6 +244,12 @@ export default vue
     > a {
       vertical-align: middle;
     }
+  }
+}
+
+.PageAbout {
+  section a {
+    color: #00a3c4;
   }
 }
 </style>

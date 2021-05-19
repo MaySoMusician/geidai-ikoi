@@ -60,6 +60,15 @@
         </CSimpleGrid>
       </template>
     </transition>
+    <transition name="fade2" mode="out-in" @after-enter="() => {}">
+      <template v-if="meetLinksShown">
+        <CFlex v-if="$fetchState.pending" key="loading" justify="center">
+          <AppSpinnerLoading />
+        </CFlex>
+        <div v-else-if="$fetchState.error" key="error">error</div>
+        <AdvertisementGrid v-else key="shown" :mt="5" />
+      </template>
+    </transition>
     <CFlex justify="center" direction="column" align="center">
       <CButton variant-color="gray" :mt="8" @click="signOut">
         <CIcon name="chevron-left" size="2rem" :ml="-3" :mr="0" />ログアウト
@@ -154,6 +163,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 
 <style lang="scss" scoped>
 @include fadeEaseOutCubic('fade1', 0s, 0.3rem);
+@include fadeEaseOutCubic('fade2', 0s, 0.3rem);
 </style>
 
 <style lang="scss" module></style>
