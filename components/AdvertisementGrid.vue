@@ -50,7 +50,6 @@ import {
   isValidAdvertisementItem,
   AdvertisementItem,
 } from '@/utils/notion'
-import AdvertisementGridItemModal from './AdvertisementGridItemModal.vue'
 
 type Data = {
   items: AdvertisementItem[]
@@ -73,7 +72,6 @@ type Computed = {
 }
 
 export default Vue.extend<Data, Methods, Computed, unknown>({
-  components: { AdvertisementGridItemModal },
   data() {
     return {
       items: [],
