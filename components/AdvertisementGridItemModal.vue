@@ -16,14 +16,23 @@
           max-w="512px"
         />
 
-        <CFlex justify="center" direction="column" :pt="2">
-          <CBox v-if="title" text-align="start" font-weight="bold">{{
-            title
-          }}</CBox>
+        <CFlex justify="center" direction="column" :py="3">
+          <CHeading
+            v-if="title"
+            as="h2"
+            text-align="start"
+            font-size="1.125rem"
+            font-weight="bold"
+            >{{ title }}</CHeading
+          >
           <CBox v-if="description" text-align="start" :px="1">{{
             description
           }}</CBox>
-          <CBox v-if="author" text-align="end">{{ author }}</CBox>
+          <CBox v-if="author" text-align="end"
+            ><span :class="[$style.SendenItemModalAuthor]">{{
+              author
+            }}</span></CBox
+          >
         </CFlex>
         <CFlex justify="center" :pb="2">
           <CButton
@@ -100,6 +109,23 @@ export default Vue.extend<Data, Methods, Computed, Props>({
         width: 80%;
         max-width: 512px;
         margin: 0 auto;
+      }
+
+      &Author {
+        position: relative;
+        z-index: 0;
+
+        &::before {
+          content: '';
+          position: absolute;
+          display: inline-block;
+          height: 1px;
+          width: 2em;
+          top: 50%;
+          right: calc(100% + 0.18rem);
+          border-bottom: 1px solid #1a202c;
+          z-index: -1;
+        }
       }
     }
   }
