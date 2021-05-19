@@ -37,12 +37,7 @@
       :on-close="() => (showWhatsThis = false)"
       is-centered
       :size="{ base: 'sm', sm: 'md', md: 'lg' }"
-      thumbnail="WHATS_THIS"
-      title="宣伝コーナーを設置しました"
-      description="サークルの勧誘、演奏会のお知らせ、伴奏者の募集 etc...
-              藝大生に見てもらいたい、知ってもらいたい情報を載せて、活動の輪を広げませんか？"
-      author=""
-      link=""
+      v-bind="whatsThisProps"
       @clickDetails="() => {}"
     />
   </div>
@@ -62,6 +57,7 @@ type Data = {
   showModal: boolean
   selectedIndex: number
   showWhatsThis: boolean
+  whatsThisProps: Record<string, string>
 }
 
 type Methods = {
@@ -84,6 +80,14 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       showModal: false,
       selectedIndex: -1,
       showWhatsThis: false,
+      whatsThisProps: {
+        thumbnail: 'WHATS_THIS',
+        title: '宣伝コーナーを設置しました',
+        description:
+          'サークルの勧誘、演奏会のお知らせ、伴奏者の募集 etc... 藝大生に見てもらいたい、知ってもらいたい情報を載せて、活動の輪を広げませんか？',
+        author: '',
+        link: '/',
+      },
     }
   },
   async fetch() {
