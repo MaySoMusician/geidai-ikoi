@@ -138,19 +138,26 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       ],
       contacts: [
         {
-          icon: 'email',
-          type: 'email',
-          title: 's2119008+ikoi@ms.geidai.ac.jp',
-          link: 's2119008+ikoi@ms.geidai.ac.jp',
-          prependText: '姫野七弦',
-        },
-        {
           icon: 'twitter',
           type: 'link',
           title: '@ikoi_online',
           link: 'https://twitter.com/ikoi_online',
           prependText: 'Twitter',
           color: '#009EF7',
+        },
+        {
+          icon: 'email',
+          type: 'email',
+          title: 'contact@mg.geidai-ikoi.net',
+          link: 'contact@mg.geidai-ikoi.net',
+          prependText: 'お問い合わせ',
+        },
+        {
+          icon: 'email',
+          type: 'email',
+          title: 's2119008+ikoi@ms.geidai.ac.jp',
+          link: 's2119008+ikoi@ms.geidai.ac.jp',
+          prependText: '姫野七弦',
         },
         {
           icon: 'email',

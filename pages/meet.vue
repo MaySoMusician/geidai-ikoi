@@ -33,20 +33,16 @@
             align="center"
           >
             <CButton
-              as="a"
               d="flex"
               flex-direction="row"
               width="100%"
               variant-color="blue"
               h="auto"
               :py="3"
-              :href="link.url"
-              target="_blank"
-              rel="noopener noreferer"
               @click="logMeetLinkClickEvent(index)"
             >
               <CIcon name="google-hangouts" size="3rem" :mr="1" />
-              <CFlex direction="column">
+              <CFlex direction="column" place-items="flex-start">
                 <CBox font-size="1.2rem">{{
                   link.name || `Meet ${index + 1}`
                 }}</CBox>
@@ -145,11 +141,12 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       return url.replace('https://meet.google.com/', '')
     },
     logMeetLinkClickEvent(index) {
-      const { slug } = this.meetLinksAvailable[index]
+      const { slug, url } = this.meetLinksAvailable[index]
       this.$gtag.event('enter_room', {
         room_type: 'Google Meet',
         room_slug: slug,
       })
+      window.open(url, '_blank', 'noopener,noreferrer')
     },
   },
 })
