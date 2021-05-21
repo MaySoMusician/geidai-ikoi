@@ -416,7 +416,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         })
       }
 
-      const roomName = 'adfahlskjhlergh'
+      const roomName = '24aeaf60-e83c-417f-b065-7415e9f98bc3'
       try {
         this.myConnection = await connect(roomName)
 
