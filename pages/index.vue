@@ -227,7 +227,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     },
     getForwardLinkAfterSignIn() {
       const { forward } = this.$route.query
-      return `/${forward}` || appMeetUrl
+      return forward ? `/${forward}` : appMeetUrl
     },
   },
 })
