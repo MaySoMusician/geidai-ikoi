@@ -94,6 +94,7 @@ type Methods = {
   signOut(): void
   musicStudentSignIn(): void
   othersSignIn(): void
+  getForwardLinkAfterSignIn(): string
 }
 
 function _initializeGoogleAuthProvider(authModule: typeof firebase.auth) {
@@ -163,7 +164,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           debugLog('Confirmed an user on computer signed in')
           setUserDepartment(this, newUser)
           this.$gtag.event('login', { method: 'Google', login_type: 'desktop' })
-          this.$router.push(appMeetUrl)
+          this.$router.push(this.getForwardLinkAfterSignIn())
         }
       }
     )
@@ -179,7 +180,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         debugLog('Confirmed an user on mobile signed in')
         setUserDepartment(this, user)
         this.$gtag.event('login', { method: 'Google', login_type: 'mobile' })
-        await this.$router.push(appMeetUrl)
+        await this.$router.push(this.getForwardLinkAfterSignIn())
       }
     } catch (e) {
       debugError(e)
@@ -211,7 +212,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     async musicStudentSignIn() {
       if (this.$accessor.user) {
         debugLog('User already signed in')
-        return this.$router.push(appMeetUrl)
+        return this.$router.push(this.getForwardLinkAfterSignIn())
       }
 
       await _signIn(this, { hd: 'ms.geidai.ac.jp' })
@@ -219,10 +220,14 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     async othersSignIn() {
       if (this.$accessor.user) {
         debugLog('User already signed in')
-        return this.$router.push(appMeetUrl)
+        return this.$router.push(this.getForwardLinkAfterSignIn())
       }
 
       await _signIn(this, { hd: 'fa.geidai.ac.jp' })
+    },
+    getForwardLinkAfterSignIn() {
+      const { forward } = this.$route.query
+      return `/${forward}` || appMeetUrl
     },
   },
 })
