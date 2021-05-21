@@ -8,9 +8,13 @@ const authMiddleware: Middleware = ({
   redirect,
   error,
   app: { $accessor },
+  route,
 }) => {
   if ($accessor.user === null) {
-    return redirect('/', { error: QUERY_ERROR_SIGNIN_REQUIRED })
+    return redirect('/', {
+      error: QUERY_ERROR_SIGNIN_REQUIRED,
+      forward: encodeURIComponent(route.path.substr(1)),
+    })
   } else if (!$accessor.user.email.endsWith('.geidai.ac.jp')) {
     return error({
       statusCode: 403,
