@@ -27,9 +27,11 @@
 <script lang="ts">
 import Vue from 'vue'
 
+type LogType = 'LOG' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR'
+
 type Data = {
   logs: {
-    type: 'LOG' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR'
+    type: LogType
     timestamp: Date
     data: any
   }[]
@@ -44,14 +46,16 @@ type Methods = {
 }
 
 /* eslint-disable no-console */
-const _log = console.log
-const _debug = console.debug
-const _info = console.info
-const _warn = console.warn
-const _error = console.error
+const nativeLogger: Record<LogType, (...data: any[]) => void> = {
+  LOG: console.log,
+  DEBUG: console.debug,
+  INFO: console.info,
+  WARN: console.warn,
+  ERROR: console.error,
+}
 /* eslint-enable no-console */
 
-export default Vue.extend<Data, Methods, Computed, unknown>({
+const vue = Vue.extend<Data, Methods, Computed, unknown>({
   data() {
     return {
       logs: [],
@@ -65,51 +69,22 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
   },
   methods: {
     initLogger() {
+      const getLoggingFunction = (type: LogType) =>
+        function (this: InstanceType<typeof vue>) {
+          this.logs.push({
+            type,
+            timestamp: new Date(),
+            data: { value: arguments },
+          })
+          nativeLogger[type](arguments)
+        }.bind(this)
+
       /* eslint-disable no-console */
-      console.log = (...data: any) => {
-        this.logs.push({
-          type: 'LOG',
-          timestamp: new Date(),
-          data: [...data],
-        })
-        _log(data)
-      }
-
-      console.debug = (...data: any) => {
-        this.logs.push({
-          type: 'DEBUG',
-          timestamp: new Date(),
-          data: [...data],
-        })
-        _debug(data)
-      }
-
-      console.info = (...data: any) => {
-        this.logs.push({
-          type: 'INFO',
-          timestamp: new Date(),
-          data: [...data],
-        })
-        _info(data)
-      }
-
-      console.warn = (...data: any) => {
-        this.logs.push({
-          type: 'WARN',
-          timestamp: new Date(),
-          data: [...data],
-        })
-        _warn(data)
-      }
-
-      console.error = (...data: any) => {
-        this.logs.push({
-          type: 'ERROR',
-          timestamp: new Date(),
-          data: [...data],
-        })
-        _error(data)
-      }
+      console.log = getLoggingFunction('LOG')
+      console.debug = getLoggingFunction('DEBUG')
+      console.info = getLoggingFunction('INFO')
+      console.warn = getLoggingFunction('WARN')
+      console.error = getLoggingFunction('ERROR')
 
       window.addEventListener('error', (ev) =>
         console.error(ev.error, ev.error.stack, ev.message, ev.lineno, ev.colno)
@@ -117,7 +92,6 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       window.addEventListener('unhandledrejection', (ev) => {
         console.error(ev.reason.stack)
       })
-
       /* eslint-enable no-console */
     },
     getLogs(onlyError) {
@@ -149,4 +123,5 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
     },
   },
 })
+export default vue
 </script>
