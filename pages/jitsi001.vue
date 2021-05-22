@@ -57,6 +57,12 @@
               muteButtonLabel
             }}</span></CButton
           >
+          <CButton :is-disabled="!jitsiReady" @click="checkPermission"
+            >Test1</CButton
+          >
+          <CButton :is-disabled="!jitsiReady" @click="grantPermission"
+            >Test2</CButton
+          >
         </CBox>
 
         <CFlex :my="2" direction="row" align="center">
@@ -259,6 +265,8 @@ type Methods = {
   updateMuteButtonLabel(): void
   getMyLocalMuted(): boolean | null
   disconnect(): void
+  checkPermission(): void
+  grantPermission(): void
 }
 
 const MUTE_BUTTON_LABEL = 'ミュート'
@@ -609,8 +617,11 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
             this.currentAudioInputDeviceId = track.getDeviceId()
           }
         }
+        this.isConnectButtonLoading = false
       } catch (error) {
         console.error(error.stack)
+        console.error(error.message)
+        console.error(error.toString())
       }
     },
     async changeAudioInputDeviceId(newDeviceId) {
@@ -663,6 +674,34 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       this.myConnection = null
 
       this.isDisconnectButtonLoading = false
+    },
+    async checkPermission() {
+      const JitsiMeetJS = window.JitsiMeetJS
+      const perm = await JitsiMeetJS.mediaDevices.isDevicePermissionGranted()
+      const permAudio = await JitsiMeetJS.mediaDevices.isDevicePermissionGranted(
+        'audio'
+      )
+
+      alert(`perm1: ${perm ? 'Yes' : 'No'}\nperm2: ${permAudio ? 'Yes' : 'No'}`)
+    },
+    async grantPermission() {
+      if (!navigator.mediaDevices) {
+        alert('getUserMedia() 非対応')
+        return
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        })
+        console.log(stream.id)
+        alert('OK!!!\n\n' + stream.id)
+      } catch (error) {
+        console.error(error.stack)
+        console.error(error.message)
+        console.error(error.toString())
+        alert('NG!!!\n\n' + error.stack + '\n\n' + error.message)
+      }
     },
   },
 })
