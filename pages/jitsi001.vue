@@ -13,39 +13,85 @@
     }}</CText> -->
     <transition name="fade1" mode="out-in" @after-enter="meetLinksShown = true">
       <div>
-        {{ jqueryLoaded }}
-        {{ libJitsiMeetLoaded }}
-        <CButton
-          :is-disabled="!jitsiReady || !!myLocalAudioTrack"
-          @click="jitsiTest"
-          >接続</CButton
-        >
-        <CButton
-          :is-disabled="!jitsiReady || !myLocalAudioTrack"
-          @click="disconnect"
-          >切断</CButton
-        >
-        <CSelect
-          :is-disabled="!jitsiReady || !myRoom"
-          :value="currentAudioInputDeviceId"
-          @change="changeAudioInputDeviceId($event)"
-        >
-          <option
-            v-for="device in audioInputDevices"
-            :key="device.deviceId"
-            :value="device.deviceId"
+        <span style="font-size: 10px">
+          Loaded: {{ jqueryLoaded }}, {{ libJitsiMeetLoaded }}
+        </span>
+        <CBox :my="2">
+          <CButton
+            :is-disabled="!jitsiReady || !!myLocalAudioTrack"
+            variant-color="blue"
+            @click="jitsiTest"
+            ><CIcon
+              name="phone-in-talk"
+              size="1.4rem"
+              :ml="-1"
+              :mr="2"
+            />接続</CButton
           >
-            {{ device.label }}
-          </option>
-        </CSelect>
-        <div>
+          <CButton
+            :is-disabled="!jitsiReady || !myLocalAudioTrack"
+            variant-color="red"
+            @click="disconnect"
+            ><CIcon
+              name="phone-hangup"
+              size="1.4rem"
+              :ml="-1"
+              :mr="2"
+            />切断</CButton
+          >
           <CButton
             :is-disabled="!jitsiReady || getMyLocalMuted() === null"
+            :ml="6"
             :variant-color="getMyLocalMuted() ? 'red' : 'gray'"
             @click="changeLocalMuted"
-            >{{ muteButtonLabel }}</CButton
+            ><CIcon
+              :name="muteButtonIconName"
+              size="1.4rem"
+              :ml="-1"
+              :mr="2"
+            /><span style="font-size: 84%; align-self: center">{{
+              muteButtonLabel
+            }}</span></CButton
           >
-        </div>
+        </CBox>
+
+        <CFlex :my="2" direction="row" align="center">
+          <span style="flex: 1 0 auto; min-width: 5.3em">マイク:</span>
+          <CSelect
+            :is-disabled="!jitsiReady || !myRoom"
+            :value="currentAudioInputDeviceId"
+            :ml="2"
+            @change="changeAudioInputDeviceId($event)"
+          >
+            <option
+              v-for="device in audioInputDevices"
+              :key="device.deviceId"
+              :value="device.deviceId"
+            >
+              {{ device.label }}
+            </option>
+          </CSelect>
+        </CFlex>
+
+        <CFlex :my="2" direction="row" align="center">
+          <span style="flex: 1 0 auto; min-width: 5.3em">スピーカー:</span>
+          <CSelect
+            :is-disabled="!jitsiReady || !myRoom"
+            :value="currentAudioOutputDeviceId"
+            :ml="2"
+            @change="changeAudioOutputDeviceId($event)"
+          >
+            <option
+              v-for="device in audioOutputDevices"
+              :key="device.deviceId"
+              :value="device.deviceId"
+            >
+              {{ device.label }}
+            </option>
+          </CSelect>
+        </CFlex>
+
+        <div></div>
 
         <div>
           <audio
@@ -120,6 +166,7 @@
         </CSimpleGrid>
       </template> -->
     </transition>
+    <InstantDebugConsole mt="3rem" />
     <CFlex justify="center" direction="column" align="center">
       <CButton variant-color="gray" :mt="8" @click="signOut">
         <CIcon name="chevron-left" size="2rem" :ml="-3" :mr="0" />ログアウト
@@ -149,17 +196,25 @@ type Data = {
   // meetLinks: MeetLinkItem[]
   newsLoaded: boolean
   // meetLinksShown: boolean
+
+  /* Check if the libraries are loaded */
   libJitsiMeetLoaded: boolean
   jqueryLoaded: boolean
-  remoteAudioTracks: JitsiTrack[]
+
+  /* Devices */
   audioInputDevices: MediaDeviceInfo[]
   currentAudioInputDeviceId: string
+  audioOutputDevices: MediaDeviceInfo[]
+  currentAudioOutputDeviceId: string
+
+  /* Jitsi data */
+  myConnection: JitsiConnection | null
+  myRoom: JitsiConference | null
   myLocalId: string
   myLocalAudioTrack: JitsiTrack | undefined
+  remoteAudioTracks: JitsiTrack[]
+  myLocalMutedSaved: boolean | null // to keep muted status in replacing tracks
   // myLocalMuted: boolean
-  myRoom: JitsiConference | null
-  myConnection: JitsiConnection | null
-  muteButtonLabel: string
   participants: {
     id: string
     audioLevel: number
@@ -168,6 +223,10 @@ type Data = {
     trackId: string
     avatarUrl: string
   }[]
+
+  /* UI */
+  muteButtonLabel: string
+  muteButtonIconName: string
 }
 
 type Computed = {
@@ -175,6 +234,7 @@ type Computed = {
   studentId: string
   jitsiReady: boolean
   // myLocalMuted: boolean | null
+  // strLogs: string
   // welcomeMessage: string
   // meetLinksAvailable: MeetLinkItem[]
 }
@@ -187,13 +247,18 @@ type Methods = {
   jitsiTest(): void
   useAudioTrack(track?: JitsiTrack): void
   changeAudioInputDeviceId(newDeviceId: string): void
+  changeAudioOutputDeviceId(newDeviceId: string): void
   changeLocalMuted(muted: boolean): void
+  updateMuteButtonLabel(): void
   getMyLocalMuted(): boolean | null
   disconnect(): void
 }
 
 const MUTE_BUTTON_LABEL = 'ミュート'
-const UNMUTE_BUTTON_LABEL = 'ミュート中'
+const UNMUTE_BUTTON_LABEL = 'ミュート解除'
+
+const MUTED_ICON_NAME = 'microphone-off'
+const UNMUTED_ICON_NAME = 'microphone'
 
 export default Vue.extend<Data, Methods, Computed, unknown>({
   inject: ['$chakraColorMode', '$toggleColorMode'],
@@ -205,16 +270,20 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       // meetLinksShown: false,
       libJitsiMeetLoaded: false,
       jqueryLoaded: false,
-      remoteAudioTracks: [],
       audioInputDevices: [],
       currentAudioInputDeviceId: '',
+      audioOutputDevices: [],
+      currentAudioOutputDeviceId: '',
+      myConnection: null,
+      myRoom: null,
       myLocalId: '',
       myLocalAudioTrack: undefined,
+      remoteAudioTracks: [],
+      myLocalMutedSaved: null,
       // myLocalMuted: false,
-      myRoom: null,
-      myConnection: null,
-      muteButtonLabel: MUTE_BUTTON_LABEL,
       participants: [],
+      muteButtonLabel: MUTE_BUTTON_LABEL,
+      muteButtonIconName: UNMUTED_ICON_NAME,
     }
   },
   head() {
@@ -227,6 +296,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
           callback: () => {
             this.jqueryLoaded = true
           },
+          crossOrigin: 'anonymous',
         },
         {
           vmid: 'lib-jitsi-meet',
@@ -235,6 +305,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
           callback: () => {
             this.libJitsiMeetLoaded = true
           },
+          crossOrigin: 'anonymous',
         },
       ],
     }
@@ -259,12 +330,27 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       return this.jqueryLoaded && this.libJitsiMeetLoaded
     },
 
+    /* myLocalMuted() {
+      if (!this.myLocalAudioTrack) return null
+      return this.myLocalAudioTrack.isMuted()
+    }, */
     /* welcomeMessage() {
       return `${this.studentId}さん、こんにちは`
     }, */
     /* meetLinksAvailable() {
       return this.meetLinks.filter((link) => !link.isHidden)
     }, */
+  },
+  created() {
+    /* this.$watch(
+      () => this.getMyLocalMuted(),
+      (newVal, oldVal) => console.log(newVal, oldVal)
+    ) */
+  },
+  mounted() {
+    /* setTimeout(() => {
+      this.initLogger()
+    }, 200) */
   },
   methods: {
     showToast() {},
@@ -288,12 +374,6 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         l.stopStream()
       }
       this.myLocalAudioTrack = track
-
-      /* if (track) {
-        this.myLocalMuted = track.isMuted()
-      } else {
-        this.myLocalMuted = false
-      } */
     },
     getMyLocalMuted() {
       if (!this.myLocalAudioTrack) return null
@@ -303,17 +383,17 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       if (!this.jitsiReady) return
 
       const JitsiMeetJS = window.JitsiMeetJS
-      console.log(JitsiMeetJS)
-      // ;(window as any).___tracks = []
-
       JitsiMeetJS.init(initOptions)
-      JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.ERROR)
+      JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.WARN)
 
       JitsiMeetJS.mediaDevices.addEventListener(
         JitsiMeetJS.events.mediaDevices.DEVICE_LIST_CHANGED,
         (devices: MediaDeviceInfo[]) => {
           this.audioInputDevices = devices.filter(
             (d) => d.kind === 'audioinput'
+          )
+          this.audioOutputDevices = devices.filter(
+            (d) => d.kind === 'audiooutput'
           )
         }
       )
@@ -323,6 +403,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
           const options = {
             ...connectionOptions,
             serviceUrl: `${connectionOptions.serviceUrl}?room=${roomName}`,
+            // Overwrite serivce url to which is appended room name
           }
 
           const connection = new JitsiMeetJS.JitsiConnection(
@@ -379,8 +460,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         })
       }
 
-      const addTrack = (track: JitsiTrack) => {
-        // ;(window as any).___tracks.push(track)
+      const addTrack = async (track: JitsiTrack) => {
         this.participants.push({
           id: track.getParticipantId(),
           audioLevel: 0,
@@ -392,29 +472,31 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 
         sendAvatarUrl()
 
-        if (track.isLocal()) return
+        if (track.isLocal()) {
+          await (this.myLocalMutedSaved ? track.mute() : track.unmute())
+          this.updateMuteButtonLabel()
+          return
+        }
 
         this.remoteAudioTracks.push(track)
         this.$nextTick().then(() => {
           const elem = this.$refs[track.getId()] as unknown[]
-
           track.attach(elem[0])
         })
       }
 
       if (JitsiMeetJS.mediaDevices.isDeviceChangeAvailable('input')) {
         JitsiMeetJS.mediaDevices.enumerateDevices((devices) => {
-          // console.info('a', devices)
-
           this.audioInputDevices = devices.filter(
             (d) => d.kind === 'audioinput'
           )
-
-          /* if (audioInputDevices.length > 0) {
-            this.audioInputDevices = audioInputDevices
-          } */
+          this.audioOutputDevices = devices.filter(
+            (d) => d.kind === 'audiooutput'
+          )
         })
       }
+
+      this.currentAudioOutputDeviceId = JitsiMeetJS.mediaDevices.getAudioOutputDevice()
 
       const roomName = '24aeaf60-e83c-417f-b065-7415e9f98bc3'
       try {
@@ -424,17 +506,6 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         ;(window as any).myRoom = this.myRoom
 
         this.myRoom.setDisplayName(this.studentId)
-
-        /* this.myRoom.setLocalParticipantProperty(
-          'avatarUrl',
-          this.$accessor.user?.photoURL || ''
-        )
-        this.myRoom.addCommandListener(
-          'jitsi_participant_avatarUrl',
-          (values: any) => {
-            console.log('avatarUrl', values)
-          }
-        ) */
 
         this.myLocalId = this.myRoom.myUserId()
         this.myRoom.on(
@@ -458,17 +529,14 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
                 p.avatarUrl = url
                 clearInterval(interval)
               }
-            }, 1000)
+            }, 500)
           }
         )
 
         this.myRoom.on(
           JitsiMeetJS.events.conference.TRACK_REMOVED,
           (track: JitsiTrack) => {
-            // const isLocal = !!track.storedMSID
             const isRemote = !!track.ownerEndpointId
-
-            // console.log(track.getId())
 
             /* if (isLocal) {
               console.log('isLocal removed')
@@ -496,7 +564,6 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         this.myRoom.on(
           JitsiMeetJS.events.conference.TRACK_AUDIO_LEVEL_CHANGED,
           (participantId: string, audioLevel: number) => {
-            // console.log('TRACK_AUDIO_LEVEL_CHANGED', participandId, audioLevel)
             const p = this.participants.find((p) => p.id === participantId)
             if (!p) return
             p.audioLevel = audioLevel * 1.6
@@ -539,19 +606,30 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       this.myRoom?.addTrack(track)
       this.useAudioTrack(track)
     },
-    changeLocalMuted() {
+    changeAudioOutputDeviceId(newDeviceId) {
+      if (this.currentAudioOutputDeviceId === newDeviceId) return
+
+      this.currentAudioOutputDeviceId = newDeviceId
+      const JitsiMeetJS = window.JitsiMeetJS
+      JitsiMeetJS.mediaDevices.setAudioOutputDevice(newDeviceId)
+    },
+    async changeLocalMuted() {
       const muted = this.getMyLocalMuted()
 
       if (muted === null) return
 
       if (muted) {
-        this.myLocalAudioTrack?.unmute()
-        this.muteButtonLabel = MUTE_BUTTON_LABEL
+        await this.myLocalAudioTrack?.unmute()
       } else {
-        this.myLocalAudioTrack?.mute()
-        this.muteButtonLabel = UNMUTE_BUTTON_LABEL
+        await this.myLocalAudioTrack?.mute()
       }
-      // this.myLocalAudioTrack?.isMuted
+      this.updateMuteButtonLabel()
+    },
+    updateMuteButtonLabel() {
+      const muted = this.getMyLocalMuted()
+      this.myLocalMutedSaved = muted
+      this.muteButtonLabel = muted ? UNMUTE_BUTTON_LABEL : MUTE_BUTTON_LABEL
+      this.muteButtonIconName = muted ? MUTED_ICON_NAME : UNMUTED_ICON_NAME
     },
     async disconnect() {
       this.myLocalAudioTrack?.dispose()
