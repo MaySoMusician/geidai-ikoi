@@ -42,7 +42,7 @@
             font-weight="normal"
             font-size="xl"
             mt="5rem"
-            to="/about"
+            to="/about/"
           >
             このサイトについて
           </CButton>
@@ -103,7 +103,7 @@ function _initializeGoogleAuthProvider(authModule: typeof firebase.auth) {
   return provider
 }
 
-const appMeetUrl = '/meet'
+const appMeetUrl = '/meet/'
 
 async function _signIn(self: InstanceType<typeof vue>, { hd }: { hd: string }) {
   const provider = _initializeGoogleAuthProvider(self.$fireModule.auth)
