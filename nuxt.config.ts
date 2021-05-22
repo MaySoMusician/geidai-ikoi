@@ -119,6 +119,11 @@ const config: NuxtConfig = {
     fallback: true,
   },
 
+  router: {
+    trailingSlash: true,
+    middleware: ['redirect'],
+  },
+
   firebase: nuxtFirebaseConfiguration,
 
   emotion: {
