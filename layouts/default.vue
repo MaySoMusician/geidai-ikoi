@@ -35,7 +35,7 @@
                     box-shadow="lg"
                   >
                     <CPopoverBody
-                      ><nuxt-link to="/about"
+                      ><nuxt-link to="/about/"
                         >このサイトについて</nuxt-link
                       ></CPopoverBody
                     >
@@ -72,7 +72,7 @@
                     color="gray.500"
                     font-size="0.8rem"
                     font-weight="normal"
-                    to="/about"
+                    to="/about/"
                     :ml="2"
                     :mr="1"
                     white-space="normal"
