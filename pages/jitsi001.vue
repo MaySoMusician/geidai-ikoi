@@ -107,8 +107,8 @@
         <div>
           <div v-for="p in participants" :key="p.id">
             <p>
-              {{ p.id }} | {{ p.audioLevel }} | {{ p.displayName }} |
-              {{ p.isLocal }} | {{ p.trackId }}
+              {{ p.id }} | audio: {{ p.audioLevel }} | {{ p.displayName }} |
+              {{ p.isLocal ? 'Local' : 'Remote' }} | {{ p.trackId }}
             </p>
             <img v-if="p.avatarUrl" :src="p.avatarUrl" />
             <meter :value="p.audioLevel" />
