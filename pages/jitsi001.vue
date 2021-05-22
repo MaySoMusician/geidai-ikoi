@@ -610,9 +610,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
           }
         }
       } catch (error) {
-        console.error(error)
-      } finally {
-        this.isConnectButtonLoading = false
+        console.error(error.stack)
       }
     },
     async changeAudioInputDeviceId(newDeviceId) {
