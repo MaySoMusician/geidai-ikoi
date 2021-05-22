@@ -591,6 +591,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
           }
         )
 
+        throw new Error('sss')
+
         /* this.myRoom.on(
           JitsiMeetJS.events.conference.USER_JOINED,
           (id: string, user: any) => {
@@ -610,7 +612,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
           }
         }
       } catch (error) {
-        console.error(error)
+        console.error(error.stack)
       } finally {
         this.isConnectButtonLoading = false
       }
