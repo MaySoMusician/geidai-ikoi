@@ -19,6 +19,7 @@
         <CBox :my="2">
           <CButton
             :is-disabled="!jitsiReady || !!myLocalAudioTrack"
+            :is-loading="isConnectButtonLoading"
             variant-color="blue"
             @click="jitsiTest"
             ><CIcon
@@ -30,6 +31,7 @@
           >
           <CButton
             :is-disabled="!jitsiReady || !myLocalAudioTrack"
+            :is-loading="isDisconnectButtonLoading"
             variant-color="red"
             @click="disconnect"
             ><CIcon
@@ -227,6 +229,8 @@ type Data = {
   /* UI */
   muteButtonLabel: string
   muteButtonIconName: string
+  isConnectButtonLoading: boolean
+  isDisconnectButtonLoading: boolean
 }
 
 type Computed = {
@@ -284,6 +288,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       participants: [],
       muteButtonLabel: MUTE_BUTTON_LABEL,
       muteButtonIconName: UNMUTED_ICON_NAME,
+      isConnectButtonLoading: false,
+      isDisconnectButtonLoading: false,
     }
   },
   head() {
@@ -381,6 +387,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
     },
     async jitsiTest() {
       if (!this.jitsiReady) return
+
+      this.isConnectButtonLoading = true
 
       const JitsiMeetJS = window.JitsiMeetJS
       JitsiMeetJS.init(initOptions)
@@ -590,6 +598,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         }
       } catch (error) {
         console.error(error)
+      } finally {
+        this.isConnectButtonLoading = false
       }
     },
     async changeAudioInputDeviceId(newDeviceId) {
@@ -632,12 +642,16 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       this.muteButtonIconName = muted ? MUTED_ICON_NAME : UNMUTED_ICON_NAME
     },
     async disconnect() {
+      this.isDisconnectButtonLoading = true
+
       this.myLocalAudioTrack?.dispose()
       await this.myRoom?.leave()
       await this.myConnection?.disconnect()
       this.myLocalAudioTrack = undefined
       this.myRoom = null
       this.myConnection = null
+
+      this.isDisconnectButtonLoading = false
     },
   },
 })
