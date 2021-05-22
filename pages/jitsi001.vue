@@ -20,6 +20,7 @@
           <CButton
             :is-disabled="!jitsiReady || !!myLocalAudioTrack"
             :is-loading="isConnectButtonLoading"
+            loading-text="接続中"
             variant-color="blue"
             @click="jitsiTest"
             ><CIcon
@@ -32,6 +33,7 @@
           <CButton
             :is-disabled="!jitsiReady || !myLocalAudioTrack"
             :is-loading="isDisconnectButtonLoading"
+            loading-text="切断中"
             variant-color="red"
             @click="disconnect"
             ><CIcon
@@ -107,8 +109,9 @@
         <div>
           <div v-for="p in participants" :key="p.id">
             <p>
-              {{ p.id }} | audio: {{ p.audioLevel }} | {{ p.displayName }} |
-              {{ p.isLocal ? 'Local' : 'Remote' }} | {{ p.trackId }}
+              {{ p.id }} | audio: {{ p.audioLevel }} | name:
+              {{ p.displayName }} | {{ p.isLocal ? 'Local' : 'Remote' }} |
+              {{ p.trackId }}
             </p>
             <img v-if="p.avatarUrl" :src="p.avatarUrl" />
             <meter :value="p.audioLevel" />
@@ -469,10 +472,20 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       }
 
       const addTrack = async (track: JitsiTrack) => {
+        const id = track.getParticipantId()
+        let displayName = ''
+
+        if (track.isLocal()) {
+          displayName = `${this.studentId} (自分)`
+        } else if (this.myRoom) {
+          const p = this.myRoom.getParticipants().find((p) => p.getId() === id)
+          if (p) displayName = p.getDisplayName()
+        }
+
         this.participants.push({
-          id: track.getParticipantId(),
+          id,
           audioLevel: 0,
-          displayName: '',
+          displayName,
           isLocal: track.isLocal(),
           trackId: track.getId(),
           avatarUrl: '',
