@@ -19,6 +19,8 @@
         <CBox :my="2">
           <CButton
             :is-disabled="!jitsiReady || !!myLocalAudioTrack"
+            :is-loading="isConnectButtonLoading"
+            loading-text="接続中"
             variant-color="blue"
             @click="jitsiTest"
             ><CIcon
@@ -30,6 +32,8 @@
           >
           <CButton
             :is-disabled="!jitsiReady || !myLocalAudioTrack"
+            :is-loading="isDisconnectButtonLoading"
+            loading-text="切断中"
             variant-color="red"
             @click="disconnect"
             ><CIcon
@@ -105,8 +109,9 @@
         <div>
           <div v-for="p in participants" :key="p.id">
             <p>
-              {{ p.id }} | {{ p.audioLevel }} | {{ p.displayName }} |
-              {{ p.isLocal }} | {{ p.trackId }}
+              {{ p.id }} | audio: {{ p.audioLevel }} | name:
+              {{ p.displayName }} | {{ p.isLocal ? 'Local' : 'Remote' }} |
+              {{ p.trackId }}
             </p>
             <img v-if="p.avatarUrl" :src="p.avatarUrl" />
             <meter :value="p.audioLevel" />
@@ -227,6 +232,8 @@ type Data = {
   /* UI */
   muteButtonLabel: string
   muteButtonIconName: string
+  isConnectButtonLoading: boolean
+  isDisconnectButtonLoading: boolean
 }
 
 type Computed = {
@@ -284,6 +291,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       participants: [],
       muteButtonLabel: MUTE_BUTTON_LABEL,
       muteButtonIconName: UNMUTED_ICON_NAME,
+      isConnectButtonLoading: false,
+      isDisconnectButtonLoading: false,
     }
   },
   head() {
@@ -382,6 +391,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
     async jitsiTest() {
       if (!this.jitsiReady) return
 
+      this.isConnectButtonLoading = true
+
       const JitsiMeetJS = window.JitsiMeetJS
       JitsiMeetJS.init(initOptions)
       JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.WARN)
@@ -461,10 +472,20 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       }
 
       const addTrack = async (track: JitsiTrack) => {
+        const id = track.getParticipantId()
+        let displayName = ''
+
+        if (track.isLocal()) {
+          displayName = `${this.studentId} (自分)`
+        } else if (this.myRoom) {
+          const p = this.myRoom.getParticipants().find((p) => p.getId() === id)
+          if (p) displayName = p.getDisplayName()
+        }
+
         this.participants.push({
-          id: track.getParticipantId(),
+          id,
           audioLevel: 0,
-          displayName: '',
+          displayName,
           isLocal: track.isLocal(),
           trackId: track.getId(),
           avatarUrl: '',
@@ -590,6 +611,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         }
       } catch (error) {
         console.error(error)
+      } finally {
+        this.isConnectButtonLoading = false
       }
     },
     async changeAudioInputDeviceId(newDeviceId) {
@@ -632,12 +655,16 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       this.muteButtonIconName = muted ? MUTED_ICON_NAME : UNMUTED_ICON_NAME
     },
     async disconnect() {
+      this.isDisconnectButtonLoading = true
+
       this.myLocalAudioTrack?.dispose()
       await this.myRoom?.leave()
       await this.myConnection?.disconnect()
       this.myLocalAudioTrack = undefined
       this.myRoom = null
       this.myConnection = null
+
+      this.isDisconnectButtonLoading = false
     },
   },
 })

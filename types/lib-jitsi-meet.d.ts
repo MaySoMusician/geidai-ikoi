@@ -90,7 +90,7 @@ export class JitsiConference {
   setSenderVideoConstraint(resolution: number): void
   isHidden(): boolean
   setLocalParticipantProperty(propertyKey: string, propertyValue: string): void
-  getParticipants(): unknown[]
+  getParticipants(): JitsiParticipant[]
   revokeOwner(participantId: string): void
 }
 
@@ -204,6 +204,47 @@ export class JitsiTrackError extends Error {
     constraints: any
     devices: ('audio' | 'video' | 'screen' | 'desktop' | 'audiooutput')[]
   }
+}
+
+/*
+ * JitsiParticipant
+ */
+
+export class JitsiParticipant {
+  constructor(
+    jid: string,
+    conference: JitsiConference,
+    displayName: string,
+    hidden: boolean,
+    statsID: string,
+    status: string,
+    identity: unknown
+  )
+
+  getConference(): JitsiConference
+  getProperty(name: string): unknown
+  hasAnyVideoTrackWebRTCMuted(): boolean
+  getConnectionStatus(): string
+  setProperty(name: string, value: unknown): void
+  getTracks(): JitsiTrack[]
+  getTracksByMediaType(mediaType: 'video' | 'audio'): JitsiTrack[]
+  getId(): string
+  getJid(): string
+  getDisplayName(): string
+  getStatsID(): string
+  getStatus(): string
+  isModerator(): boolean
+  isHidden(): boolean
+  isAudioMuted(): boolean
+  isVideoMuted(): boolean
+  getRole(): string
+  setRole(newRole: string): void
+  supportsDTMF(): boolean
+  getFeatures(): Promise<Set<string>>
+  hasFeature(feature: string): boolean
+  setFeatures(newFeatures?: Set<string>): void
+  getBotType(): string | undefined
+  setBotType(newBotType: string): void
 }
 
 /*
