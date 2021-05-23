@@ -11,7 +11,6 @@
               max-w="48rem"
               mx="auto"
               px="4px"
-              box-shadow="2xl"
             >
               <CFlex class="header" h="3rem">
                 <AppSpacer />
@@ -179,7 +178,7 @@ body {
 
 <style lang="scss" module>
 .Container {
-  background: #ced2d6;
+  background: white;
 }
 
 .FullHeight {
