@@ -1,14 +1,7 @@
 <template>
   <div>
     <TheAboveTheFold />
-    <!-- <TheWebsiteTitle /> -->
-    <TheNewsList
-      mx="auto"
-      :mb="3"
-      max-w="42rem"
-      align="stretch"
-      @loaded="newsLoaded = true"
-    />
+    <TheNewsList :mb="3" align="stretch" @loaded="newsLoaded = true" />
 
     <transition name="fade" mode="out-in" @after-enter="() => {}">
       <div v-if="newsLoaded">
