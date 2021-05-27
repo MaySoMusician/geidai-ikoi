@@ -12,17 +12,8 @@
               mx="auto"
               px="4px"
             >
-              <CFlex class="header" h="3rem">
+              <!-- <CFlex class="header" h="3rem">
                 <AppSpacer />
-                <!--
-                <CMenu>
-                  <CMenuButton aria-label="メニューを開く" size="lg" px="unset">
-                    <CIcon name="menu" />
-                  </CMenuButton>
-                  <CMenuList placement="bottom-end">
-                    <CMenuItem>使い方</CMenuItem>
-                  </CMenuList>
-                </CMenu> -->
                 <CPopover placement="bottom-end">
                   <CPopoverTrigger>
                     <CIconButton icon="menu" size="lg" />
@@ -41,7 +32,7 @@
                     <CPopoverBody><TheDarkModeButton /></CPopoverBody>
                   </AppPopoverContent>
                 </CPopover>
-              </CFlex>
+              </CFlex> -->
               <!-- main -->
               <Nuxt />
               <!-- /main -->
@@ -101,7 +92,7 @@
 import Vue from 'vue'
 
 import { ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
-import { AppPopoverContent } from '@/components/AppPopoverContent'
+// import { AppPopoverContent } from '@/components/AppPopoverContent'
 
 type ColorMode = 'light' | 'dark'
 
@@ -124,7 +115,7 @@ type Computed = {
 export default Vue.extend<Data, Methods, Computed, unknown>({
   name: 'App',
   components: {
-    AppPopoverContent,
+    // AppPopoverContent,
   },
   data() {
     return {
