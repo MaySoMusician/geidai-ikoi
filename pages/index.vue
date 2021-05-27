@@ -5,10 +5,54 @@
 
     <transition name="fade" mode="out-in" @after-enter="() => {}">
       <div v-if="newsLoaded">
-        <CHeading as="h2" text-align="center" size="lg" :mt="3" :mb="4">
-          ログイン
-        </CHeading>
-        <CFlex justify="center" direction="column" align="center">
+        <CFlex direction="row" justify="space-evenly" mt="2rem">
+          <CPseudoBox as="button" box-shadow="md" @click="musicStudentSignIn"
+            ><CFlex
+              :class="[$style.LoginContainer]"
+              direction="column"
+              jutify="center"
+              align="center"
+            >
+              <CBox>音楽学部生</CBox>
+              <CIcon name="login" size="4rem" :my="3" />
+              <CBox :class="[$style.LoginLinkBelow]"
+                ><span>ログイン</span>
+                <CIcon name="chevron-right" size="1.5rem"
+              /></CBox> </CFlex
+          ></CPseudoBox>
+          <CPseudoBox as="button" box-shadow="md" @click="othersSignIn"
+            ><CFlex
+              :class="[$style.LoginContainer]"
+              direction="column"
+              jutify="center"
+              align="center"
+            >
+              <CBox>美術学部生</CBox>
+              <CIcon name="login" size="4rem" :my="3" />
+              <CBox :class="[$style.LoginLinkBelow]"
+                ><span>ログイン</span>
+                <CIcon name="chevron-right" size="1.5rem"
+              /></CBox> </CFlex
+          ></CPseudoBox>
+        </CFlex>
+        <CBox :class="[$style.GalleryContainer]">
+          <CHeading as="h2">ギャラリー</CHeading>
+          <CFlex :class="[$style.GalleryImageContainer]">
+            <CBox
+              v-for="i in 3"
+              :key="i"
+              :class="[$style.GalleryImageItem]"
+              box-shadow="md"
+              >{{ i }}</CBox
+            >
+          </CFlex>
+        </CBox>
+        <CBox :class="[$style.AboutWebsiteContainer]">
+          <CHeading as="h2"
+            ><span>このサイトに</span><span>ついて</span></CHeading
+          >
+        </CBox>
+        <!-- <CFlex justify="center" direction="column" align="center">
           <CButton
             variant-color="blue"
             font-weight="normal"
@@ -58,7 +102,7 @@
               <CModalCloseButton @click="showModal = false" />
             </CModalContent>
           </CModal>
-        </CFlex>
+        </CFlex> -->
       </div>
     </transition>
   </div>
@@ -244,4 +288,102 @@ export default vue
 }
 </style>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.Login {
+  &Container {
+    position: relative;
+    margin: {
+      top: 2rem;
+      bottom: 2rem;
+      left: 3rem;
+      right: 3rem;
+    }
+  }
+  &LinkBelow {
+    > span,
+    > svg {
+      vertical-align: middle;
+    }
+  }
+  /* &LinkOverlay {
+    position: static;
+    &::before {
+      content: '';
+      cursor: inherit;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+    }
+  } */
+}
+
+.Gallery {
+  &Container {
+    position: relative;
+    margin: {
+      top: 2rem;
+    }
+
+    padding: {
+      bottom: 15rem;
+    }
+
+    > h2 {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      font-size: 1.8rem;
+      writing-mode: vertical-rl;
+      height: 5.2em;
+    }
+  }
+
+  &Image {
+    &Container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: calc(100% - 2.5rem);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    &Item {
+      margin: {
+        left: 1rem;
+        right: 1rem;
+      }
+      padding: 7rem 6rem;
+    }
+  }
+}
+
+.AboutWebsite {
+  &Container {
+    position: relative;
+    margin: {
+      top: 2rem;
+    }
+
+    padding: {
+      bottom: calc(calc(1.8rem * 6.2) + 1rem);
+    }
+
+    > h2 {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      font-size: 1.8rem;
+      writing-mode: vertical-rl;
+      height: 6.2em;
+
+      > span {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+</style>
