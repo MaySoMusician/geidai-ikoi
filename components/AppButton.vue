@@ -27,7 +27,7 @@
           ml="0.67em"
           >{{ text }}</CText
         >
-        <CIcon name="chevron-right" size="1.4em" ml="0em" />
+        <CIcon name="chevron-right" size="1.4em" />
       </CBox>
     </CFlex>
   </CPseudoBox>
