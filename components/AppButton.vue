@@ -19,22 +19,26 @@
       min-w="10rem"
     >
       <CBox :font-size="fontSize">
+        <CIcon v-if="chevron === 'left'" name="chevron-left" size="1.4em" />
         <CText
           as="span"
           d="inline-block"
           font-size="1em"
           line-height="1.4em"
-          ml="0.67em"
+          :ml="chevron === 'right' ? '0.67em' : undefined"
+          :mr="chevron === 'left' ? '0.67em' : undefined"
           >{{ text }}</CText
         >
-        <CIcon name="chevron-right" size="1.4em" />
+        <CIcon v-if="chevron === 'right'" name="chevron-right" size="1.4em" />
       </CBox>
     </CFlex>
   </CPseudoBox>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+
+type Chevron = 'none' | 'left' | 'right'
 
 type Props = {
   text: string
@@ -42,6 +46,7 @@ type Props = {
   bgColor: string
   hoverBgColor: string
   fontSize: string
+  chevron: Chevron
 }
 
 export default Vue.extend<unknown, unknown, unknown, Props>({
@@ -65,6 +70,10 @@ export default Vue.extend<unknown, unknown, unknown, Props>({
     fontSize: {
       type: String,
       default: '0.875rem',
+    },
+    chevron: {
+      type: String as PropType<Chevron>,
+      default: 'right',
     },
   },
   data() {
