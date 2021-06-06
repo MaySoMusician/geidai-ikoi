@@ -2,7 +2,7 @@
   <CBox>
     <CBox :class="[$style.Header]">
       <CFlex :class="[$style.HeaderLogoContainer]" direction="row">
-        <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
+        <CLink as="nuxt-link" d="block" to="/meet/" :_focus="{}">
           <img
             :class="[$style.HeaderLogoImage]"
             src="https://via.placeholder.com/96"
@@ -17,9 +17,16 @@
           text-align="center"
           font-size="0.8rem"
         >
-          <CBox :pt="1" :pb="2">憩いとは</CBox>
-          <CBox :pt="1" :pb="2">運営より</CBox>
-          <CBox :pt="1" :pb="2">募集案内</CBox>
+          <CLink
+            v-for="(link, index) in headerLinks"
+            :key="index"
+            :class="[$style.HeaderLinkItem]"
+            :as="!link.external && link.link ? 'nuxt-link' : 'a'"
+            :to="link.link"
+            :pt="1"
+            :pb="2"
+            >{{ link.text }}</CLink
+          >
         </CFlex>
       </CFlex>
     </CBox>
@@ -31,7 +38,21 @@
 
 <script lang="ts">
 import Vue from 'vue'
-export default Vue.extend<unknown, unknown, unknown, unknown>({})
+
+type Data = {
+  headerLinks: { text: string; link: string; external: boolean }[]
+}
+export default Vue.extend<Data, unknown, unknown, unknown>({
+  data() {
+    return {
+      headerLinks: [
+        { text: '憩いとは', link: '', external: false },
+        { text: '運営より', link: '/about/', external: false },
+        { text: '募集案内', link: '', external: false },
+      ],
+    }
+  },
+})
 </script>
 
 <style lang="scss" module>
@@ -55,8 +76,8 @@ export default Vue.extend<unknown, unknown, unknown, unknown>({})
       padding: {
         top: 0.1rem;
         bottom: 0.2rem;
-        left: 0.2rem;
-        right: 0.2rem;
+        left: 0.3rem;
+        right: 0.3rem;
       }
     }
   }
@@ -75,10 +96,10 @@ export default Vue.extend<unknown, unknown, unknown, unknown>({})
       }
       z-index: 1;
     }
+  }
 
-    > div {
-      margin: 0 1rem;
-    }
+  &LinkItem {
+    margin: 0 1rem;
   }
 }
 

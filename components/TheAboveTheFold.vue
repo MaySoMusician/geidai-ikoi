@@ -16,9 +16,14 @@
           text-align="center"
           font-size="0.875rem"
         >
-          <CBox :py="3">憩いとは</CBox>
-          <CBox :py="3">運営より</CBox>
-          <CBox :py="3">募集案内</CBox>
+          <CLink
+            v-for="(link, index) in headerLinks"
+            :key="index"
+            :as="!link.external && link.link ? 'nuxt-link' : 'a'"
+            :to="link.link"
+            :py="3"
+            >{{ link.text }}</CLink
+          >
         </CFlex>
       </CFlex>
     </CBox>
@@ -40,7 +45,21 @@
 
 <script lang="ts">
 import Vue from 'vue'
-export default Vue.extend<unknown, unknown, unknown, unknown>({})
+
+type Data = {
+  headerLinks: { text: string; link: string; external: boolean }[]
+}
+export default Vue.extend<Data, unknown, unknown, unknown>({
+  data() {
+    return {
+      headerLinks: [
+        { text: '憩いとは', link: '', external: false },
+        { text: '運営より', link: '/about/', external: false },
+        { text: '募集案内', link: '', external: false },
+      ],
+    }
+  },
+})
 </script>
 
 <style lang="scss" module>
