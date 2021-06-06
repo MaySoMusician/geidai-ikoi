@@ -2,10 +2,13 @@
   <CBox>
     <CBox :class="[$style.Header]">
       <CFlex :class="[$style.HeaderLogoContainer]" direction="column">
-        <img
-          :class="[$style.HeaderLogoImage]"
-          src="https://via.placeholder.com/96"
-        />
+        <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
+          <img
+            :class="[$style.HeaderLogoImage]"
+            src="https://via.placeholder.com/96"
+          />
+        </CLink>
+
         <CFlex
           :class="[$style.HeaderLinks]"
           direction="column"
@@ -20,7 +23,7 @@
       </CFlex>
     </CBox>
     <CBox :class="[$style.AboveTheFold]">
-      <img :class="[$style.AboveTheFoldBackground]" src="photo-ikoi06.jpg" />
+      <img :class="[$style.AboveTheFoldBackground]" src="/photo-ikoi06.jpg" />
       <CFlex :class="[$style.AboveTheFoldSignInButtons]" direction="column">
         <IndexSignInButton
           title="音楽学部生"
