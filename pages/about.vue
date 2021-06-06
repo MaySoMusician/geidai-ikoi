@@ -55,24 +55,10 @@
       </CBox>
     </transition>
     <transition name="fade3" mode="out-in" appear @after-enter="() => {}">
-      <CBox id="attributions" as="section" :class="[$style.SectionContainer]">
+      <!-- <CBox id="attributions" as="section" :class="[$style.SectionContainer]">
         <CHeading as="h2">権利表示</CHeading>
-        <CFlex justify="center">
-          <CText font-size="sm" text-align="center"
-            >Icons made by
-            <CLink
-              href="https://www.flaticon.com/authors/pixel-perfect"
-              title="Pixel perfect"
-              is-external
-              >Pixel perfect</CLink
-            >
-            from
-            <CLink href="https://www.flaticon.com/" title="Flaticon" is-external
-              >www.flaticon.com</CLink
-            ></CText
-          >
-        </CFlex>
-      </CBox>
+        <CFlex justify="center"></CFlex>
+      </CBox> -->
     </transition>
     <transition
       name="fade4"
