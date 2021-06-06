@@ -266,8 +266,6 @@ export default vue
       margin-bottom: $size * -1;
       border: $size solid transparent;
       border-right: $size solid $color;
-      transform: scaleY(0.8);
-      transform-origin: right center;
     }
 
     &::before {
