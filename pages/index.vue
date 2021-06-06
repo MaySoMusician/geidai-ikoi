@@ -378,8 +378,12 @@ export default vue
 
   &Grid {
     grid-row-gap: 1rem;
-    grid-template-columns: repeat(2, minmax(10em, auto));
+    grid-template-columns: repeat(1, minmax(10em, auto));
     place-content: space-evenly;
+
+    @media screen and (min-width: 30em) {
+      grid-template-columns: repeat(2, minmax(10em, auto));
+    }
 
     > button {
       width: 100%;

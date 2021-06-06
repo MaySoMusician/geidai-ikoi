@@ -10,7 +10,7 @@
         </CLink>
 
         <CFlex
-          :class="[$style.HeaderLinks]"
+          :class="[$style.HeaderLinks, $style.LinksHorizontal]"
           direction="column"
           justify="center"
           text-align="center"
@@ -22,6 +22,25 @@
             :as="!link.external && link.link ? 'nuxt-link' : 'a'"
             :to="link.link"
             :py="3"
+            >{{ link.text }}</CLink
+          >
+        </CFlex>
+      </CFlex>
+      <CFlex :class="[$style.HeaderLinksOuter, $style.LinksVertical]">
+        <CFlex
+          :class="[$style.HeaderLinks]"
+          direction="row"
+          justify="center"
+          flex-wrap="wrap"
+          text-align="center"
+          font-size="0.8rem"
+        >
+          <CLink
+            v-for="(link, index) in headerLinks"
+            :key="index"
+            :class="[$style.HeaderLinkItem]"
+            :as="!link.external && link.link ? 'nuxt-link' : 'a'"
+            :to="link.link"
             >{{ link.text }}</CLink
           >
         </CFlex>
@@ -63,22 +82,27 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
 </script>
 
 <style lang="scss" module>
+$pad1: 0.6rem;
+$pad2: 1.3rem;
+
 .Header {
+  $bg: rgba(255, 255, 255, 88%);
   position: relative;
 
   &Logo {
     &Container {
       position: absolute;
-      background: rgb(255 255 255 / 88%);
+      background: $bg;
       z-index: 1;
-
-      margin: {
-        left: 1.3rem;
-      }
     }
 
     &Image {
-      padding: 0.1rem 0.3rem;
+      padding: {
+        top: 0.1rem;
+        bottom: 0.2rem;
+        left: 0.3rem;
+        right: 0.3rem;
+      }
     }
   }
 
@@ -88,9 +112,35 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
       bottom: 0.3rem;
     }
 
+    &Outer {
+      position: absolute;
+      background: $bg;
+      z-index: 1;
+
+      margin: {
+        left: calc(#{$pad1} + 96px + 0.6rem);
+      }
+
+      @media screen and (min-width: 30em) {
+        margin: {
+          left: calc(#{$pad2} + 96px + 0.6rem);
+        }
+      }
+    }
+
     > div {
       margin: 0 1rem;
     }
+  }
+
+  &LinkItem {
+    padding: {
+      top: 0.25rem;
+      bottom: 0.3rem;
+      left: 1rem;
+      right: 1rem;
+    }
+    min-width: 5em;
   }
 }
 
@@ -99,11 +149,7 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
   overflow: hidden;
 
   padding: {
-    bottom: 20rem;
-  }
-
-  margin: {
-    bottom: 1.3rem;
+    bottom: 21rem;
   }
 
   &Background {
@@ -117,9 +163,7 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
 
   &SignInButtons {
     position: absolute;
-    bottom: 1.3rem;
-    right: 1.3rem;
-    width: 80%;
+    width: calc(100% - (#{$pad1} * 2));
     max-width: 15em;
     z-index: 1;
 
@@ -127,6 +171,59 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
       margin: {
         bottom: 0.8rem;
       }
+    }
+  }
+}
+
+// margin
+.HeaderLogoContainer {
+  margin: {
+    left: $pad1;
+  }
+}
+
+.Links {
+  &Vertical {
+    display: flex;
+  }
+  &Horizontal {
+    display: none;
+  }
+}
+
+.AboveTheFold {
+  margin: {
+    bottom: $pad1;
+  }
+  &SignInButtons {
+    bottom: $pad1;
+    right: $pad1;
+  }
+}
+
+@media screen and (min-width: 30em) {
+  .HeaderLogoContainer {
+    margin: {
+      left: $pad2;
+    }
+  }
+
+  .Links {
+    &Vertical {
+      display: none;
+    }
+    &Horizontal {
+      display: flex;
+    }
+  }
+
+  .AboveTheFold {
+    margin: {
+      bottom: $pad2;
+    }
+    &SignInButtons {
+      bottom: $pad2;
+      right: $pad2;
     }
   }
 }

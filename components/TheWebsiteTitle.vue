@@ -9,11 +9,12 @@
           />
         </CLink>
       </CFlex>
-      <CFlex :class="[$style.HeaderLinksOuter]" direction="row" ml="">
+      <CFlex :class="[$style.HeaderLinksOuter]">
         <CFlex
           :class="[$style.HeaderLinks]"
           direction="row"
           justify="center"
+          flex-wrap="wrap"
           text-align="center"
           font-size="0.8rem"
         >
@@ -65,8 +66,10 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
       background: $bg;
       z-index: 1;
 
-      margin: {
-        left: 1.3rem;
+      @media screen and (min-width: 30em) {
+        margin: {
+          left: 1.3rem;
+        }
       }
     }
 
@@ -89,10 +92,17 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
     &Outer {
       position: absolute;
       background: $bg;
-      margin: {
-        left: calc(1.3rem + 96px + 0.4rem);
-      }
       z-index: 1;
+
+      margin: {
+        left: calc(96px + 0.6rem);
+      }
+
+      @media screen and (min-width: 30em) {
+        margin: {
+          left: calc(1.3rem + 96px + 0.6rem);
+        }
+      }
     }
   }
 
