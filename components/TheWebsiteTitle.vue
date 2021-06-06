@@ -23,8 +23,6 @@
             :class="[$style.HeaderLinkItem]"
             :as="!link.external && link.link ? 'nuxt-link' : 'a'"
             :to="link.link"
-            :pt="1"
-            :pb="2"
             >{{ link.text }}</CLink
           >
         </CFlex>
@@ -46,6 +44,7 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
   data() {
     return {
       headerLinks: [
+        { text: 'TOP', link: '/', external: false },
         { text: '憩いとは', link: '', external: false },
         { text: '運営より', link: '/about/', external: false },
         { text: '募集案内', link: '', external: false },
@@ -72,7 +71,6 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
     }
 
     &Image {
-      padding: 0.1rem 0.3rem;
       padding: {
         top: 0.1rem;
         bottom: 0.2rem;
@@ -99,7 +97,13 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
   }
 
   &LinkItem {
-    margin: 0 1rem;
+    padding: {
+      top: 0.25rem;
+      bottom: 0.3rem;
+      left: 1rem;
+      right: 1rem;
+    }
+    min-width: 5em;
   }
 }
 
