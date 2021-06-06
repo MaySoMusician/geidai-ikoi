@@ -358,7 +358,8 @@ export default vue
     h2 {
       text-align: center;
       font-size: 1.125rem;
-      max-width: 7em;
+      width: fit-content;
+      min-width: 7em;
 
       margin: {
         left: auto;
