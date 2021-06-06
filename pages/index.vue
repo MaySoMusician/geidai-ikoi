@@ -1,6 +1,9 @@
 <template>
   <div>
-    <TheAboveTheFold />
+    <TheAboveTheFold
+      @clickMusicStudentSignIn="musicStudentSignIn"
+      @clickOthersSignIn="othersSignIn"
+    />
     <TheNewsList align="stretch" @loaded="newsLoaded = true" />
 
     <CBox as="section" :class="[$style.SectionContainer]">
@@ -356,9 +359,7 @@ export default vue
     }
 
     h2 {
-      text-align: center;
       font-size: 1.125rem;
-      width: fit-content;
       min-width: 7em;
 
       margin: {
@@ -371,8 +372,7 @@ export default vue
         bottom: 0.8rem;
       }
 
-      border-top: 2px solid var(--theme-colors-santafe);
-      border-bottom: 2px solid var(--theme-colors-santafe);
+      @include headingBorderAboveBelow();
     }
   }
 

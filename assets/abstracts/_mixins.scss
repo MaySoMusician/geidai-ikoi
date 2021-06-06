@@ -16,3 +16,11 @@
     }
   }
 }
+
+@mixin headingBorderAboveBelow() {
+  text-align: center;
+  width: fit-content;
+
+  border-top: 2px solid var(--theme-colors-santafe);
+  border-bottom: 2px solid var(--theme-colors-santafe);
+}
