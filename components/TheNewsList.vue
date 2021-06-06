@@ -14,8 +14,8 @@
         v-if="newsItemsAvailable.length < 1"
         v-bind="$attrs"
         key="shown"
-        bg="gray.200"
-        py="0.4rem"
+        bg="grass.50"
+        py="0.8rem"
         >お知らせはありません</CAlert
       >
       <CStack v-else v-bind="$attrs" key="shown" :spacing="3">
@@ -75,7 +75,7 @@ export default Vue.extend<Data, unknown, Computed, unknown>({
 </script>
 
 <style lang="scss" scoped>
-@include fadeEaseOutCubic('fade', 0s, 0.5rem);
+@include fadeEaseOutCubic('fade', 0s, 0);
 </style>
 
 <style lang="scss" module></style>

@@ -6,31 +6,33 @@
           :class="[$style.HeaderLogoImage]"
           src="https://via.placeholder.com/96"
         />
-        <span>オンライン</span><span>憩い</span>
-      </CFlex>
-      <CFlex :class="[$style.HeaderLinks]">
-        <CBox>TOP</CBox>
-        <CBox>PAGE1</CBox>
-        <CBox>PAGE1</CBox>
-        <CBox>PAGE1</CBox>
+        <CFlex
+          :class="[$style.HeaderLinks]"
+          direction="column"
+          justify="center"
+          text-align="center"
+          font-size="0.875rem"
+        >
+          <CBox :py="3">憩いとは</CBox>
+          <CBox :py="3">運営より</CBox>
+          <CBox :py="3">募集案内</CBox>
+        </CFlex>
       </CFlex>
     </CBox>
     <CBox :class="[$style.AboveTheFold]">
-      <img :class="[$style.AboveTheFoldBackground]" src="~/assets/ikoi.jpg" />
-      <CBox :class="[$style.AboveTheFoldSubtitle]"
-        >「憩い」と呼ばれる場所がある</CBox
-      >
+      <img :class="[$style.AboveTheFoldBackground]" src="photo-ikoi06.jpg" />
+      <CFlex :class="[$style.AboveTheFoldSignInButtons]" direction="column">
+        <IndexSignInButton
+          title="音楽学部生"
+          @click="$emit('clickMusicStudentSignIn')"
+        />
+        <IndexSignInButton
+          title="美術学部生・その他の学生"
+          @click="$emit('clickOthersSignIn')"
+        />
+      </CFlex>
     </CBox>
-    <!-- <CLink :class="[$style.AboutIkoi]" as="nuxt-link" to="/"
-      >憩いについて</CLink
-    > -->
   </CBox>
-
-  <!-- <CHeading as="h1" text-align="center" :mt="3" :mb="4" :class="[$style.Title]">
-    <CLink as="nuxt-link" to="/" :_hover="{ textDecoration: 'none' }">
-      <AppSvgIconCoffee /><span>オンライン憩い</span><AppSvgIconCoffee />
-    </CLink>
-  </CHeading> -->
 </template>
 
 <script lang="ts">
@@ -39,35 +41,17 @@ export default Vue.extend<unknown, unknown, unknown, unknown>({})
 </script>
 
 <style lang="scss" module>
-.Title span {
-  vertical-align: middle;
-  margin: {
-    left: 6px;
-    right: 6px;
-  }
-  font-size: 1.65rem;
-
-  @media screen and (min-width: 30em) {
-    font-size: 1.875rem;
-  }
-}
-
 .Header {
   position: relative;
 
   &Logo {
     &Container {
       position: absolute;
-      background: white;
+      background: rgb(255 255 255 / 88%);
       z-index: 1;
 
       margin: {
-        left: 0.3rem;
-      }
-
-      > span {
-        line-height: 110%;
-        text-align: center;
+        left: 1.3rem;
       }
     }
 
@@ -77,9 +61,6 @@ export default Vue.extend<unknown, unknown, unknown, unknown>({})
   }
 
   &Links {
-    margin: {
-      left: 7.5rem;
-    }
     padding: {
       top: 0.3rem;
       bottom: 0.3rem;
@@ -100,7 +81,7 @@ export default Vue.extend<unknown, unknown, unknown, unknown>({})
   }
 
   margin: {
-    bottom: 0.5rem;
+    bottom: 1.3rem;
   }
 
   &Background {
@@ -108,23 +89,23 @@ export default Vue.extend<unknown, unknown, unknown, unknown>({})
     height: 100%;
     width: 100%;
     object-fit: cover;
-    object-position: 50% 50%;
+    object-position: 50% 56%;
     z-index: 0;
   }
 
-  &Subtitle {
+  &SignInButtons {
     position: absolute;
-    color: white;
-    font-weight: 500;
-    bottom: 1rem;
-    right: 1rem;
-    font-size: 1.7rem;
-    text-shadow: 1px 1px 2px #1f1f1f;
-  }
-}
+    bottom: 1.3rem;
+    right: 1.3rem;
+    width: 80%;
+    max-width: 15em;
+    z-index: 1;
 
-.AboutIkoi {
-  display: block;
-  text-align: end;
+    > button:first-child {
+      margin: {
+        bottom: 0.8rem;
+      }
+    }
+  }
 }
 </style>

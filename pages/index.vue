@@ -1,58 +1,74 @@
 <template>
   <div>
     <TheAboveTheFold />
-    <TheNewsList :mb="3" align="stretch" @loaded="newsLoaded = true" />
+    <TheNewsList align="stretch" @loaded="newsLoaded = true" />
 
-    <transition name="fade" mode="out-in" @after-enter="() => {}">
-      <div v-if="newsLoaded">
-        <CFlex direction="row" justify="space-evenly" mt="2rem">
-          <CPseudoBox as="button" box-shadow="md" @click="musicStudentSignIn"
-            ><CFlex
-              :class="[$style.LoginContainer]"
-              direction="column"
-              jutify="center"
-              align="center"
-            >
-              <CBox>音楽学部生</CBox>
-              <CIcon name="login" size="4rem" :my="3" />
-              <CBox :class="[$style.LoginLinkBelow]"
-                ><span>ログイン</span>
-                <CIcon name="chevron-right" size="1.5rem"
-              /></CBox> </CFlex
-          ></CPseudoBox>
-          <CPseudoBox as="button" box-shadow="md" @click="othersSignIn"
-            ><CFlex
-              :class="[$style.LoginContainer]"
-              direction="column"
-              jutify="center"
-              align="center"
-            >
-              <CBox>美術学部生</CBox>
-              <CIcon name="login" size="4rem" :my="3" />
-              <CBox :class="[$style.LoginLinkBelow]"
-                ><span>ログイン</span>
-                <CIcon name="chevron-right" size="1.5rem"
-              /></CBox> </CFlex
-          ></CPseudoBox>
+    <CBox as="section" :class="[$style.SectionContainer]">
+      <CHeading as="h2">憩いとは</CHeading>
+      <CFlex justify="center" align="center" :mt="8">
+        <AppButton text="詳しく" />
+      </CFlex>
+    </CBox>
+
+    <CBox
+      as="section"
+      :class="[$style.SectionContainer]"
+      background-color="grass.50"
+    >
+      <CHeading as="h2">運営より</CHeading>
+      <CGrid :class="[$style.SectionGrid]" :mt="8">
+        <AppButton
+          v-for="(link, index) in linksToAbout"
+          :key="index"
+          as="nuxt-link"
+          :text="link.text"
+          :to="link.to"
+        />
+      </CGrid>
+    </CBox>
+
+    <CBox as="section" :class="[$style.SectionContainer]">
+      <CHeading as="h2">ギャラリー</CHeading>
+      <CBox :class="[$style.GalleryOuterContainer]">
+        <CFlex id="slideshowContainer" :class="[$style.GalleryImageContainer]">
+          <CImage
+            v-for="(photo, index) in photosDoubled"
+            :key="index"
+            :src="photo"
+            height="12rem"
+            mr="0.6rem"
+            box-shadow="sm"
+            @load="onLoadSlideShowPhotos(index)"
+          />
         </CFlex>
-        <CBox :class="[$style.GalleryContainer]">
-          <CHeading as="h2">ギャラリー</CHeading>
-          <CFlex :class="[$style.GalleryImageContainer]">
-            <CBox
-              v-for="i in 3"
-              :key="i"
-              :class="[$style.GalleryImageItem]"
-              box-shadow="md"
-              >{{ i }}</CBox
-            >
-          </CFlex>
-        </CBox>
-        <CBox :class="[$style.AboutWebsiteContainer]">
-          <CHeading as="h2"
-            ><span>このサイトに</span><span>ついて</span></CHeading
+      </CBox>
+      <CFlex justify="center" align="center" :mt="2">
+        <AppButton text="応募する" />
+      </CFlex>
+    </CBox>
+
+    <div v-if="newsLoaded">
+      <!-- <CBox :class="[$style.GalleryContainer]">
+        <CHeading as="h2">ギャラリー</CHeading>
+        <CFlex :class="[$style.GalleryImageContainer]">
+          <CBox
+            v-for="i in 3"
+            :key="i"
+            :class="[$style.GalleryImageItem]"
+            box-shadow="md"
+            >{{ i }}</CBox
           >
-        </CBox>
-        <!-- <CFlex justify="center" direction="column" align="center">
+        </CFlex>
+      </CBox>
+      <CBox :class="[$style.AboutWebsiteContainer]">
+        <CHeading as="h2"
+          ><span>このサイトに</span><span>ついて</span></CHeading
+        >
+        <CFlex justify="stretch">
+          <CBox>お問い合わせ</CBox>
+        </CFlex>
+      </CBox> -->
+      <!-- <CFlex justify="center" direction="column" align="center">
           <CButton
             variant-color="blue"
             font-weight="normal"
@@ -103,8 +119,9 @@
             </CModalContent>
           </CModal>
         </CFlex> -->
-      </div>
-    </transition>
+    </div>
+
+    <transition name="fade" mode="out-in" @after-enter="() => {}"> </transition>
   </div>
 </template>
 
@@ -119,12 +136,16 @@ type Data = {
   showModal: boolean
   newsLoaded: boolean
   unwatchUser: (() => void) | null
+  linksToAbout: { text: string; to: string }[]
+  photos: string[]
+  loadedPhotos: Set<number>
 }
 
 type Computed = {
   colorMode: string
   theme: ChakraTheme
   toggleColorMode: ToggleColorModeFunction
+  photosDoubled: string[]
 }
 
 type Methods = {
@@ -133,6 +154,7 @@ type Methods = {
   musicStudentSignIn(): void
   othersSignIn(): void
   getForwardLinkAfterSignIn(): string
+  onLoadSlideShowPhotos(index: number): void
 }
 
 function _initializeGoogleAuthProvider(authModule: typeof firebase.auth) {
@@ -180,6 +202,21 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       showModal: false,
       newsLoaded: false,
       unwatchUser: null,
+      linksToAbout: [
+        { text: 'コメント', to: '/about/#' },
+        { text: 'お問い合わせ', to: '/about/#' },
+        { text: '募集案内', to: '/about/#' },
+        { text: '権利表示', to: '/about/#' },
+      ],
+      photos: [
+        'photo-ikoi02.jpg',
+        'photo-ikoi03.jpg',
+        'photo-cat01.jpg',
+        'photo-ikoi04.jpg',
+        'photo-ikoi05.jpg',
+        'photo-ikoi01.jpg',
+      ],
+      loadedPhotos: new Set(),
     }
   },
   computed: {
@@ -191,6 +228,9 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     },
     toggleColorMode() {
       return this.$toggleColorMode
+    },
+    photosDoubled() {
+      return this.photos.concat(this.photos)
     },
   },
   created() {
@@ -267,6 +307,25 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       const { forward } = this.$route.query
       return forward ? `/${decodeURIComponent(forward as string)}` : appMeetUrl
     },
+    onLoadSlideShowPhotos(index) {
+      this.loadedPhotos.add(index)
+
+      if (this.loadedPhotos.size >= this.photosDoubled.length) {
+        this.$nextTick(() => {
+          const container = document.querySelector(
+            '#slideshowContainer'
+          ) as HTMLDivElement
+          // Adding 8px is required since the margin-right of the last item is halved
+          const width = Math.ceil(container.scrollWidth / 2) + 5
+          container.style.setProperty('--slideshowDest', `-${width}px`)
+          container.style.setProperty(
+            '--slideshowDuration',
+            `${width / 0.024}ms`
+          )
+          container.style.setProperty('animation-play-state', 'running')
+        })
+      }
+    },
   },
 })
 
@@ -276,7 +335,7 @@ export default vue
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  transition: all 0.2s cubic-bezier(0.33, 1, 0.68, 1);
 }
 .fade-enter,
 .fade-leave-to {
@@ -289,41 +348,85 @@ export default vue
 </style>
 
 <style lang="scss" module>
-.Login {
+.Section {
   &Container {
-    position: relative;
-    margin: {
+    padding: {
       top: 2rem;
-      bottom: 2rem;
-      left: 3rem;
-      right: 3rem;
+      bottom: 3rem;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.125rem;
+      max-width: 7em;
+
+      margin: {
+        left: auto;
+        right: auto;
+      }
+
+      padding: {
+        top: 0.8rem;
+        bottom: 0.8rem;
+      }
+
+      border-top: 2px solid var(--theme-colors-santafe);
+      border-bottom: 2px solid var(--theme-colors-santafe);
     }
   }
-  &LinkBelow {
-    > span,
-    > svg {
-      vertical-align: middle;
-    }
-  }
-  /* &LinkOverlay {
-    position: static;
-    &::before {
-      content: '';
-      cursor: inherit;
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2;
+
+  &Grid {
+    grid-row-gap: 1rem;
+    grid-template-columns: repeat(2, minmax(10em, auto));
+    place-content: space-evenly;
+
+    > button {
       width: 100%;
-      height: 100%;
+      margin: {
+        left: auto;
+        right: auto;
+      }
     }
-  } */
+  }
 }
 
 .Gallery {
+  $top: 2.5rem;
+
+  &OuterContainer {
+    position: relative;
+    overflow: hidden;
+
+    padding: {
+      top: $top; // Overwrite the value of SectionContainer class
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      padding-top: 13rem;
+    }
+  }
+
+  &Image {
+    &Container {
+      position: absolute;
+      top: 1.6rem;
+      left: 0;
+      flex-wrap: nowrap;
+      z-index: 0;
+
+      animation: slideshow infinite linear 0s both;
+      animation-play-state: paused;
+      animation-duration: var(--slideshowDuration, 0s);
+    }
+  }
+}
+
+/* .Gallery {
   &Container {
     position: relative;
+
     margin: {
       top: 2rem;
     }
@@ -341,23 +444,14 @@ export default vue
       height: 5.2em;
     }
   }
+} */
 
-  &Image {
-    &Container {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: calc(100% - 2.5rem);
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    &Item {
-      margin: {
-        left: 1rem;
-        right: 1rem;
-      }
-      padding: 7rem 6rem;
-    }
+@keyframes slideshow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(var(--slideshowDest, 0px));
   }
 }
 

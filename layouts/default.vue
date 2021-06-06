@@ -10,7 +10,6 @@
               :class="[$style.FullHeight]"
               max-w="48rem"
               mx="auto"
-              px="4px"
             >
               <!-- <CFlex class="header" h="3rem">
                 <AppSpacer />
@@ -36,50 +35,39 @@
               <!-- main -->
               <Nuxt />
               <!-- /main -->
-              <CBox :class="[$style.Footer]" min-h="1.8rem" :mt="4">
-                <CFlex direction="row" justify="space-between" min-h="1.8rem">
-                  <CBox
-                    font-size="0.75rem"
-                    color="gray.500"
-                    place-self="flex-end"
+              <CFlex
+                :class="[$style.Footer]"
+                direction="column"
+                align="center"
+                min-h="1.8rem"
+                :mt="4"
+                :py="2"
+                background-color="#DBDAD3"
+              >
+                <CButton
+                  as="nuxt-link"
+                  variant="link"
+                  color="gray.500"
+                  font-size="0.8rem"
+                  font-weight="normal"
+                  to="/about/"
+                  white-space="normal"
+                  mb="0.3rem"
+                  >このサイトについて・連絡先</CButton
+                >
+                <CBox font-size="0.75rem" color="gray.500" text-align="center">
+                  <CText pb="0.2rem"
+                    >&copy; 2021 K･WATANABE a.k.a. MaySoMusician</CText
+                  ><CText pb="0.2rem"
+                    >Code available at
+                    <CLink
+                      href="https://github.com/MaySoMusician/geidai-ikoi"
+                      is-external
+                      >GitHub</CLink
+                    >, licensed under MIT license.</CText
                   >
-                    <CText pb="0.14rem"
-                      >&copy; 2021 K･WATANABE a.k.a. MaySoMusician</CText
-                    ><CText pb="0.1rem"
-                      >Code available at
-                      <CLink
-                        href="https://github.com/MaySoMusician/geidai-ikoi"
-                        is-external
-                        >GitHub</CLink
-                      >, licensed under MIT license.</CText
-                    >
-                  </CBox>
-
-                  <AppSpacer />
-                  <CButton
-                    as="nuxt-link"
-                    variant="link"
-                    color="gray.500"
-                    font-size="0.8rem"
-                    font-weight="normal"
-                    to="/about/"
-                    :ml="2"
-                    :mr="1"
-                    white-space="normal"
-                    >このサイトについて・連絡先</CButton
-                  >
-                  <CButton
-                    v-if="showDevSignOutButton"
-                    variant="ghost"
-                    variant-color="red"
-                    font-size="0.8rem"
-                    font-weight="normal"
-                    h="0.9rem"
-                    @click="signOut"
-                    >ログアウト</CButton
-                  >
-                </CFlex>
-              </CBox>
+                </CBox>
+              </CFlex>
             </CBox>
           </div>
         </CBox>
@@ -164,6 +152,14 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 html,
 body {
   height: 100%;
+}
+
+:root {
+  --theme-colors-grass-50: #dbdad3;
+  --theme-colors-grass-400: #9e9d89;
+  --theme-colors-wafer: #e4d3cf;
+  --theme-colors-cavernPink: #e2bcb7;
+  --theme-colors-santafe: #b67162;
 }
 </style>
 
