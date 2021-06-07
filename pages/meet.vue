@@ -6,10 +6,22 @@
 
     <transition name="fade1" mode="out-in" @after-enter="meetLinksShown = true">
       <template v-if="newsLoaded">
-        <CFlex v-if="$fetchState.pending" key="loading" justify="center">
+        <CFlex
+          v-if="$fetchState.pending"
+          key="loading"
+          justify="center"
+          :mt="10"
+        >
           <AppSpinnerLoading />
         </CFlex>
-        <div v-else-if="$fetchState.error" key="error">error</div>
+        <CFlex
+          v-else-if="$fetchState.error"
+          key="error"
+          justify="center"
+          :mt="10"
+        >
+          <AppErrorLoading />
+        </CFlex>
         <CSimpleGrid
           v-else
           key="shown"

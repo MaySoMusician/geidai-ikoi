@@ -8,7 +8,14 @@
     >
       <AppSpinnerLoading />
     </CFlex>
-    <div v-else-if="$fetchState.error" key="error" v-bind="$attrs">error</div>
+    <CFlex
+      v-else-if="$fetchState.error"
+      key="error"
+      justify="center"
+      v-bind="$attrs"
+    >
+      <AppErrorLoading />
+    </CFlex>
     <template v-else>
       <CAlert
         v-if="newsItemsAvailable.length < 1"
