@@ -42,7 +42,7 @@
                 min-h="1.8rem"
                 :mt="4"
                 :py="2"
-                background-color="#DBDAD3"
+                background-color="grass.50"
               >
                 <CButton
                   as="nuxt-link"
