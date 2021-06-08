@@ -41,8 +41,9 @@ const hid = (info: Exclude<MetaInfo['meta'], undefined>[number]) => {
 }
 
 const config: NuxtConfig = {
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  // Enable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  // for full static generation
+  ssr: true,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -119,6 +120,8 @@ const config: NuxtConfig = {
   // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate/
   generate: {
     fallback: true,
+    // Exclude pages from SSG
+    exclude: [/^\/$/, /^\/meet/],
   },
 
   router: {
