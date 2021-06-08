@@ -121,7 +121,7 @@ const config: NuxtConfig = {
   generate: {
     fallback: true,
     // Exclude pages from SSG
-    exclude: [/^\/$/, /^\/meet/],
+    exclude: [/^\/meet/],
   },
 
   router: {
