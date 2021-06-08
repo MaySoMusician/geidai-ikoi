@@ -4,7 +4,12 @@
       <CColorModeProvider ref="colorModeProvider">
         <CBox font-family="body">
           <CReset />
-          <div :class="[$style.Container]">
+          <div
+            :class="[
+              $style.Container,
+              !loaded ? $style.FullHeightHiddenOverflowed : undefined,
+            ]"
+          >
             <CBox
               v-bind="mainStyles[colorMode]"
               :class="[$style.FullHeight]"
@@ -70,6 +75,17 @@
               </CFlex>
             </CBox>
           </div>
+          <transition name="fadeOut">
+            <div
+              v-if="!loaded"
+              :class="[$style.LoaderOverlay, $style.FullHeight]"
+            >
+              <div :class="[$style.LoaderInner, $style.FullHeight]">
+                <AppSvgLoaderTea :class="[$style.LoaderIcon]" />
+                <SvgLogoTitle class="LoaderTitle" />
+              </div>
+            </div>
+          </transition>
         </CBox>
       </CColorModeProvider>
     </CThemeProvider>
@@ -81,6 +97,8 @@ import Vue from 'vue'
 
 import { ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
 // import { AppPopoverContent } from '@/components/AppPopoverContent'
+import AppSvgLoaderTea from '@/components/AppSvgLoaderTea.vue'
+import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
 
 type ColorMode = 'light' | 'dark'
 
@@ -89,6 +107,7 @@ type Data = {
   toggleColorModeFunction: ToggleColorModeFunction | null
   mainStyles: Record<string, Partial<{ bg: string; color: string }>>
   showDevSignOutButton: boolean
+  loaded: boolean
 }
 
 type Methods = {
@@ -104,6 +123,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
   name: 'App',
   components: {
     // AppPopoverContent,
+    AppSvgLoaderTea,
+    SvgLogoTitle,
   },
   data() {
     return {
@@ -114,6 +135,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         light: { bg: 'white', color: 'gray.900' },
       },
       showDevSignOutButton: !!process.env.APP_DEBUG,
+      loaded: false,
     }
   },
   computed: {
@@ -138,6 +160,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       }
       window.addEventListener('resize', setHeight)
       setHeight()
+      this.loaded = true
     })
   },
   methods: {
@@ -152,6 +175,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 html,
 body {
   height: 100%;
+  margin: 0;
 }
 
 :root {
@@ -163,6 +187,25 @@ body {
 }
 </style>
 
+<style lang="scss" scoped>
+.fadeOut {
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.4s 0.9s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+}
+
+.LoaderTitle {
+  --color: #78828a;
+  height: 1rem;
+  margin-top: 0.5rem;
+}
+</style>
+
 <style lang="scss" module>
 .Container {
   background: white;
@@ -171,6 +214,12 @@ body {
 .FullHeight {
   min-height: 100vh;
   min-height: calc(var(--vh, 1vh) * 100);
+}
+
+.FullHeightHiddenOverflowed {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
 }
 
 .Footer {
@@ -196,5 +245,29 @@ body {
       }
     }
   } */
+}
+
+.Loader {
+  &Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background: white;
+    z-index: 100;
+  }
+
+  &Inner {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    flex-direction: column;
+  }
+
+  &Icon {
+    max-width: 15vw;
+    max-height: 15vh;
+    transform: translateX(0.3em);
+  }
 }
 </style>
