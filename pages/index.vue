@@ -33,17 +33,22 @@
     <CBox as="section" :class="[$style.SectionContainer]">
       <CHeading as="h2">ギャラリー</CHeading>
       <CBox :class="[$style.GalleryOuterContainer]">
-        <CFlex id="slideshowContainer" :class="[$style.GalleryImageContainer]">
-          <CImage
-            v-for="(photo, index) in photosDoubled"
-            :key="index"
-            :src="photo"
-            height="12rem"
-            mr="0.6rem"
-            box-shadow="sm"
-            @load="onLoadSlideShowPhotos(index)"
-          />
-        </CFlex>
+        <client-only>
+          <CFlex
+            id="slideshowContainer"
+            :class="[$style.GalleryImageContainer]"
+          >
+            <nuxt-img
+              v-for="(photo, index) in photosDoubled"
+              :key="index"
+              :class="[$style.GalleryImageItem]"
+              :src="photo"
+              sizes="xs:500px"
+              loading="lazy"
+              @load.native="onLoadSlideShowPhotos(index)"
+            />
+          </CFlex>
+        </client-only>
       </CBox>
       <CFlex justify="center" align="center" :mt="2">
         <AppButton text="応募する" />
@@ -424,6 +429,11 @@ export default vue
       animation: slideshow infinite linear 0s both;
       animation-play-state: paused;
       animation-duration: var(--slideshowDuration, 0s);
+    }
+    &Item {
+      height: 12rem;
+      margin-right: 0.6rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
   }
 }
