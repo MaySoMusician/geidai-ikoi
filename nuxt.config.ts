@@ -94,6 +94,8 @@ const config: NuxtConfig = {
     '@nuxtjs/device',
     // https://github.com/nuxt-community/style-resources-module/
     '@nuxtjs/style-resources',
+    // https://image.nuxtjs.org/
+    '@nuxt/image',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -150,6 +152,15 @@ const config: NuxtConfig = {
 
   styleResources: {
     scss: ['~assets/abstracts/_mixins.scss'],
+  },
+
+  image: {
+    screens: {
+      xs: 320,
+      sm: 480,
+      md: 768,
+      lg: 1024,
+    },
   },
 }
 
