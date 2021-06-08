@@ -8,9 +8,15 @@
     transition="all 0.4s"
     @click="$emit('click')"
   >
-    <CFlex direction="column" jutify="center" align="center" py="1rem">
+    <CFlex
+      :class="[$style.Noop]"
+      direction="column"
+      justify="center"
+      align="center"
+      py="1rem"
+    >
       <CBox :pb="2">{{ title }}</CBox>
-      <CFlex align="center" :mt="1">
+      <CFlex :class="[$style.Noop]" direction="row" align="center" :mt="1">
         <CBox
           font-size="0.9rem"
           line-height="100%"
@@ -46,4 +52,8 @@ export default Vue.extend<unknown, unknown, unknown, Props>({
 })
 </script>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.Noop {
+  -custom-noop: noop;
+}
+</style>
