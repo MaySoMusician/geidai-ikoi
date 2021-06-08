@@ -38,14 +38,17 @@
             id="slideshowContainer"
             :class="[$style.GalleryImageContainer]"
           >
-            <nuxt-img
+            <AppNuxtImgImitatedFixed
               v-for="(photo, index) in photosDoubled"
               :key="index"
               :class="[$style.GalleryImageItem]"
-              :src="photo"
-              sizes="xs:500px"
-              loading="lazy"
-              @load.native="onLoadSlideShowPhotos(index)"
+              :original-src="photo.src"
+              :original-width="photo.width"
+              :original-height="photo.height"
+              original-format="jpg"
+              :sizes="{ xs: 500 }"
+              payload-source="1"
+              @load="onLoadSlideShowPhotos(index)"
             />
           </CFlex>
         </client-only>
@@ -140,12 +143,14 @@ import type firebase from 'firebase'
 import { ChakraTheme, ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
 import { debugLog, debugError } from '@/utils/debug'
 
+type Photo = { src: string; width: number; height: number }
+
 type Data = {
   showModal: boolean
   newsLoaded: boolean
   unwatchUser: (() => void) | null
   linksToAbout: { text: string; to: string }[]
-  photos: string[]
+  photos: Photo[]
   loadedPhotos: Set<number>
 }
 
@@ -153,7 +158,7 @@ type Computed = {
   colorMode: string
   theme: ChakraTheme
   toggleColorMode: ToggleColorModeFunction
-  photosDoubled: string[]
+  photosDoubled: Photo[]
 }
 
 type Methods = {
@@ -217,12 +222,12 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         { text: '権利表示', to: '/about/#attributions' },
       ],
       photos: [
-        'photo-ikoi02.jpg',
-        'photo-ikoi03.jpg',
-        'photo-cat01.jpg',
-        'photo-ikoi04.jpg',
-        'photo-ikoi05.jpg',
-        'photo-ikoi01.jpg',
+        { src: '/photo-ikoi02.jpg', width: 1568, height: 1044 },
+        { src: '/photo-ikoi03.jpg', width: 1568, height: 1044 },
+        { src: '/photo-cat01.jpg', width: 1108, height: 1478 },
+        { src: '/photo-ikoi04.jpg', width: 1568, height: 1044 },
+        { src: '/photo-ikoi05.jpg', width: 1568, height: 1044 },
+        { src: '/photo-ikoi01.jpg', width: 1568, height: 1044 },
       ],
       loadedPhotos: new Set(),
     }

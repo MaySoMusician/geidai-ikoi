@@ -30,7 +30,15 @@
       </CFlex>
     </CBox>
     <CBox :class="[$style.AboveTheFold]">
-      <img :class="[$style.AboveTheFoldBackground]" src="/photo-ikoi06.jpg" />
+      <AppNuxtImgImitated
+        :class="[$style.AboveTheFoldBackground]"
+        original-src="/photo-ikoi06.jpg"
+        :original-width="5504"
+        :original-height="3096"
+        original-format="jpg"
+        :sizes="{ xs: 100, sm: 100, md: 100, lg: 100 }"
+        payload-source="about"
+      />
     </CBox>
   </CBox>
 </template>
@@ -41,6 +49,7 @@ import Vue from 'vue'
 type Data = {
   headerLinks: { text: string; link: string; external: boolean }[]
 }
+
 export default Vue.extend<Data, unknown, unknown, unknown>({
   data() {
     return {
