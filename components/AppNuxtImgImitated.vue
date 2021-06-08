@@ -123,8 +123,6 @@ export default Vue.extend<Data, Methods, unknown, Props>({
     const _img = data.data[0]._img
     const root = `/_ipx${this.originalSrc}?f=${this.originalFormat}&s=`
 
-    console.log(_img)
-
     /* Prepare types and helpers */
     type Entries<T> = [keyof T, T[keyof T]][]
     type ImageSizesEntries = Entries<ImageSizes>

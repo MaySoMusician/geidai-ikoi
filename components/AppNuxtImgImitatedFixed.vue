@@ -121,7 +121,6 @@ export default Vue.extend<Data, Methods, unknown, Props>({
         .replace('mutations:[', '"mutations":[')
     )
     const _img = data.data[0]._img
-    // const root = `/_ipx${this.originalSrc}?f=${this.originalFormat}&w=`
 
     const getUrl = (w: number) =>
       `/_ipx${this.originalSrc}?w=${w}&f=${this.originalFormat}`
@@ -129,30 +128,6 @@ export default Vue.extend<Data, Methods, unknown, Props>({
     /* Prepare types and helpers */
     type Entries<T> = [keyof T, T[keyof T]][]
     type ImageSizesEntries = Entries<ImageSizes>
-    // type ImageSizeQueries = Record<keyof typeof VIEWPORTS, string>
-
-    /* const getHeight = (
-      width: number,
-      originalWidth: number,
-      originalHeight: number
-    ) => Math.round((width / originalWidth) * originalHeight) */
-
-    // { xs: '320_xxx', ... }
-    /* const generateSizeQueries = (
-      sizes: ImageSizes,
-      originalWidth: number,
-      originalHeight: number
-    ) => {
-      const sizesArray = Object.entries(sizes) as ImageSizesEntries
-      const s: Partial<ImageSizeQueries> = {}
-
-      for (const [viewport, width] of sizesArray) {
-        const w = (VIEWPORTS[viewport] * width) / 100
-        const h = getHeight(w, originalWidth, originalHeight)
-        s[viewport] = `${w}_${h}`
-      }
-      return s as ImageSizeQueries
-    } */
 
     const generateImitatedSizes = (sizes: ImageSizes) => {
       const sizesArray = Object.entries(sizes) as ImageSizesEntries
@@ -177,12 +152,6 @@ export default Vue.extend<Data, Methods, unknown, Props>({
           return `${imgUrl} ${size}w`
         })
         .join(', ')
-
-    /* const sizeQueries = generateSizeQueries(
-      this.sizes,
-      this.originalWidth,
-      this.originalHeight
-    ) */
 
     /* Generate imitated values for <img> */
     const imitatedSrc = _img[getUrl(Object.values(this.sizes).slice(-1)[0])]
