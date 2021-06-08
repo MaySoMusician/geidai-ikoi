@@ -47,7 +47,14 @@
       </CFlex>
     </CBox>
     <CBox :class="[$style.AboveTheFold]">
-      <img :class="[$style.AboveTheFoldBackground]" src="/photo-ikoi06.jpg" />
+      <nuxt-img
+        :class="[$style.AboveTheFoldBackground]"
+        src="/photo-ikoi06.jpg"
+        width="5504"
+        height="3096"
+        format="jpg"
+        sizes="xs:100vw sm:100vw md:100vw lg:100vw"
+      />
       <CFlex :class="[$style.AboveTheFoldSignInButtons]" direction="column">
         <IndexSignInButton
           title="音楽学部生"
