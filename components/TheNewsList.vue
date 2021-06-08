@@ -1,19 +1,9 @@
 <template>
   <transition name="fade" mode="out-in" @enter="$emit('loaded')">
-    <CFlex
-      v-if="$fetchState.pending"
-      v-bind="$attrs"
-      key="loading"
-      justify="center"
-    >
+    <CFlex v-if="pending" v-bind="$attrs" key="loading" justify="center">
       <AppSpinnerLoading />
     </CFlex>
-    <CFlex
-      v-else-if="$fetchState.error"
-      key="error"
-      justify="center"
-      v-bind="$attrs"
-    >
+    <CFlex v-else-if="error" key="error" justify="center" v-bind="$attrs">
       <AppErrorLoading />
     </CFlex>
     <template v-else>
@@ -52,6 +42,8 @@ import { fetchNotionTableData, isValidNewsItem, NewsItem } from '@/utils/notion'
 
 type Data = {
   newsItems: NewsItem[]
+  pending: boolean
+  error: Error | null
 }
 
 type Computed = {
@@ -62,21 +54,29 @@ export default Vue.extend<Data, unknown, Computed, unknown>({
   data() {
     return {
       newsItems: [],
-    }
-  },
-  async fetch() {
-    const rawItems = await fetchNotionTableData(
-      this.$config.newsDatabaseId
-    ).then((r) => r.json())
-    if (Array.isArray(rawItems)) {
-      const items = rawItems.filter((v) => isValidNewsItem(v))
-      this.newsItems = items
+      pending: true,
+      error: null,
     }
   },
   computed: {
     newsItemsAvailable() {
       return this.newsItems.filter((item) => !item.isHidden)
     },
+  },
+  async mounted() {
+    try {
+      const rawItems = await fetchNotionTableData(
+        this.$config.newsDatabaseId
+      ).then((r) => r.json())
+      if (Array.isArray(rawItems)) {
+        const items = rawItems.filter((v) => isValidNewsItem(v))
+        this.newsItems = items
+      }
+    } catch (e) {
+      this.error = e
+    } finally {
+      this.pending = false
+    }
   },
 })
 </script>
