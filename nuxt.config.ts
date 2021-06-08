@@ -6,7 +6,7 @@ import {
   extendTheme as chakraUiExtendedTheme,
   customIcons,
 } from './nuxt-chakra-ui.config'
-import { WEBSITE_NAME, WEBSITE_DESCRIPTION } from './utils/constants'
+import { WEBSITE_NAME, WEBSITE_DESCRIPTION, VIEWPORTS } from './utils/constants'
 
 const generateLazyFontLinkTags = (url: string, preconnect?: string) => {
   const tags: MetaInfo['link'] = [
@@ -158,12 +158,7 @@ const config: NuxtConfig = {
   },
 
   image: {
-    screens: {
-      xs: 320,
-      sm: 480,
-      md: 768,
-      lg: 1024,
-    },
+    screens: VIEWPORTS,
   },
 }
 
