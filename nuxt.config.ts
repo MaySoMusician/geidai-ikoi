@@ -7,6 +7,7 @@ import {
   customIcons,
 } from './nuxt-chakra-ui.config'
 import { WEBSITE_NAME, WEBSITE_DESCRIPTION } from './utils/constants'
+import { VIEWPORTS } from './utils/constants-dr1'
 
 const generateLazyFontLinkTags = (url: string, preconnect?: string) => {
   const tags: MetaInfo['link'] = [
@@ -41,8 +42,9 @@ const hid = (info: Exclude<MetaInfo['meta'], undefined>[number]) => {
 }
 
 const config: NuxtConfig = {
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  // Enable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  // for full static generation
+  ssr: true,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -94,6 +96,8 @@ const config: NuxtConfig = {
     '@nuxtjs/device',
     // https://github.com/nuxt-community/style-resources-module/
     '@nuxtjs/style-resources',
+    // https://image.nuxtjs.org/
+    '@nuxt/image',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -117,6 +121,9 @@ const config: NuxtConfig = {
   // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate/
   generate: {
     fallback: true,
+    // Exclude pages from SSG
+    exclude: ['/', '/about/', '/jitsi001/', '/meet/', '/dr1/meet/'] as any,
+    routes: ['/__noop/__gallery'],
   },
 
   router: {
@@ -149,7 +156,14 @@ const config: NuxtConfig = {
   },
 
   styleResources: {
-    scss: ['~assets/abstracts/_mixins.scss'],
+    scss: [
+      '~assets/abstracts/_mixins.scss',
+      '~assets/abstracts/_mixins-dr1.scss',
+    ],
+  },
+
+  image: {
+    screens: VIEWPORTS,
   },
 }
 
