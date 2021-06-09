@@ -1,5 +1,5 @@
 <template>
-  <CBox :mt="-5" text-align="right">
+  <CBox :mt="-3" text-align="right">
     <CLink
       as="nuxt-link"
       to="/"
