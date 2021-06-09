@@ -8,11 +8,19 @@
         "destination": "/index.html"
       },
       {
-        "source": "@(/about|/jitsi001|/meet)",
+        "source": "/about/",
         "destination": "/index.html"
       },
       {
-        "source": "/dr1/meet",
+        "source": "/jitsi001/",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/meet/",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/dr1/meet/",
         "destination": "/dr1/index.html"
       }
     ]
