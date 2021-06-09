@@ -122,7 +122,7 @@ const config: NuxtConfig = {
   generate: {
     fallback: true,
     // Exclude pages from SSG
-    exclude: ['/', '/about/', '/jitsi001/', '/meet/', '/dr1/meet/'] as any,
+    exclude: ['/about/', '/jitsi001/', '/meet/', '/dr1/meet/'] as any,
     routes: ['/__noop/__gallery'],
   },
 
