@@ -1,7 +1,7 @@
 <template>
   <div>
     <TheWebsiteTitle />
-    <TheNewsList
+    <DR1TheNewsList
       mx="auto"
       :mb="3"
       max-w="42rem"
