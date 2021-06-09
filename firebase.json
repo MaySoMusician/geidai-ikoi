@@ -8,12 +8,12 @@
         "destination": "/index.html"
       },
       {
-        "regex": "/(about|jitsi001|meet)",
+        "source": "@(/about|/jitsi001|/meet)",
         "destination": "/index.html"
       },
       {
         "source": "/dr1/meet",
-        "destination": "/index.html"
+        "destination": "/dr1/index.html"
       }
     ]
   }
