@@ -140,7 +140,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
   data() {
     return {
       showModal: false,
-      newsLoaded: false,
+      newsLoaded: true,
       unwatchUser: null,
     }
   },
