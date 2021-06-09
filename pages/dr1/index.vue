@@ -4,6 +4,7 @@
       @clickMusicStudentSignIn="musicStudentSignIn"
       @clickOthersSignIn="othersSignIn"
     />
+    <DR1RevertDesign />
     <DR1TheNewsList align="stretch" @loaded="newsLoaded = true" />
 
     <CBox as="section" :class="[$style.SectionContainer]">

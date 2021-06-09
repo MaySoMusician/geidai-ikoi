@@ -1,6 +1,7 @@
 <template>
   <div>
     <DR1TheWebsiteTitle />
+    <DR1RevertDesign />
 
     <transition name="fade1" mode="out-in" appear @after-enter="() => {}">
       <CBox

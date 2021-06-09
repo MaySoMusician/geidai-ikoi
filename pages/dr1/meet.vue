@@ -1,6 +1,7 @@
 <template>
   <div>
     <DR1TheWebsiteTitle />
+    <DR1RevertDesign />
     <DR1TheNewsList mb="1.6rem" align="stretch" @loaded="newsLoaded = true" />
     <CText :class="[$style.Heading]">どこで憩う？</CText>
 
