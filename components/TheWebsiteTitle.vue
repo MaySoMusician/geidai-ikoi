@@ -1,5 +1,5 @@
 <template>
-  <CHeading as="h1" text-align="center" :mt="3" :mb="4" :class="[$style.Title]">
+  <CHeading as="h1" text-align="center" :pt="6" :mb="4" :class="[$style.Title]">
     <CLink as="nuxt-link" to="/" :_hover="{ textDecoration: 'none' }">
       <AppSvgIconCoffee /><span>オンライン憩い</span><AppSvgIconCoffee />
     </CLink>

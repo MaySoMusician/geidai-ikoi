@@ -1,7 +1,7 @@
 <template>
   <div>
     <TheWebsiteTitle />
-    <TheNewsList
+    <DR1TheNewsList
       mx="auto"
       :mb="3"
       max-w="42rem"
@@ -140,7 +140,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
   data() {
     return {
       showModal: false,
-      newsLoaded: false,
+      newsLoaded: true,
       unwatchUser: null,
     }
   },
