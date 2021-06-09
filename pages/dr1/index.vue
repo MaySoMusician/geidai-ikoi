@@ -48,7 +48,7 @@
               :original-height="photo.height"
               original-format="jpg"
               :sizes="{ xs: 500 }"
-              payload-source="__noop/__gallery"
+              payload-source="noop/gallery"
               @load="onLoadSlideShowPhotos(index)"
             />
           </CFlex>
