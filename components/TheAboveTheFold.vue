@@ -9,10 +9,8 @@
           />
         </CLink>
 
-        <CFlex
-          :class="[$style.HeaderLinks, $style.LinksHorizontal]"
-          direction="column"
-          justify="center"
+        <CBox
+          :class="[$style.HeaderLinks, $style.LinksVertical]"
           text-align="center"
           font-size="0.875rem"
         >
@@ -24,9 +22,9 @@
             :py="3"
             >{{ link.text }}</CLink
           >
-        </CFlex>
+        </CBox>
       </CFlex>
-      <CFlex :class="[$style.HeaderLinksOuter, $style.LinksVertical]">
+      <CBox :class="[$style.HeaderLinksOuter, $style.LinksHorizontal]">
         <CFlex
           :class="[$style.HeaderLinks]"
           direction="row"
@@ -44,7 +42,7 @@
             >{{ link.text }}</CLink
           >
         </CFlex>
-      </CFlex>
+      </CBox>
     </CBox>
     <CBox :class="[$style.AboveTheFold]">
       <nuxt-img
@@ -191,10 +189,10 @@ $pad2: 1.3rem;
 
 .Links {
   &Vertical {
-    display: flex;
+    display: none;
   }
   &Horizontal {
-    display: none;
+    display: flex;
   }
 }
 
@@ -217,10 +215,12 @@ $pad2: 1.3rem;
 
   .Links {
     &Vertical {
-      display: none;
+      display: flex;
+      flex-direction: column;
+      place-content: center;
     }
     &Horizontal {
-      display: flex;
+      display: none;
     }
   }
 
