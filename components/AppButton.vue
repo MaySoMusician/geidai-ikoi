@@ -3,6 +3,7 @@
     :as="$attrs['as'] || 'button'"
     border="1px"
     :border-color="bdColor"
+    border-radius="2rem"
     :background-color="bgColor"
     :_hover="{ backgroundColor: hoverBgColor }"
     transition="all 0.4s"
