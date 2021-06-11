@@ -2,7 +2,6 @@
   <CPseudoBox
     as="button"
     border-radius="0.5rem"
-    border-color="gray.500"
     background-color="rgba(255, 255, 255, 92%)"
     :_hover="{ backgroundColor: 'gray.100' }"
     transition="all 0.4s"
