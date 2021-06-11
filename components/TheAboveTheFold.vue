@@ -28,7 +28,10 @@
           >
         </CBox>
       </CFlex>
-      <CBox :class="[$style.HeaderLinksOuter, $style.LinksHorizontal]">
+      <CBox
+        :class="[$style.HeaderLinksOuter, $style.LinksHorizontal]"
+        rounded-bottom-right="0.5rem"
+      >
         <CFlex
           :class="[$style.HeaderLinks]"
           direction="row"
