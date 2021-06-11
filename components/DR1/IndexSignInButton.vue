@@ -1,8 +1,7 @@
 <template>
   <CPseudoBox
     as="button"
-    border="1px"
-    border-color="gray.500"
+    border-radius="0.5rem"
     background-color="rgba(255, 255, 255, 92%)"
     :_hover="{ backgroundColor: 'gray.100' }"
     transition="all 0.4s"
@@ -21,6 +20,7 @@
           font-size="0.9rem"
           line-height="100%"
           background-color="santafe"
+          border-radius="2rem"
           color="white"
           :px="4"
           :py="2"

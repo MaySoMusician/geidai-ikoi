@@ -1,7 +1,11 @@
 <template>
   <CBox>
     <CBox :class="[$style.Header]">
-      <CFlex :class="[$style.HeaderLogoContainer]" direction="row">
+      <CFlex
+        :class="[$style.HeaderLogoContainer]"
+        direction="row"
+        rounded-bottom="0.5rem"
+      >
         <CLink as="nuxt-link" d="block" to="/dr1/meet/" :_focus="{}">
           <img
             :class="[$style.HeaderLogoImage]"
@@ -9,7 +13,7 @@
           />
         </CLink>
       </CFlex>
-      <CFlex :class="[$style.HeaderLinksOuter]">
+      <CFlex :class="[$style.HeaderLinksOuter]" rounded-bottom-right="0.5rem">
         <CFlex
           :class="[$style.HeaderLinks]"
           direction="row"
