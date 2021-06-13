@@ -63,6 +63,7 @@
                 <CBox font-size="0.75rem" color="gray.500" text-align="center">
                   <CText pb="0.2rem"
                     >&copy; 2021 K･WATANABE a.k.a. MaySoMusician</CText
+                  ><CText pb="0.2rem">Designed by Kana Asanuma</CText
                   ><CText pb="0.2rem"
                     >Code available at
                     <CLink
