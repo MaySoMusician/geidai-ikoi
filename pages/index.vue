@@ -9,7 +9,7 @@
     <CBox as="section" :class="[$style.SectionContainer]">
       <CHeading as="h2">憩いとは</CHeading>
       <CFlex justify="center" align="center" :mt="8">
-        <AppButton text="詳しく" />
+        <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
       </CFlex>
     </CBox>
 

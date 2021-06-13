@@ -59,7 +59,7 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
     return {
       headerLinks: [
         { text: 'TOP', link: '/', external: false },
-        { text: '憩いとは', link: '', external: false },
+        { text: '憩いとは', link: '/intro/', external: false },
         { text: '運営より', link: '/about/', external: false },
         { text: '募集案内', link: '', external: false },
       ],
