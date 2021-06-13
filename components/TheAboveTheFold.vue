@@ -1,11 +1,7 @@
 <template>
   <CBox>
     <CBox :class="[$style.Header]">
-      <CFlex
-        :class="[$style.HeaderLogoContainer]"
-        direction="column"
-        rounded-bottom="0.5rem"
-      >
+      <CFlex :class="[$style.HeaderLogoContainer]" direction="column">
         <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
           <img
             :class="[$style.HeaderLogoImage]"
@@ -28,28 +24,6 @@
           >
         </CBox>
       </CFlex>
-      <CBox
-        :class="[$style.HeaderLinksOuter, $style.LinksHorizontal]"
-        rounded-bottom-right="0.5rem"
-      >
-        <CFlex
-          :class="[$style.HeaderLinks]"
-          direction="row"
-          justify="center"
-          flex-wrap="wrap"
-          text-align="center"
-          font-size="0.8rem"
-        >
-          <CLink
-            v-for="(link, index) in headerLinks"
-            :key="index"
-            :class="[$style.HeaderLinkItem]"
-            :as="!link.external && link.link ? 'nuxt-link' : 'a'"
-            :to="link.link"
-            >{{ link.text }}</CLink
-          >
-        </CFlex>
-      </CBox>
     </CBox>
     <CBox :class="[$style.AboveTheFold]">
       <nuxt-img
@@ -94,8 +68,9 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
 </script>
 
 <style lang="scss" module>
-$pad1: 0.6rem;
+$pad1: 0rem;
 $pad2: 1.3rem;
+$radius1: 0.5rem;
 
 .Header {
   $bg: rgba(255, 255, 255, 88%);
@@ -109,12 +84,7 @@ $pad2: 1.3rem;
     }
 
     &Image {
-      padding: {
-        top: 0.1rem;
-        bottom: 0.2rem;
-        left: 0.3rem;
-        right: 0.3rem;
-      }
+      width: auto;
     }
   }
 
@@ -122,22 +92,6 @@ $pad2: 1.3rem;
     padding: {
       top: 0.3rem;
       bottom: 0.3rem;
-    }
-
-    &Outer {
-      position: absolute;
-      background: $bg;
-      z-index: 1;
-
-      margin: {
-        left: calc(#{$pad1} + 96px + 0.6rem);
-      }
-
-      @media screen and (min-width: 30em) {
-        margin: {
-          left: calc(#{$pad2} + 96px + 0.6rem);
-        }
-      }
     }
 
     > div {
@@ -188,9 +142,18 @@ $pad2: 1.3rem;
 }
 
 // margin
-.HeaderLogoContainer {
-  margin: {
-    left: $pad1;
+.HeaderLogo {
+  &Container {
+    width: 100%;
+  }
+  &Image {
+    height: 64px;
+    padding: {
+      top: 0.125rem;
+      bottom: 0.125rem;
+      left: 0.3rem;
+      right: 0.3rem;
+    }
   }
 }
 
@@ -205,18 +168,33 @@ $pad2: 1.3rem;
 
 .AboveTheFold {
   margin: {
-    bottom: $pad1;
+    bottom: 0.6rem;
   }
   &SignInButtons {
-    bottom: $pad1;
-    right: $pad1;
+    bottom: 0.6rem;
+    right: 50%;
+    transform: translateX(50%);
   }
 }
 
 @media screen and (min-width: 30em) {
-  .HeaderLogoContainer {
-    margin: {
-      left: $pad2;
+  .HeaderLogo {
+    &Container {
+      margin: {
+        left: $pad2;
+      }
+      border-bottom-left-radius: $radius1;
+      border-bottom-right-radius: $radius1;
+      width: auto;
+    }
+    &Image {
+      height: 100%;
+      padding: {
+        top: 0.1rem;
+        bottom: 0.2rem;
+        left: 0.3rem;
+        right: 0.3rem;
+      }
     }
   }
 
@@ -238,6 +216,7 @@ $pad2: 1.3rem;
     &SignInButtons {
       bottom: $pad2;
       right: $pad2;
+      transform: unset;
     }
   }
 }
