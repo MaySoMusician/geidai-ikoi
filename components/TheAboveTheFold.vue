@@ -181,18 +181,12 @@ $radius1: 0.5rem;
   &Vertical {
     display: none;
   }
-  &Horizontal {
-    display: flex;
-  }
 
   @media screen and (min-width: 30em) {
     &Vertical {
       display: flex;
       flex-direction: column;
       place-content: center;
-    }
-    &Horizontal {
-      display: none;
     }
   }
 }
