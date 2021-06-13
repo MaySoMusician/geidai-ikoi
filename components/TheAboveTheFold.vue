@@ -141,7 +141,7 @@ $radius1: 0.5rem;
   }
 }
 
-// margin
+/* Layout configurations */
 .HeaderLogo {
   &Container {
     width: 100%;
@@ -155,30 +155,8 @@ $radius1: 0.5rem;
       right: 0.3rem;
     }
   }
-}
 
-.Links {
-  &Vertical {
-    display: none;
-  }
-  &Horizontal {
-    display: flex;
-  }
-}
-
-.AboveTheFold {
-  margin: {
-    bottom: 0.6rem;
-  }
-  &SignInButtons {
-    bottom: 0.6rem;
-    right: 50%;
-    transform: translateX(50%);
-  }
-}
-
-@media screen and (min-width: 30em) {
-  .HeaderLogo {
+  @media screen and (min-width: 30em) {
     &Container {
       margin: {
         left: $pad2;
@@ -197,8 +175,17 @@ $radius1: 0.5rem;
       }
     }
   }
+}
 
-  .Links {
+.Links {
+  &Vertical {
+    display: none;
+  }
+  &Horizontal {
+    display: flex;
+  }
+
+  @media screen and (min-width: 30em) {
     &Vertical {
       display: flex;
       flex-direction: column;
@@ -208,8 +195,19 @@ $radius1: 0.5rem;
       display: none;
     }
   }
+}
 
-  .AboveTheFold {
+.AboveTheFold {
+  margin: {
+    bottom: 0.6rem;
+  }
+  &SignInButtons {
+    bottom: 0.6rem;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  @media screen and (min-width: 30em) {
     margin: {
       bottom: $pad2;
     }
