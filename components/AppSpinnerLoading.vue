@@ -1,5 +1,11 @@
 <template>
-  <CSpinner d="flex" size="3rem" thickness="4px" speed="0.8s" color="wafer" />
+  <CSpinner
+    d="flex"
+    size="3rem"
+    thickness="4px"
+    speed="0.8s"
+    color="blue.100"
+  />
 </template>
 
 <script lang="ts">

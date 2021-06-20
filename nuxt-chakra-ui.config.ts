@@ -24,15 +24,6 @@ export const extendTheme: Partial<ChakraTheme> = {
     'dark-lg':
       'rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.2) 0px 5px 10px, rgba(0, 0, 0, 0.4) 0px 15px 40px',
   },
-  colors: {
-    grass: {
-      50: '#dbdad3',
-      400: '#9e9d89',
-    },
-    wafer: '#e4d3cf',
-    cavernPink: '#e2bcb7',
-    santafe: '#b67162',
-  },
 }
 
 type Icon = {
@@ -94,16 +85,6 @@ export const customIcons: Record<string, Icon> = {
   'microphone-off': {
     path:
       '<path fill="currentColor" d="M19,11C19,12.19 18.66,13.3 18.1,14.28L16.87,13.05C17.14,12.43 17.3,11.74 17.3,11H19M15,11.16L9,5.18V5A3,3 0 0,1 12,2A3,3 0 0,1 15,5V11L15,11.16M4.27,3L21,19.73L19.73,21L15.54,16.81C14.77,17.27 13.91,17.58 13,17.72V21H11V17.72C7.72,17.23 5,14.41 5,11H6.7C6.7,14 9.24,16.1 12,16.1C12.81,16.1 13.6,15.91 14.31,15.58L12.65,13.92L12,14A3,3 0 0,1 9,11V10.28L3,4.27L4.27,3Z" />',
-    viewBox: '0 0 24 24',
-  },
-  login: {
-    path:
-      '<path fill="currentColor" d="M10,17V14H3V10H10V7L15,12L10,17M10,2H19A2,2 0 0,1 21,4V20A2,2 0 0,1 19,22H10A2,2 0 0,1 8,20V18H10V20H19V4H10V6H8V4A2,2 0 0,1 10,2Z" />',
-    viewBox: '0 0 24 24',
-  },
-  alert: {
-    path:
-      '<path fill="currentColor" d="M13 14H11V9H13M13 18H11V16H13M1 21H23L12 2L1 21Z" />',
     viewBox: '0 0 24 24',
   },
 }

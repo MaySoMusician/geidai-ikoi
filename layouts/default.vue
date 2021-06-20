@@ -4,12 +4,7 @@
       <CColorModeProvider ref="colorModeProvider">
         <CBox font-family="body">
           <CReset />
-          <div
-            :class="[
-              $style.Container,
-              !loaded ? $style.FullHeightHiddenOverflowed : undefined,
-            ]"
-          >
+          <div :class="[$style.Container]">
             <CBox
               v-bind="mainStyles[colorMode]"
               :class="[$style.FullHeight]"
@@ -18,19 +13,36 @@
               px="4px"
               box-shadow="2xl"
             >
-              <CBox
-                max-w="48rem"
-                w="100%"
-                pr="8px"
-                :pt="1"
-                text-align="right"
-                position="absolute"
-                z-index="banner"
-              >
-                <CLink as="nuxt-link" to="/dr1/" color="blue.400"
-                  >新しいデザインを試す</CLink
-                >
-              </CBox>
+              <CFlex class="header" h="3rem">
+                <AppSpacer />
+                <!--
+                <CMenu>
+                  <CMenuButton aria-label="メニューを開く" size="lg" px="unset">
+                    <CIcon name="menu" />
+                  </CMenuButton>
+                  <CMenuList placement="bottom-end">
+                    <CMenuItem>使い方</CMenuItem>
+                  </CMenuList>
+                </CMenu> -->
+                <CPopover placement="bottom-end">
+                  <CPopoverTrigger>
+                    <CIconButton icon="menu" size="lg" />
+                  </CPopoverTrigger>
+                  <AppPopoverContent
+                    z-index="popover"
+                    :gutter="2"
+                    max-w="13em"
+                    box-shadow="lg"
+                  >
+                    <CPopoverBody
+                      ><nuxt-link to="/about/"
+                        >このサイトについて</nuxt-link
+                      ></CPopoverBody
+                    >
+                    <CPopoverBody><TheDarkModeButton /></CPopoverBody>
+                  </AppPopoverContent>
+                </CPopover>
+              </CFlex>
               <!-- main -->
               <Nuxt />
               <!-- /main -->
@@ -80,16 +92,6 @@
               </CBox>
             </CBox>
           </div>
-          <transition name="fadeOut">
-            <div
-              v-if="!loaded"
-              :class="[$style.LoaderOverlay, $style.FullHeight]"
-            >
-              <div :class="[$style.LoaderInner, $style.FullHeight]">
-                Loading
-              </div>
-            </div>
-          </transition>
         </CBox>
       </CColorModeProvider>
     </CThemeProvider>
@@ -109,7 +111,6 @@ type Data = {
   toggleColorModeFunction: ToggleColorModeFunction | null
   mainStyles: Record<string, Partial<{ bg: string; color: string }>>
   showDevSignOutButton: boolean
-  loaded: boolean
 }
 
 type Methods = {
@@ -135,7 +136,6 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         light: { bg: 'white', color: 'gray.900' },
       },
       showDevSignOutButton: !!process.env.APP_DEBUG,
-      loaded: false,
     }
   },
   computed: {
@@ -160,7 +160,6 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       }
       window.addEventListener('resize', setHeight)
       setHeight()
-      this.loaded = true
     })
   },
   methods: {
@@ -175,34 +174,6 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 html,
 body {
   height: 100%;
-  margin: 0;
-}
-
-:root {
-  --theme-colors-grass-50: #dbdad3;
-  --theme-colors-grass-400: #9e9d89;
-  --theme-colors-wafer: #e4d3cf;
-  --theme-colors-cavernPink: #e2bcb7;
-  --theme-colors-santafe: #b67162;
-}
-</style>
-
-<style lang="scss" scoped>
-.fadeOut {
-  &-enter-active,
-  &-leave-active {
-    transition: all 0.4s 0.9s cubic-bezier(0.33, 1, 0.68, 1);
-  }
-  &-enter,
-  &-leave-to {
-    opacity: 0;
-  }
-}
-
-.LoaderTitle {
-  --color: #78828a;
-  height: 1rem;
-  margin-top: 0.5rem;
 }
 </style>
 
@@ -214,12 +185,6 @@ body {
 .FullHeight {
   min-height: 100vh;
   min-height: calc(var(--vh, 1vh) * 100);
-}
-
-.FullHeightHiddenOverflowed {
-  height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
-  overflow: hidden;
 }
 
 .Footer {
@@ -245,29 +210,5 @@ body {
       }
     }
   } */
-}
-
-.Loader {
-  &Overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    background: white;
-    z-index: 100;
-  }
-
-  &Inner {
-    display: flex;
-    place-content: center;
-    place-items: center;
-    flex-direction: column;
-  }
-
-  &Icon {
-    max-width: 15vw;
-    max-height: 15vh;
-    transform: translateX(0.3em);
-  }
 }
 </style>
