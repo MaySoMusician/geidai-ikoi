@@ -255,7 +255,7 @@ body {
     left: 0;
     width: 100vw;
     background: white;
-    z-index: 100;
+    z-index: 2000;
   }
 
   &Inner {
