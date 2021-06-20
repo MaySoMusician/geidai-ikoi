@@ -69,7 +69,7 @@ export default Vue.extend<unknown, unknown, unknown, Props>({
     },
     fontSize: {
       type: String,
-      default: '0.875rem',
+      default: '1rem',
     },
     chevron: {
       type: String as PropType<Chevron>,
