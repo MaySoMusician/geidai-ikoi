@@ -1,7 +1,13 @@
 <template>
   <CBox>
     <CBox :class="[$style.Header]">
-      <CFlex :class="[$style.HeaderLogoContainer]" direction="column">
+      <CFlex
+        :class="{
+          [$style.HeaderLogoContainer]: true,
+          [$style.HeaderLogoContainerTrueWhite]: mobileMenuOpen,
+        }"
+        justify="center"
+      >
         <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
           <img
             :class="[$style.HeaderLogoImage]"
@@ -12,7 +18,7 @@
         <CBox
           :class="[$style.HeaderLinks, $style.LinksVertical]"
           text-align="center"
-          font-size="0.875rem"
+          font-size="1rem"
         >
           <CLink
             v-for="(link, index) in headerLinks"
@@ -23,8 +29,35 @@
             >{{ link.text }}</CLink
           >
         </CBox>
+        <AppSpacer :d="{ sm: 'none' }" />
+        <MobileMenuOpener
+          :d="{ sm: 'none' }"
+          mr="2"
+          :z-index="1450"
+          :open="mobileMenuOpen"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        />
       </CFlex>
     </CBox>
+    <transition name="slide" mode="out-in" @after-enter="() => {}">
+      <CFlex
+        v-if="mobileMenuOpen"
+        :class="[$style.MobileMenu]"
+        text-align="center"
+        font-size="1rem"
+        direction="column"
+      >
+        <CLink
+          v-for="(link, index) in headerLinks"
+          :key="index"
+          :as="!link.external && link.link ? 'nuxt-link' : 'a'"
+          :to="link.link"
+          :py="3"
+          >{{ link.text }}</CLink
+        >
+      </CFlex>
+    </transition>
+
     <CBox :class="[$style.AboveTheFold]">
       <nuxt-img
         :class="[$style.AboveTheFoldBackground]"
@@ -53,7 +86,9 @@ import Vue from 'vue'
 
 type Data = {
   headerLinks: { text: string; link: string; external: boolean }[]
+  mobileMenuOpen: boolean
 }
+
 export default Vue.extend<Data, unknown, unknown, unknown>({
   data() {
     return {
@@ -62,69 +97,41 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
         { text: '運営より', link: '/about/', external: false },
         { text: '募集案内', link: '', external: false },
       ],
+      mobileMenuOpen: false,
     }
   },
 })
 </script>
 
+<style lang="scss" scoped>
+@include slideAnimation('slide', 0.8s);
+</style>
+
 <style lang="scss" module>
+@import '~assets/abstracts/_header.scss';
+/* The following variables are defined there: $radius1, $bg */
+
 $pad1: 0rem;
 $pad2: 1.3rem;
-$radius1: 0.5rem;
 
 .Header {
-  $bg: rgba(255, 255, 255, 88%);
-  position: relative;
-
-  &Logo {
-    &Container {
-      position: absolute;
-      background: $bg;
-      z-index: 1;
-    }
-
-    &Image {
-      width: auto;
-    }
-  }
-
   &Links {
-    padding: {
-      top: 0.3rem;
-      bottom: 0.3rem;
-    }
-
-    > div {
+    > div,
+    > a {
       margin: 0 1rem;
     }
   }
-
-  &LinkItem {
-    padding: {
-      top: 0.25rem;
-      bottom: 0.3rem;
-      left: 1rem;
-      right: 1rem;
-    }
-    min-width: 5em;
-  }
 }
 
-.AboveTheFold {
-  position: relative;
-  overflow: hidden;
+/* .MobileMenu is defined in _header.scss */
 
+.AboveTheFold {
   padding: {
     bottom: 21rem;
   }
 
   &Background {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
     object-position: 50% 56%;
-    z-index: 0;
   }
 
   &SignInButtons {
@@ -142,36 +149,13 @@ $radius1: 0.5rem;
 }
 
 /* Layout configurations */
-.HeaderLogo {
-  &Container {
-    width: 100%;
-  }
-  &Image {
-    height: 64px;
-    padding: {
-      top: 0.125rem;
-      bottom: 0.125rem;
-      left: 0.3rem;
-      right: 0.3rem;
-    }
-  }
-
-  @media screen and (min-width: 30em) {
-    &Container {
-      margin: {
-        left: $pad2;
-      }
-      border-bottom-left-radius: $radius1;
-      border-bottom-right-radius: $radius1;
-      width: auto;
-    }
-    &Image {
-      height: 100%;
-      padding: {
-        top: 0.1rem;
-        bottom: 0.2rem;
-        left: 0.3rem;
-        right: 0.3rem;
+.Header {
+  &Logo {
+    @media screen and (min-width: 30em) {
+      &Container {
+        margin: {
+          left: $pad2;
+        }
       }
     }
   }
