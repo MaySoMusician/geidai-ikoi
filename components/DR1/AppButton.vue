@@ -1,13 +1,12 @@
 <template>
   <CPseudoBox
     :as="$attrs['as'] || 'button'"
-    border="1px"
-    :border-color="bdColor"
     border-radius="2rem"
     :background-color="bgColor"
     :_hover="{ backgroundColor: hoverBgColor }"
     transition="all 0.4s"
     v-bind="$attrs"
+    box-shadow="0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);"
     @click="$emit('click')"
   >
     <CFlex
@@ -15,7 +14,7 @@
       direction="column"
       jutify="center"
       align="center"
-      py="1rem"
+      py="0.6rem"
       px="1em"
       min-w="10rem"
     >
@@ -70,7 +69,7 @@ export default Vue.extend<unknown, unknown, unknown, Props>({
     },
     fontSize: {
       type: String,
-      default: '0.875rem',
+      default: '1rem',
     },
     chevron: {
       type: String as PropType<Chevron>,

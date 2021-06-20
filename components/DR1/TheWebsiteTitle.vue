@@ -2,9 +2,11 @@
   <CBox>
     <CBox :class="[$style.Header]">
       <CFlex
-        :class="[$style.HeaderLogoContainer]"
+        :class="{
+          [$style.HeaderLogoContainer]: true,
+          [$style.HeaderLogoContainerTrueWhite]: mobileMenuOpen,
+        }"
         direction="row"
-        rounded-bottom="0.5rem"
       >
         <CLink as="nuxt-link" d="block" to="/dr1/meet/" :_focus="{}">
           <img
@@ -12,8 +14,16 @@
             src="https://via.placeholder.com/96"
           />
         </CLink>
+        <AppSpacer :d="{ sm: 'none' }" />
+        <DR1MobileMenuOpener
+          :d="{ sm: 'none' }"
+          mr="2"
+          :z-index="1450"
+          :open="mobileMenuOpen"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        />
       </CFlex>
-      <CFlex :class="[$style.HeaderLinksOuter]" rounded-bottom-right="0.5rem">
+      <CFlex :class="[$style.HeaderLinksOuter]">
         <CFlex
           :class="[$style.HeaderLinks]"
           direction="row"
@@ -33,6 +43,24 @@
         </CFlex>
       </CFlex>
     </CBox>
+    <transition name="slide" mode="out-in" @after-enter="() => {}">
+      <CFlex
+        v-if="mobileMenuOpen"
+        :class="[$style.MobileMenu]"
+        text-align="center"
+        font-size="1rem"
+        direction="column"
+      >
+        <CLink
+          v-for="(link, index) in headerLinks"
+          :key="index"
+          :as="!link.external && link.link ? 'nuxt-link' : 'a'"
+          :to="link.link"
+          :py="3"
+          >{{ link.text }}</CLink
+        >
+      </CFlex>
+    </transition>
     <CBox :class="[$style.AboveTheFold]">
       <DR1AppNuxtImgImitated
         :class="[$style.AboveTheFoldBackground]"
@@ -52,6 +80,7 @@ import Vue from 'vue'
 
 type Data = {
   headerLinks: { text: string; link: string; external: boolean }[]
+  mobileMenuOpen: boolean
 }
 
 export default Vue.extend<Data, unknown, unknown, unknown>({
@@ -59,61 +88,35 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
     return {
       headerLinks: [
         { text: 'TOP', link: '/dr1/', external: false },
-        { text: '憩いとは', link: '', external: false },
+        { text: '憩いとは', link: '/dr1/intro', external: false },
         { text: '運営より', link: '/dr1/about/', external: false },
         { text: '募集案内', link: '', external: false },
       ],
+      mobileMenuOpen: false,
     }
   },
 })
 </script>
 
+<style lang="scss" scoped>
+@include slideAnimation('slide', 0.8s);
+</style>
+
 <style lang="scss" module>
+@import '~assets/abstracts/_header.scss';
+/* The following variables are defined there: $radius1, $bg */
+
 .Header {
-  $bg: rgba(255, 255, 255, 88%);
-  position: relative;
-
-  &Logo {
-    &Container {
-      position: absolute;
-      background: $bg;
-      z-index: 1;
-
-      @media screen and (min-width: 30em) {
-        margin: {
-          left: 1.3rem;
-        }
-      }
-    }
-
-    &Image {
-      padding: {
-        top: 0.1rem;
-        bottom: 0.2rem;
-        left: 0.3rem;
-        right: 0.3rem;
-      }
-    }
-  }
-
   &Links {
-    padding: {
-      top: 0.3rem;
-      bottom: 0.3rem;
-    }
-
     &Outer {
       position: absolute;
       background: $bg;
       z-index: 1;
 
-      margin: {
-        left: calc(96px + 0.6rem);
-      }
-
       @media screen and (min-width: 30em) {
+        width: calc(100% - 6.6rem);
         margin: {
-          left: calc(1.3rem + 96px + 0.6rem);
+          left: calc(6.6rem);
         }
       }
     }
@@ -130,10 +133,9 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
   }
 }
 
-.AboveTheFold {
-  position: relative;
-  overflow: hidden;
+/* .MobileMenu is defined in _header.scss */
 
+.AboveTheFold {
   padding: {
     bottom: 12rem;
   }
@@ -143,12 +145,31 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
   }
 
   &Background {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
     object-position: 50% 66%;
-    z-index: 0;
+  }
+}
+
+/* Layout configurations */
+.Header {
+  &Logo {
+    @media screen and (min-width: 30em) {
+      &Container {
+        border-bottom-right-radius: $radius1;
+      }
+    }
+  }
+  &Links {
+    &Outer {
+      display: none;
+    }
+
+    @media screen and (min-width: 30em) {
+      &Outer {
+        display: flex;
+        flex-direction: column;
+        place-content: center;
+      }
+    }
   }
 }
 </style>
