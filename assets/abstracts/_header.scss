@@ -79,7 +79,7 @@ $bg: rgba(255, 255, 255, 88%);
     }
     &Image {
       height: 3rem;
-      padding: {
+      margin: {
         top: 0.125rem;
         bottom: 0.125rem;
         left: 0.3rem;
@@ -91,13 +91,11 @@ $bg: rgba(255, 255, 255, 88%);
       &Container {
         position: absolute;
         width: auto;
-        border-bottom-left-radius: $radius1;
-        border-bottom-right-radius: $radius1;
         flex-direction: column;
       }
       &Image {
-        height: 100%;
-        padding: {
+        height: 6rem;
+        margin: {
           top: 0.1rem;
           bottom: 0.2rem;
           left: 0.3rem;

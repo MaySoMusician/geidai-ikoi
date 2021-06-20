@@ -156,6 +156,8 @@ $pad2: 1.3rem;
         margin: {
           left: $pad2;
         }
+        border-bottom-left-radius: $radius1;
+        border-bottom-right-radius: $radius1;
       }
     }
   }

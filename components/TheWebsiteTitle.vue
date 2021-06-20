@@ -23,7 +23,7 @@
           @click="mobileMenuOpen = !mobileMenuOpen"
         />
       </CFlex>
-      <CFlex :class="[$style.HeaderLinksOuter]" rounded-bottom-right="0.5rem">
+      <CFlex :class="[$style.HeaderLinksOuter]">
         <CFlex
           :class="[$style.HeaderLinks]"
           direction="row"
@@ -113,13 +113,10 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
       background: $bg;
       z-index: 1;
 
-      margin: {
-        left: calc(96px + 0.6rem);
-      }
-
       @media screen and (min-width: 30em) {
+        width: calc(100% - 6.6rem);
         margin: {
-          left: calc(1.3rem + 96px + 0.6rem);
+          left: calc(6.6rem);
         }
       }
     }
@@ -157,9 +154,7 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
   &Logo {
     @media screen and (min-width: 30em) {
       &Container {
-        margin: {
-          left: 1.3rem;
-        }
+        border-bottom-right-radius: $radius1;
       }
     }
   }
