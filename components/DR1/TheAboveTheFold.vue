@@ -1,7 +1,13 @@
 <template>
   <CBox>
     <CBox :class="[$style.Header]">
-      <CFlex :class="[$style.HeaderLogoContainer]" direction="column">
+      <CFlex
+        :class="{
+          [$style.HeaderLogoContainer]: true,
+          [$style.HeaderLogoContainerTrueWhite]: mobileMenuOpen,
+        }"
+        justify="center"
+      >
         <CLink as="nuxt-link" d="block" to="/dr1/" :_focus="{}">
           <img
             :class="[$style.HeaderLogoImage]"
@@ -12,7 +18,7 @@
         <CBox
           :class="[$style.HeaderLinks, $style.LinksVertical]"
           text-align="center"
-          font-size="0.875rem"
+          font-size="1rem"
         >
           <CLink
             v-for="(link, index) in headerLinks"
@@ -23,27 +29,35 @@
             >{{ link.text }}</CLink
           >
         </CBox>
+        <AppSpacer :d="{ sm: 'none' }" />
+        <DR1MobileMenuOpener
+          :d="{ sm: 'none' }"
+          mr="2"
+          :z-index="1450"
+          :open="mobileMenuOpen"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        />
       </CFlex>
-      <CBox :class="[$style.HeaderLinksOuter, $style.LinksHorizontal]">
-        <CFlex
-          :class="[$style.HeaderLinks]"
-          direction="row"
-          justify="center"
-          flex-wrap="wrap"
-          text-align="center"
-          font-size="0.8rem"
-        >
-          <CLink
-            v-for="(link, index) in headerLinks"
-            :key="index"
-            :class="[$style.HeaderLinkItem]"
-            :as="!link.external && link.link ? 'nuxt-link' : 'a'"
-            :to="link.link"
-            >{{ link.text }}</CLink
-          >
-        </CFlex>
-      </CBox>
     </CBox>
+    <transition name="slide" mode="out-in" @after-enter="() => {}">
+      <CFlex
+        v-if="mobileMenuOpen"
+        :class="[$style.MobileMenu]"
+        text-align="center"
+        font-size="1rem"
+        direction="column"
+      >
+        <CLink
+          v-for="(link, index) in headerLinks"
+          :key="index"
+          :as="!link.external && link.link ? 'nuxt-link' : 'a'"
+          :to="link.link"
+          :py="3"
+          >{{ link.text }}</CLink
+        >
+      </CFlex>
+    </transition>
+
     <CBox :class="[$style.AboveTheFold]">
       <nuxt-img
         :class="[$style.AboveTheFoldBackground]"
@@ -72,98 +86,52 @@ import Vue from 'vue'
 
 type Data = {
   headerLinks: { text: string; link: string; external: boolean }[]
+  mobileMenuOpen: boolean
 }
+
 export default Vue.extend<Data, unknown, unknown, unknown>({
   data() {
     return {
       headerLinks: [
-        { text: '憩いとは', link: '', external: false },
+        { text: '憩いとは', link: '/dr1/intro/', external: false },
         { text: '運営より', link: '/dr1/about/', external: false },
         { text: '募集案内', link: '', external: false },
       ],
+      mobileMenuOpen: false,
     }
   },
 })
 </script>
 
+<style lang="scss" scoped>
+@include slideAnimation('slide', 0.8s);
+</style>
+
 <style lang="scss" module>
-$pad1: 0.6rem;
+@import '~assets/abstracts/_header.scss';
+/* The following variables are defined there: $radius1, $bg */
+
+$pad1: 0rem;
 $pad2: 1.3rem;
 
 .Header {
-  $bg: rgba(255, 255, 255, 88%);
-  position: relative;
-
-  &Logo {
-    &Container {
-      position: absolute;
-      background: $bg;
-      z-index: 1;
-    }
-
-    &Image {
-      padding: {
-        top: 0.1rem;
-        bottom: 0.2rem;
-        left: 0.3rem;
-        right: 0.3rem;
-      }
-    }
-  }
-
   &Links {
-    padding: {
-      top: 0.3rem;
-      bottom: 0.3rem;
-    }
-
-    &Outer {
-      position: absolute;
-      background: $bg;
-      z-index: 1;
-
-      margin: {
-        left: calc(#{$pad1} + 96px + 0.6rem);
-      }
-
-      @media screen and (min-width: 30em) {
-        margin: {
-          left: calc(#{$pad2} + 96px + 0.6rem);
-        }
-      }
-    }
-
-    > div {
+    > div,
+    > a {
       margin: 0 1rem;
     }
   }
-
-  &LinkItem {
-    padding: {
-      top: 0.25rem;
-      bottom: 0.3rem;
-      left: 1rem;
-      right: 1rem;
-    }
-    min-width: 5em;
-  }
 }
 
-.AboveTheFold {
-  position: relative;
-  overflow: hidden;
+/* .MobileMenu is defined in _header.scss */
 
+.AboveTheFold {
   padding: {
     bottom: 21rem;
   }
 
   &Background {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
     object-position: 50% 56%;
-    z-index: 0;
   }
 
   &SignInButtons {
@@ -180,10 +148,18 @@ $pad2: 1.3rem;
   }
 }
 
-// margin
-.HeaderLogoContainer {
-  margin: {
-    left: $pad1;
+/* Layout configurations */
+.Header {
+  &Logo {
+    @media screen and (min-width: 30em) {
+      &Container {
+        margin: {
+          left: $pad2;
+        }
+        border-bottom-left-radius: $radius1;
+        border-bottom-right-radius: $radius1;
+      }
+    }
   }
 }
 
@@ -191,46 +167,34 @@ $pad2: 1.3rem;
   &Vertical {
     display: none;
   }
-  &Horizontal {
-    display: flex;
-  }
-}
 
-.AboveTheFold {
-  margin: {
-    bottom: $pad1;
-  }
-  &SignInButtons {
-    bottom: $pad1;
-    right: $pad1;
-  }
-}
-
-@media screen and (min-width: 30em) {
-  .HeaderLogoContainer {
-    margin: {
-      left: $pad2;
-    }
-  }
-
-  .Links {
+  @media screen and (min-width: 30em) {
     &Vertical {
       display: flex;
       flex-direction: column;
       place-content: center;
     }
-    &Horizontal {
-      display: none;
-    }
+  }
+}
+
+.AboveTheFold {
+  margin: {
+    bottom: 0.6rem;
+  }
+  &SignInButtons {
+    bottom: 0.6rem;
+    right: 50%;
+    transform: translateX(50%);
   }
 
-  .AboveTheFold {
+  @media screen and (min-width: 30em) {
     margin: {
       bottom: $pad2;
     }
     &SignInButtons {
       bottom: $pad2;
       right: $pad2;
+      transform: unset;
     }
   }
 }

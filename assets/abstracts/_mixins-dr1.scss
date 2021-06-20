@@ -24,3 +24,50 @@
   border-top: 2px solid var(--theme-colors-santafe);
   border-bottom: 2px solid var(--theme-colors-santafe);
 }
+
+@mixin headingBorderAboveBelow() {
+  text-align: center;
+  width: fit-content;
+
+  border-top: 2px solid var(--theme-colors-santafe);
+  border-bottom: 2px solid var(--theme-colors-santafe);
+}
+
+@mixin slideAnimation($name, $duration) {
+  .#{$name} {
+    &-enter-active,
+    &-leave-active {
+      animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+      transition: background-color $duration cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    &-enter-active {
+      animation: $duration slide-in;
+    }
+
+    &-leave-active {
+      animation: $duration slide-out;
+    }
+
+    &-enter,
+    &-leave-to {
+      background-color: rgba(255, 255, 255, 88%);
+    }
+
+    @keyframes slide-in {
+      0% {
+        clip-path: inset(0 0 100% 0);
+      }
+      100% {
+        clip-path: inset(0);
+      }
+    }
+    @keyframes slide-out {
+      0% {
+        clip-path: inset(0);
+      }
+      100% {
+        clip-path: inset(0 0 100% 0);
+      }
+    }
+  }
+}
