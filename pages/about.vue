@@ -11,14 +11,28 @@
       >
         <CHeading as="h2">運営より</CHeading>
         <template v-for="(content, index) in contents">
-          <CFlex :key="index" px="2rem" mb="2rem" direction="row">
-            <CBox :class="[$style.CommentAuthor]" align-self="flex-end">
-              <CText as="span">{{ content.role }}</CText>
-              <CText as="span">{{ content.age }} {{ content.name }}</CText>
-            </CBox>
-            <CFlex :class="[$style.CommentBalloon]" align="center">
-              <CText>{{ content.body }}</CText>
+          <CFlex
+            :key="index"
+            px="0.2rem"
+            mb="2rem"
+            direction="column"
+            align="center"
+          >
+            <CFlex
+              :class="[$style.CommentAroundSlash]"
+              justify="center"
+              align="center"
+              direction="row"
+            >
+              <CText :class="[$style.CommentAroundSlashInside]">
+                {{ content.body }}
+              </CText>
             </CFlex>
+            <CBox :class="[$style.CommentAuthor]">
+              <CText as="span"
+                >{{ content.role }} {{ content.age }} {{ content.name }}</CText
+              >
+            </CBox>
           </CFlex>
         </template>
       </CBox>
@@ -226,61 +240,55 @@ export default vue
 
 .Comment {
   &Author {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     > span {
       display: block;
       white-space: nowrap;
     }
   }
-  &Balloon {
-    $arrowSize: 0.6rem;
-    $borderColor: #555;
+  &AroundSlash {
+    $borderColor: #333;
+    $angle: 64deg;
 
     position: relative;
     width: 100%;
-    max-width: 100%;
-    min-height: 4rem;
+    text-align: center;
 
     margin: {
-      left: $arrowSize + 12/16;
+      left: auto;
+      right: auto;
+      bottom: 0.2rem;
     }
 
-    padding: {
-      top: 0.8rem;
-      bottom: 0.8rem;
-      left: 0.8rem;
-      right: 0.8rem;
+    font-size: 1rem;
+
+    &Inside {
+      max-width: 23em;
+      padding: {
+        top: 0.8rem;
+        bottom: 0.4rem;
+        left: 0.2rem;
+        right: 0.2rem;
+      }
     }
-
-    background: #fff;
-    border: solid 2px $borderColor;
-    box-sizing: border-box;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-
-    @mixin arrow($size, $color) {
+    &::before,
+    &::after {
       content: '';
-      position: absolute;
-      bottom: 0.8rem;
-      left: $size * -2;
-      margin-bottom: $size * -1;
-      border: $size solid transparent;
-      border-right: $size solid $color;
+      display: block;
+      align-items: center;
+      width: 4em;
+      height: 2px;
+      border-top: 1px solid $borderColor;
+      border-bottom: 1px solid $borderColor;
+      flex-shrink: 0;
     }
 
     &::before {
-      @include arrow($arrowSize, white);
-      z-index: 2;
+      transform: rotate($angle);
     }
 
     &::after {
-      @include arrow($arrowSize + (3 / 16), $borderColor);
-      z-index: 1;
-    }
-
-    p {
-      margin: 0;
-      padding: 0;
+      transform: rotate($angle * -1);
     }
   }
 }
