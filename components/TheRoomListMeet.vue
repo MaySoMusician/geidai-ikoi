@@ -136,7 +136,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 </script>
 
 <style lang="scss" scoped>
-@include fadeEaseOutCubic('fade', 0s, 0);
+@include fadeEaseOutCubic('fade', $globalFadeDuration, 0s, 0);
 </style>
 
 <style lang="scss" module>
