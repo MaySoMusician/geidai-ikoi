@@ -58,79 +58,7 @@
       </CFlex>
     </CBox>
 
-    <div v-if="newsLoaded">
-      <!-- <CBox :class="[$style.GalleryContainer]">
-        <CHeading as="h2">ギャラリー</CHeading>
-        <CFlex :class="[$style.GalleryImageContainer]">
-          <CBox
-            v-for="i in 3"
-            :key="i"
-            :class="[$style.GalleryImageItem]"
-            box-shadow="md"
-            >{{ i }}</CBox
-          >
-        </CFlex>
-      </CBox>
-      <CBox :class="[$style.AboutWebsiteContainer]">
-        <CHeading as="h2"
-          ><span>このサイトに</span><span>ついて</span></CHeading
-        >
-        <CFlex justify="stretch">
-          <CBox>お問い合わせ</CBox>
-        </CFlex>
-      </CBox> -->
-      <!-- <CFlex justify="center" direction="column" align="center">
-          <CButton
-            variant-color="blue"
-            font-weight="normal"
-            font-size="xl"
-            w="14em"
-            :mb="3"
-            @click="musicStudentSignIn"
-          >
-            <CIcon name="account" size="2rem" :ml="-1" :mr="2" /><span
-              >音楽学部生はこちら</span
-            >
-          </CButton>
-          <CButton
-            variant="link"
-            variant-color="gray.600"
-            font-weight="normal"
-            font-size="md"
-            @click="othersSignIn"
-          >
-            美術学部生・その他の学生はこちら
-          </CButton>
-          <CButton
-            as="nuxt-link"
-            variant-color="gray"
-            font-weight="normal"
-            font-size="xl"
-            mt="5rem"
-            to="/about/"
-          >
-            このサイトについて
-          </CButton>
-          <CModal :is-open="showModal">
-            <CModalOverlay />
-            <CModalContent>
-              <CModalHeader>Are you sure?</CModalHeader>
-              <CModalBody>Deleting user cannot be undone</CModalBody>
-              <CModalFooter>
-                <CButton @click="showModal = false"> Cancel </CButton>
-                <CButton
-                  margin-left="3"
-                  variant-color="red"
-                  @click="showModal = false"
-                >
-                  Delete User
-                </CButton>
-              </CModalFooter>
-              <CModalCloseButton @click="showModal = false" />
-            </CModalContent>
-          </CModal>
-        </CFlex> -->
-    </div>
+    <div v-if="newsLoaded"></div>
 
     <transition name="fade" mode="out-in" @after-enter="() => {}"> </transition>
   </div>
@@ -444,29 +372,6 @@ export default vue
     }
   }
 }
-
-/* .Gallery {
-  &Container {
-    position: relative;
-
-    margin: {
-      top: 2rem;
-    }
-
-    padding: {
-      bottom: 15rem;
-    }
-
-    > h2 {
-      position: absolute;
-      top: 0.5rem;
-      left: 0.5rem;
-      font-size: 1.8rem;
-      writing-mode: vertical-rl;
-      height: 5.2em;
-    }
-  }
-} */
 
 @keyframes slideshow {
   0% {
