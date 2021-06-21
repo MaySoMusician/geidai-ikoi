@@ -69,16 +69,33 @@
         format="jpg"
         sizes="xs:100vw sm:100vw md:100vw lg:100vw"
       />
-      <CFlex :class="[$style.AboveTheFoldSignInButtons]" direction="column">
-        <IndexSignInButton
-          title="音楽学部生"
-          @click="$emit('clickMusicStudentSignIn')"
-        />
-        <IndexSignInButton
-          title="美術学部生・その他の学生"
-          @click="$emit('clickOthersSignIn')"
-        />
-      </CFlex>
+      <client-only>
+        <transition name="fade">
+          <CFlex
+            v-if="!userSignedIn"
+            key="signIn"
+            :class="[$style.AboveTheFoldSignInButtons]"
+            direction="column"
+          >
+            <IndexSignInButton
+              title="音楽学部生"
+              @click="$emit('clickMusicStudentSignIn')"
+            />
+            <IndexSignInButton
+              title="美術学部生・その他の学生"
+              @click="$emit('clickOthersSignIn')"
+            />
+          </CFlex>
+          <CFlex
+            v-else
+            key="signOut"
+            :class="[$style.AboveTheFoldSignInButtons]"
+            direction="column"
+          >
+            <IndexSignOutButton title="" @click="$emit('clickSignOut')" />
+          </CFlex>
+        </transition>
+      </client-only>
     </CBox>
   </CBox>
 </template>
@@ -91,7 +108,11 @@ type Data = {
   mobileMenuOpen: boolean
 }
 
-export default Vue.extend<Data, unknown, unknown, unknown>({
+type Computed = {
+  userSignedIn: boolean
+}
+
+export default Vue.extend<Data, unknown, Computed, unknown>({
   data() {
     return {
       headerLinks: [
@@ -102,11 +123,17 @@ export default Vue.extend<Data, unknown, unknown, unknown>({
       mobileMenuOpen: false,
     }
   },
+  computed: {
+    userSignedIn() {
+      return !!this.$accessor.user
+    },
+  },
 })
 </script>
 
 <style lang="scss" scoped>
 @include slideAnimation('slide', 0.8s);
+@include fadeEaseOutCubic('fade', 0s, 0);
 </style>
 
 <style lang="scss" module>
@@ -142,7 +169,7 @@ $pad2: 1.3rem;
     max-width: 15em;
     z-index: 1;
 
-    > button:first-child {
+    > button:not(:last-child) {
       margin: {
         bottom: 0.8rem;
       }

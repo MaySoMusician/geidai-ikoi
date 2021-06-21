@@ -14,7 +14,7 @@
       align="center"
       py="1rem"
     >
-      <CBox :pb="2">{{ title }}</CBox>
+      <!-- <CBox :pb="2">{{ title }}</CBox> -->
       <CFlex :class="[$style.Noop]" direction="row" align="center" :mt="1">
         <CBox
           font-size="0.9rem"
@@ -24,9 +24,9 @@
           color="white"
           :px="4"
           :py="2"
-          >ログイン</CBox
+          >ログアウト</CBox
         >
-        <CIcon name="login" size="1.4rem" :ml="1" />
+        <!-- <CIcon name="login" size="1.4rem" :ml="1" /> -->
       </CFlex>
     </CFlex>
   </CPseudoBox>

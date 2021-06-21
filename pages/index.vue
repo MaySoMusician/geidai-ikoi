@@ -3,59 +3,69 @@
     <TheAboveTheFold
       @clickMusicStudentSignIn="musicStudentSignIn"
       @clickOthersSignIn="othersSignIn"
+      @clickSignOut="signOut"
     />
     <TheNewsList align="stretch" @loaded="newsLoaded = true" />
 
-    <CBox as="section" :class="[$style.SectionContainer]">
-      <CHeading as="h2">憩いとは</CHeading>
-      <CFlex justify="center" align="center" :mt="8">
-        <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
-      </CFlex>
-    </CBox>
-
-    <CBox
-      as="section"
-      :class="[$style.SectionContainer]"
-      background-color="grass.50"
-    >
-      <CHeading as="h2">運営より</CHeading>
-      <CGrid :class="[$style.SectionGrid]" :mt="8">
-        <AppButton
-          v-for="(link, index) in linksToAbout"
-          :key="index"
-          as="nuxt-link"
-          :text="link.text"
-          :to="link.to"
-        />
-      </CGrid>
-    </CBox>
-
-    <CBox as="section" :class="[$style.SectionContainer]">
-      <CHeading as="h2">ギャラリー</CHeading>
-      <CBox :class="[$style.GalleryOuterContainer]">
-        <client-only>
-          <CFlex
-            id="slideshowContainer"
-            :class="[$style.GalleryImageContainer]"
-          >
-            <AppNuxtImgImitatedFixed
-              v-for="(photo, index) in photosDoubled"
-              :key="index"
-              :class="[$style.GalleryImageItem]"
-              :original-src="photo.src"
-              :original-width="photo.width"
-              :original-height="photo.height"
-              original-format="jpg"
-              :sizes="{ xs: 500 }"
-              payload-source="noop/gallery"
-              @load="onLoadSlideShowPhotos(index)"
-            />
-          </CFlex>
-        </client-only>
+    <client-only>
+      <CBox v-if="userSignedIn" as="section" :class="[$style.SectionContainer]">
+        <CHeading as="h2">どこで憩う？</CHeading>
+        <TheRoomListMeet />
       </CBox>
-      <CFlex justify="center" align="center" :mt="2">
-        <AppButton text="応募する" />
-      </CFlex>
+    </client-only>
+
+    <CBox :class="[$style.CommonSection]">
+      <CBox as="section" :class="[$style.SectionContainer]">
+        <CHeading as="h2">憩いとは</CHeading>
+        <CFlex justify="center" align="center" :mt="8">
+          <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
+        </CFlex>
+      </CBox>
+
+      <CBox
+        as="section"
+        :class="[$style.SectionContainer]"
+        background-color="grass.50"
+      >
+        <CHeading as="h2">運営より</CHeading>
+        <CGrid :class="[$style.SectionGrid]" :mt="8">
+          <AppButton
+            v-for="(link, index) in linksToAbout"
+            :key="index"
+            as="nuxt-link"
+            :text="link.text"
+            :to="link.to"
+          />
+        </CGrid>
+      </CBox>
+
+      <CBox as="section" :class="[$style.SectionContainer]">
+        <CHeading as="h2">ギャラリー</CHeading>
+        <CBox :class="[$style.GalleryOuterContainer]">
+          <client-only>
+            <CFlex
+              id="slideshowContainer"
+              :class="[$style.GalleryImageContainer]"
+            >
+              <AppNuxtImgImitatedFixed
+                v-for="(photo, index) in photosDoubled"
+                :key="index"
+                :class="[$style.GalleryImageItem]"
+                :original-src="photo.src"
+                :original-width="photo.width"
+                :original-height="photo.height"
+                original-format="jpg"
+                :sizes="{ xs: 500 }"
+                payload-source="noop/gallery"
+                @load="onLoadSlideShowPhotos(index)"
+              />
+            </CFlex>
+          </client-only>
+        </CBox>
+        <CFlex justify="center" align="center" :mt="2">
+          <AppButton text="応募する" />
+        </CFlex>
+      </CBox>
     </CBox>
 
     <div v-if="newsLoaded"></div>
@@ -87,6 +97,7 @@ type Computed = {
   theme: ChakraTheme
   toggleColorMode: ToggleColorModeFunction
   photosDoubled: Photo[]
+  userSignedIn: boolean
 }
 
 type Methods = {
@@ -94,7 +105,7 @@ type Methods = {
   signOut(): void
   musicStudentSignIn(): void
   othersSignIn(): void
-  getForwardLinkAfterSignIn(): string
+  forwardAfterSignInIfRequired(): void | Promise<unknown>
   onLoadSlideShowPhotos(index: number): void
 }
 
@@ -104,7 +115,7 @@ function _initializeGoogleAuthProvider(authModule: typeof firebase.auth) {
   return provider
 }
 
-const appMeetUrl = '/meet/'
+// const appMeetUrl = '/meet/'
 
 async function _signIn(self: InstanceType<typeof vue>, { hd }: { hd: string }) {
   const provider = _initializeGoogleAuthProvider(self.$fireModule.auth)
@@ -173,6 +184,9 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     photosDoubled() {
       return this.photos.concat(this.photos)
     },
+    userSignedIn() {
+      return !!this.$accessor.user
+    },
   },
   created() {
     this.unwatchUser = this.$store.watch(
@@ -183,7 +197,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           debugLog('Confirmed an user on computer signed in')
           setUserDepartment(this, newUser)
           this.$gtag.event('login', { method: 'Google', login_type: 'desktop' })
-          this.$router.push(this.getForwardLinkAfterSignIn())
+          this.forwardAfterSignInIfRequired()
         }
       }
     )
@@ -199,7 +213,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         debugLog('Confirmed an user on mobile signed in')
         setUserDepartment(this, user)
         this.$gtag.event('login', { method: 'Google', login_type: 'mobile' })
-        await this.$router.push(this.getForwardLinkAfterSignIn())
+        await this.forwardAfterSignInIfRequired()
       }
     } catch (e) {
       debugError(e)
@@ -231,7 +245,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     async musicStudentSignIn() {
       if (this.$accessor.user) {
         debugLog('User already signed in')
-        return this.$router.push(this.getForwardLinkAfterSignIn())
+        return this.forwardAfterSignInIfRequired()
       }
 
       await _signIn(this, { hd: 'ms.geidai.ac.jp' })
@@ -239,14 +253,17 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     async othersSignIn() {
       if (this.$accessor.user) {
         debugLog('User already signed in')
-        return this.$router.push(this.getForwardLinkAfterSignIn())
+        return this.forwardAfterSignInIfRequired()
       }
 
       await _signIn(this, { hd: 'fa.geidai.ac.jp' })
     },
-    getForwardLinkAfterSignIn() {
+    forwardAfterSignInIfRequired() {
       const { forward } = this.$route.query
-      return forward ? `/${decodeURIComponent(forward as string)}` : appMeetUrl
+      if (forward) {
+        const to = `/${decodeURIComponent(forward as string)}`
+        return this.$router.push(to)
+      }
     },
     onLoadSlideShowPhotos(index) {
       this.loadedPhotos.add(index)
