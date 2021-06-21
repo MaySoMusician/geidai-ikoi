@@ -28,6 +28,7 @@
             :py="3"
             >{{ link.text }}</CLink
           >
+          <WebsiteHeaderTwitterLink />
         </CBox>
         <AppSpacer :d="{ sm: 'none' }" />
         <MobileMenuOpener
@@ -55,6 +56,7 @@
           :py="3"
           >{{ link.text }}</CLink
         >
+        <WebsiteHeaderTwitterLink />
       </CFlex>
     </transition>
 

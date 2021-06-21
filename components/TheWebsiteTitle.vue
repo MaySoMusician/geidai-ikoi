@@ -40,6 +40,7 @@
             :to="link.link"
             >{{ link.text }}</CLink
           >
+          <WebsiteHeaderTwitterLink font-size="0.7rem" :py="0" min-w="5em" />
         </CFlex>
       </CFlex>
     </CBox>
@@ -59,6 +60,7 @@
           :py="3"
           >{{ link.text }}</CLink
         >
+        <WebsiteHeaderTwitterLink />
       </CFlex>
     </transition>
     <CBox :class="[$style.AboveTheFold]">
