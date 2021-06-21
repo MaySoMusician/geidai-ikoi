@@ -437,6 +437,7 @@ export default vue
     }
     &Item {
       height: 12rem;
+      width: auto;
       margin-right: 0.6rem;
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
