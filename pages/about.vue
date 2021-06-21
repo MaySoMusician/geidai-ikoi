@@ -222,20 +222,6 @@ export default vue
       @include headingBorderAboveBelow();
     }
   }
-
-  /* &Grid {
-    grid-row-gap: 1rem;
-    grid-template-columns: repeat(2, minmax(10em, auto));
-    place-content: space-evenly;
-
-    > button {
-      width: 100%;
-      margin: {
-        left: auto;
-        right: auto;
-      }
-    }
-  } */
 }
 
 .Comment {
