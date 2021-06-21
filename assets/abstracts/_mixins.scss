@@ -30,7 +30,6 @@
     &-enter-active,
     &-leave-active {
       animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
-      transition: background-color $duration cubic-bezier(0.33, 1, 0.68, 1);
     }
     &-enter-active {
       animation: $duration slide-in;
@@ -38,11 +37,6 @@
 
     &-leave-active {
       animation: $duration slide-out;
-    }
-
-    &-enter,
-    &-leave-to {
-      background-color: rgba(255, 255, 255, 88%);
     }
 
     @keyframes slide-in {

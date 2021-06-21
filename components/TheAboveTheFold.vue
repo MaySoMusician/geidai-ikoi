@@ -132,8 +132,21 @@ export default Vue.extend<Data, unknown, Computed, unknown>({
 </script>
 
 <style lang="scss" scoped>
-@include slideAnimation('slide', 0.8s);
+$slideDuration: 0.8s;
+@include slideAnimation('slide', $slideDuration);
 @include fadeEaseOutCubic('fade', 0s, 0);
+
+.slide {
+  &-enter-active,
+  &-leave-active {
+    transition: background-color $slideDuration cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  &-enter,
+  &-leave-to {
+    background-color: rgba(255, 255, 255, 88%);
+  }
+}
 </style>
 
 <style lang="scss" module>
