@@ -335,7 +335,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
             '--slideshowDuration',
             `${width / 0.024}ms`
           )
-          container.style.setProperty('animation-play-state', 'running')
+          container.classList.add(this.$style.GalleryImageContainerAnimated)
         })
       }
     },
@@ -431,9 +431,10 @@ export default vue
       flex-wrap: nowrap;
       z-index: 0;
 
-      animation: slideshow infinite linear 0s both;
-      animation-play-state: paused;
-      animation-duration: var(--slideshowDuration, 0s);
+      &Animated {
+        animation: slideshow infinite linear 0s both;
+        animation-duration: var(--slideshowDuration, 0s);
+      }
     }
     &Item {
       height: 12rem;
