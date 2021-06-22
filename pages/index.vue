@@ -238,6 +238,8 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           debugLog('Confirmed an user on computer signed in')
           setUserDepartment(this, newUser)
           this.$gtag.event('login', { method: 'Google', login_type: 'desktop' })
+
+          // Quit if 'forward' query exists
           if (this.forwardAfterSignInIfRequired() !== false) return
         }
 
@@ -358,10 +360,18 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         debugLog('Confirmed an user on mobile signed in')
         setUserDepartment(this, user)
         this.$gtag.event('login', { method: 'Google', login_type: 'mobile' })
-        await this.forwardAfterSignInIfRequired()
+
+        // Quit if 'forward' query exists
+        if ((await this.forwardAfterSignInIfRequired()) !== false) return
       }
     } catch (e) {
       debugError(e)
+    }
+
+    // If an user signed in and opens the page with 'forward' query,
+    // forward them to the requested page.
+    if (_userSignedInFirstLoad) {
+      if (this.forwardAfterSignInIfRequired() !== false) return
     }
 
     _userSignedInFirstLoad
