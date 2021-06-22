@@ -88,7 +88,6 @@ type Photo = { src: string; width: number; height: number }
 type Data = {
   showModal: boolean
   newsLoaded: boolean
-  unwatchUser: (() => void) | null
   linksToAbout: { text: string; to: string }[]
   photos: Photo[]
   loadedPhotos: Set<number>
@@ -112,6 +111,10 @@ type Methods = {
   onLoadSlideShowPhotos(index: number): void
 }
 
+/* -----------------------------------
+ * Helper functions for Google Sign-in
+ */
+
 function _initializeGoogleAuthProvider(authModule: typeof firebase.auth) {
   const provider = new authModule.GoogleAuthProvider()
   provider.addScope('email')
@@ -134,6 +137,10 @@ async function _signIn(self: InstanceType<typeof vue>, { hd }: { hd: string }) {
   }
 }
 
+/* ------------------------------------
+ * Helper function for Google Analytics
+ */
+
 function setUserDepartment(
   self: InstanceType<typeof vue>,
   user: firebase.User
@@ -150,6 +157,10 @@ function setUserDepartment(
   self.$gtag.query('set', 'user_properties', { user_department: department })
 }
 
+/* -------------------------------------------------
+ * Fields, helpers, constants for element transition
+ */
+
 let _userSignedInFirstLoad = false
 
 function showElementByRefId(self: InstanceType<typeof vue>, id: string) {
@@ -163,8 +174,13 @@ function hideElementByRefId(self: InstanceType<typeof vue>, id: string) {
 }
 
 const REF_AUTH_REQUIRED = 'AuthRequiredSection'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const REF_COMMON = 'CommonSection'
+const REF_COMMON = 'CommonSection' // eslint-disable-line @typescript-eslint/no-unused-vars
+
+/* ------------------------
+ * Vue component definition
+ */
+
+let _unwatchUser: (() => void) | null = null
 
 const vue = Vue.extend<Data, Methods, Computed, unknown>({
   inject: ['$chakraColorMode', '$toggleColorMode'],
@@ -214,7 +230,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     },
   },
   created() {
-    this.unwatchUser = this.$store.watch(
+    _unwatchUser = this.$store.watch(
       (_, getters) => getters.user,
       (newUser) => {
         // Redirect to application (for users on computers)
@@ -332,7 +348,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     )
   },
   beforeDestroy() {
-    if (this.unwatchUser) this.unwatchUser()
+    _unwatchUser?.()
   },
   async mounted() {
     try {
