@@ -1,5 +1,13 @@
 <template>
-  <transition name="fade" mode="out-in" @enter="$emit('loaded')">
+  <transition
+    name="fade"
+    mode="out-in"
+    @after-enter="
+      () => {
+        pending || $emit('loaded')
+      }
+    "
+  >
     <CFlex v-if="pending" v-bind="$attrs" key="loading" justify="center">
       <AppSpinnerLoading />
     </CFlex>
@@ -79,9 +87,20 @@ type Methods = {
   showToast(): void
   getMeetId(url: string): string
   logMeetLinkClickEvent(index: number): void
+  load(): void
 }
 
-export default Vue.extend<Data, Methods, Computed, unknown>({
+type Props = {
+  autoLoad: boolean
+}
+
+const vue = Vue.extend<Data, Methods, Computed, Props>({
+  props: {
+    autoLoad: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       meetLinks: [],
@@ -103,20 +122,8 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       return this.meetLinks.filter((link) => !link.isHidden)
     },
   },
-  async mounted() {
-    try {
-      const rawItems = await fetchNotionTableData(
-        this.$config.meetLinksDatabaseId
-      ).then((r) => r.json())
-      if (Array.isArray(rawItems)) {
-        const items = rawItems.filter((v) => isValidMeetLinkItem(v))
-        this.meetLinks = items
-      }
-    } catch (e) {
-      this.error = e
-    } finally {
-      this.pending = false
-    }
+  mounted() {
+    if (this.autoLoad) this.load()
   },
   methods: {
     showToast() {},
@@ -131,12 +138,29 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       })
       window.open(url, '_blank', 'noopener,noreferrer')
     },
+    async load() {
+      try {
+        const rawItems = await fetchNotionTableData(
+          this.$config.meetLinksDatabaseId
+        ).then((r) => r.json())
+        if (Array.isArray(rawItems)) {
+          const items = rawItems.filter((v) => isValidMeetLinkItem(v))
+          this.meetLinks = items
+        }
+      } catch (e) {
+        this.error = e
+      } finally {
+        this.pending = false
+      }
+    },
   },
 })
+export default vue
+export type TheRoomListMeetType = typeof vue
 </script>
 
 <style lang="scss" scoped>
-@include fadeEaseOutCubic('fade', $globalFadeDuration, 0s, 0);
+@include fadeEaseOutCubic('fade', $globalFadeDuration, 0s);
 </style>
 
 <style lang="scss" module>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative">
     <TheAboveTheFold
       @clickMusicStudentSignIn="musicStudentSignIn"
       @clickOthersSignIn="othersSignIn"
@@ -8,13 +8,15 @@
     <TheNewsList align="stretch" @loaded="newsLoaded = true" />
 
     <client-only>
-      <CBox v-if="userSignedIn" as="section" :class="[$style.SectionContainer]">
-        <CHeading as="h2">どこで憩う？</CHeading>
-        <TheRoomListMeet />
-      </CBox>
+      <div ref="AuthRequiredSection" :class="[$style.AuthRequiredSection]">
+        <CBox as="section" :class="[$style.SectionContainer]">
+          <CHeading as="h2">どこで憩う？</CHeading>
+          <TheRoomListMeet ref="RoomListMeet" :auto-load="meetLinkAutoLoad" />
+        </CBox>
+      </div>
     </client-only>
 
-    <CBox :class="[$style.CommonSection]">
+    <div ref="CommonSection" :class="[$style.CommonSection]">
       <CBox as="section" :class="[$style.SectionContainer]">
         <CHeading as="h2">憩いとは</CHeading>
         <CFlex justify="center" align="center" :mt="8">
@@ -66,11 +68,9 @@
           <AppButton text="応募する" />
         </CFlex>
       </CBox>
-    </CBox>
+    </div>
 
     <div v-if="newsLoaded"></div>
-
-    <transition name="fade" mode="out-in" @after-enter="() => {}"> </transition>
   </div>
 </template>
 
@@ -80,6 +80,7 @@ import type firebase from 'firebase'
 
 import { ChakraTheme, ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
 import { debugLog, debugError } from '@/utils/debug'
+import { TheRoomListMeetType } from '@/components/TheRoomListMeet.vue'
 
 type Photo = { src: string; width: number; height: number }
 
@@ -98,6 +99,7 @@ type Computed = {
   toggleColorMode: ToggleColorModeFunction
   photosDoubled: Photo[]
   userSignedIn: boolean
+  meetLinkAutoLoad: boolean
 }
 
 type Methods = {
@@ -105,7 +107,7 @@ type Methods = {
   signOut(): void
   musicStudentSignIn(): void
   othersSignIn(): void
-  forwardAfterSignInIfRequired(): void | Promise<unknown>
+  forwardAfterSignInIfRequired(): false | Promise<unknown>
   onLoadSlideShowPhotos(index: number): void
 }
 
@@ -147,9 +149,28 @@ function setUserDepartment(
   self.$gtag.query('set', 'user_properties', { user_department: department })
 }
 
+let _userSignedInFirstLoad = false
+
+function showElementByRefId(self: InstanceType<typeof vue>, id: string) {
+  const elem = self.$refs[id] as HTMLElement
+  elem.style.display = ''
+}
+
+function hideElementByRefId(self: InstanceType<typeof vue>, id: string) {
+  const elem = self.$refs[id] as HTMLElement
+  elem.style.display = 'none'
+}
+
+const REF_AUTH_REQUIRED = 'AuthRequiredSection'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const REF_COMMON = 'CommonSection'
+
 const vue = Vue.extend<Data, Methods, Computed, unknown>({
   inject: ['$chakraColorMode', '$toggleColorMode'],
   data() {
+    // Load meet links automatically if an user signed in.
+    _userSignedInFirstLoad = !!this.$accessor.user
+
     return {
       showModal: false,
       newsLoaded: false,
@@ -187,6 +208,9 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     userSignedIn() {
       return !!this.$accessor.user
     },
+    meetLinkAutoLoad() {
+      return _userSignedInFirstLoad
+    },
   },
   created() {
     this.unwatchUser = this.$store.watch(
@@ -197,7 +221,83 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           debugLog('Confirmed an user on computer signed in')
           setUserDepartment(this, newUser)
           this.$gtag.event('login', { method: 'Google', login_type: 'desktop' })
-          this.forwardAfterSignInIfRequired()
+          if (this.forwardAfterSignInIfRequired() !== false) return
+        }
+
+        const authRequiredSection = this.$refs
+          .AuthRequiredSection as HTMLDivElement
+        const commonSection = this.$refs.CommonSection as HTMLDivElement
+        const clearStyles = () => {
+          authRequiredSection.style.transition = ''
+          authRequiredSection.style.clipPath = ''
+          authRequiredSection.style.opacity = ''
+          authRequiredSection.style.position = ''
+          commonSection.style.transition = ''
+          commonSection.style.transform = ''
+        }
+
+        if (newUser) {
+          // Show AuthRequiredSection
+          const commonTopBefore = commonSection.getBoundingClientRect().top
+
+          const showAuthRequired = () => {
+            authRequiredSection.style.clipPath = 'inset(0 0 100% 0)'
+            authRequiredSection.style.opacity = '0'
+            showElementByRefId(this, REF_AUTH_REQUIRED)
+
+            const commonTopAfter = commonSection.getBoundingClientRect().top
+            const distance = commonTopBefore - commonTopAfter
+            commonSection.style.transform = `translateY(${distance}px)`
+
+            requestAnimationFrame(() => {
+              const duration = 0.5
+              const ease = 'cubic-bezier(0.33, 1, 0.68, 1)'
+              authRequiredSection.style.transition = `clip-path ${duration}s ${ease},  opacity ${duration}s ${ease}`
+              authRequiredSection.style.clipPath = 'inset(0)'
+              authRequiredSection.style.opacity = '1'
+              commonSection.style.transition = `transform ${duration}s ${ease}`
+              commonSection.style.transform = 'translateY(0px)'
+              setTimeout(() => {
+                clearStyles()
+              }, duration * 1000 + 10)
+            })
+          }
+
+          const RoomListMeet = this.$refs
+            .RoomListMeet as InstanceType<TheRoomListMeetType>
+
+          if (RoomListMeet.$data.pending) {
+            RoomListMeet.$once('loaded', showAuthRequired)
+            RoomListMeet.load()
+          } else {
+            showAuthRequired()
+          }
+        } else {
+          // Hide AuthRequiredSection
+          const commonTopBefore = commonSection.getBoundingClientRect().top
+          const commonTopAfter = authRequiredSection.getBoundingClientRect().top
+          const distance = commonTopBefore - commonTopAfter
+
+          authRequiredSection.style.position = 'absolute'
+          authRequiredSection.style.clipPath = 'inset(0)'
+          authRequiredSection.style.opacity = '1'
+          commonSection.style.transform = `translateY(${distance}px)`
+
+          setTimeout(() => {
+            requestAnimationFrame(() => {
+              const duration = 0.5
+              const ease = 'cubic-bezier(0.33, 1, 0.68, 1)'
+              authRequiredSection.style.transition = `clip-path ${duration}s ${ease},  opacity ${duration}s ${ease}`
+              authRequiredSection.style.clipPath = 'inset(0 0 100% 0)'
+              authRequiredSection.style.opacity = '0'
+              commonSection.style.transition = `transform ${duration}s ${ease}`
+              commonSection.style.transform = 'translateY(0px)'
+              setTimeout(() => {
+                clearStyles()
+                hideElementByRefId(this, REF_AUTH_REQUIRED)
+              }, duration * 1000 + 10)
+            })
+          }, 10)
         }
       }
     )
@@ -218,6 +318,10 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     } catch (e) {
       debugError(e)
     }
+
+    _userSignedInFirstLoad
+      ? showElementByRefId(this, REF_AUTH_REQUIRED)
+      : hideElementByRefId(this, REF_AUTH_REQUIRED)
   },
   methods: {
     showToast() {
@@ -264,6 +368,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         const to = `/${decodeURIComponent(forward as string)}`
         return this.$router.push(to)
       }
+      return false
     },
     onLoadSlideShowPhotos(index) {
       this.loadedPhotos.add(index)
@@ -290,20 +395,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
 export default vue
 </script>
 
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.2s cubic-bezier(0.33, 1, 0.68, 1);
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-enter {
-  transform: translateY(0.3rem);
-}
-</style>
+<style lang="scss" scoped></style>
 
 <style lang="scss" module>
 .Section {
@@ -423,5 +515,9 @@ export default vue
       }
     }
   }
+}
+
+.AuthRequiredSection {
+  width: 100%;
 }
 </style>
