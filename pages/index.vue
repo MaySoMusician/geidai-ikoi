@@ -249,7 +249,8 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
             const distance = commonTopBefore - commonTopAfter
             commonSection.style.transform = `translateY(${distance}px)`
 
-            requestAnimationFrame(() => {
+            setTimeout(() => {
+              // requestAnimationFrame(() => {
               const duration = 0.5
               const ease = 'cubic-bezier(0.33, 1, 0.68, 1)'
               authRequiredSection.style.transition = `clip-path ${duration}s ${ease},  opacity ${duration}s ${ease}`
@@ -260,7 +261,8 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
               setTimeout(() => {
                 clearStyles()
               }, duration * 1000 + 10)
-            })
+              // })
+            }, 10)
           }
 
           const RoomListMeet = this.$refs
@@ -284,19 +286,19 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           commonSection.style.transform = `translateY(${distance}px)`
 
           setTimeout(() => {
-            requestAnimationFrame(() => {
-              const duration = 0.5
-              const ease = 'cubic-bezier(0.33, 1, 0.68, 1)'
-              authRequiredSection.style.transition = `clip-path ${duration}s ${ease},  opacity ${duration}s ${ease}`
-              authRequiredSection.style.clipPath = 'inset(0 0 100% 0)'
-              authRequiredSection.style.opacity = '0'
-              commonSection.style.transition = `transform ${duration}s ${ease}`
-              commonSection.style.transform = 'translateY(0px)'
-              setTimeout(() => {
-                clearStyles()
-                hideElementByRefId(this, REF_AUTH_REQUIRED)
-              }, duration * 1000 + 10)
-            })
+            // requestAnimationFrame(() => {
+            const duration = 0.5
+            const ease = 'cubic-bezier(0.33, 1, 0.68, 1)'
+            authRequiredSection.style.transition = `clip-path ${duration}s ${ease},  opacity ${duration}s ${ease}`
+            authRequiredSection.style.clipPath = 'inset(0 0 100% 0)'
+            authRequiredSection.style.opacity = '0'
+            commonSection.style.transition = `transform ${duration}s ${ease}`
+            commonSection.style.transform = 'translateY(0px)'
+            setTimeout(() => {
+              clearStyles()
+              hideElementByRefId(this, REF_AUTH_REQUIRED)
+            }, duration * 1000 + 10)
+            // })
           }, 10)
         }
       }
