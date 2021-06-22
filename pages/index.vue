@@ -81,6 +81,7 @@ import type firebase from 'firebase'
 import { ChakraTheme, ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
 import { debugLog, debugError } from '@/utils/debug'
 import { TheRoomListMeetType } from '@/components/TheRoomListMeet.vue'
+import { applyOrderedStyles } from '@/utils/dom'
 
 type Photo = { src: string; width: number; height: number }
 
@@ -228,12 +229,16 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           .AuthRequiredSection as HTMLDivElement
         const commonSection = this.$refs.CommonSection as HTMLDivElement
         const clearStyles = () => {
-          authRequiredSection.style.transition = ''
-          authRequiredSection.style.clipPath = ''
-          authRequiredSection.style.opacity = ''
-          authRequiredSection.style.position = ''
-          commonSection.style.transition = ''
-          commonSection.style.transform = ''
+          applyOrderedStyles(authRequiredSection, [
+            ['transition', ''],
+            ['clipPath', ''],
+            ['opacity', ''],
+            ['position', ''],
+          ])
+          applyOrderedStyles(commonSection, [
+            ['transition', ''],
+            ['transform', ''],
+          ])
         }
 
         if (newUser) {
@@ -241,27 +246,38 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           const commonTopBefore = commonSection.getBoundingClientRect().top
 
           const showAuthRequired = () => {
-            authRequiredSection.style.clipPath = 'inset(0 0 100% 0)'
-            authRequiredSection.style.opacity = '0'
+            applyOrderedStyles(authRequiredSection, [
+              ['clipPath', 'inset(0 0 100% 0)'],
+              ['opacity', '0'],
+            ])
             showElementByRefId(this, REF_AUTH_REQUIRED)
 
             const commonTopAfter = commonSection.getBoundingClientRect().top
             const distance = commonTopBefore - commonTopAfter
-            commonSection.style.transform = `translateY(${distance}px)`
+            applyOrderedStyles(commonSection, [
+              ['transform', `translateY(${distance}px)`],
+            ])
 
             setTimeout(() => {
-              // requestAnimationFrame(() => {
               const duration = 0.5
               const ease = 'cubic-bezier(0.33, 1, 0.68, 1)'
-              authRequiredSection.style.transition = `clip-path ${duration}s ${ease},  opacity ${duration}s ${ease}`
-              authRequiredSection.style.clipPath = 'inset(0)'
-              authRequiredSection.style.opacity = '1'
-              commonSection.style.transition = `transform ${duration}s ${ease}`
-              commonSection.style.transform = 'translateY(0px)'
+
+              applyOrderedStyles(authRequiredSection, [
+                [
+                  'transition',
+                  `clip-path ${duration}s ${ease},  opacity ${duration}s ${ease}`,
+                ],
+                ['clipPath', 'inset(0)'],
+                ['opacity', '1'],
+              ])
+              applyOrderedStyles(commonSection, [
+                ['transition', `transform ${duration}s ${ease}`],
+                ['transform', 'translateY(0px)'],
+              ])
+
               setTimeout(() => {
                 clearStyles()
               }, duration * 1000 + 10)
-              // })
             }, 10)
           }
 
@@ -280,25 +296,36 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           const commonTopAfter = authRequiredSection.getBoundingClientRect().top
           const distance = commonTopBefore - commonTopAfter
 
-          authRequiredSection.style.position = 'absolute'
-          authRequiredSection.style.clipPath = 'inset(0)'
-          authRequiredSection.style.opacity = '1'
-          commonSection.style.transform = `translateY(${distance}px)`
+          applyOrderedStyles(authRequiredSection, [
+            ['position', 'absolute'],
+            ['clipPath', 'inset(0)'],
+            ['opacity', '1'],
+          ])
+          applyOrderedStyles(commonSection, [
+            ['transform', `translateY(${distance}px)`],
+          ])
 
           setTimeout(() => {
-            // requestAnimationFrame(() => {
             const duration = 0.5
             const ease = 'cubic-bezier(0.33, 1, 0.68, 1)'
-            authRequiredSection.style.transition = `clip-path ${duration}s ${ease},  opacity ${duration}s ${ease}`
-            authRequiredSection.style.clipPath = 'inset(0 0 100% 0)'
-            authRequiredSection.style.opacity = '0'
-            commonSection.style.transition = `transform ${duration}s ${ease}`
-            commonSection.style.transform = 'translateY(0px)'
+
+            applyOrderedStyles(authRequiredSection, [
+              [
+                'transition',
+                `clip-path ${duration}s ${ease},  opacity ${duration}s ${ease}`,
+              ],
+              ['clipPath', 'inset(0 0 100% 0)'],
+              ['opacity', '0'],
+            ])
+            applyOrderedStyles(commonSection, [
+              ['transition', `transform ${duration}s ${ease}`],
+              ['transform', 'translateY(0px)'],
+            ])
+
             setTimeout(() => {
               clearStyles()
               hideElementByRefId(this, REF_AUTH_REQUIRED)
             }, duration * 1000 + 10)
-            // })
           }, 10)
         }
       }
