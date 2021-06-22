@@ -134,7 +134,7 @@ export default Vue.extend<Data, unknown, Computed, unknown>({
 <style lang="scss" scoped>
 $slideDuration: 0.8s;
 @include slideAnimation('slide', $slideDuration);
-@include fadeEaseOutCubic('fade', $globalFadeDuration, 0s, 0);
+@include fadeEaseOutCubic('fade', $globalFadeDuration, 0s);
 
 .slide {
   &-enter-active,

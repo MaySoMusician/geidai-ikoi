@@ -76,10 +76,10 @@ export default vue
 </script>
 
 <style lang="scss" scoped>
-@include fadeEaseOutCubic('fade1', $globalFadeDuration, 0s, 0);
-@include fadeEaseOutCubic('fade2', $globalFadeDuration, 0.15s, 0);
-@include fadeEaseOutCubic('fade3', $globalFadeDuration, 0.3s, 0);
-@include fadeEaseOutCubic('fade4', $globalFadeDuration, 0.45s, 0);
+@include fadeEaseOutCubic('fade1', $globalFadeDuration, 0s);
+@include fadeEaseOutCubic('fade2', $globalFadeDuration, 0.15s);
+@include fadeEaseOutCubic('fade3', $globalFadeDuration, 0.3s);
+@include fadeEaseOutCubic('fade4', $globalFadeDuration, 0.45s);
 </style>
 
 <style lang="scss" module>
