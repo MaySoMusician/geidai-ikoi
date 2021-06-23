@@ -1,21 +1,18 @@
 <template>
   <transition name="fade" mode="out-in" @enter="$emit('loaded')">
-    <CFlex
-      v-if="$fetchState.pending"
-      v-bind="$attrs"
-      key="loading"
-      justify="center"
-    >
+    <CFlex v-if="pending" v-bind="$attrs" key="loading" justify="center">
       <AppSpinnerLoading />
     </CFlex>
-    <div v-else-if="$fetchState.error" key="error" v-bind="$attrs">error</div>
+    <CFlex v-else-if="error" key="error" justify="center" v-bind="$attrs">
+      <AppErrorLoading />
+    </CFlex>
     <template v-else>
       <CAlert
         v-if="newsItemsAvailable.length < 1"
         v-bind="$attrs"
         key="shown"
-        bg="gray.200"
-        py="0.4rem"
+        bg="grass.50"
+        py="0.8rem"
         >お知らせはありません</CAlert
       >
       <CStack v-else v-bind="$attrs" key="shown" :spacing="3">
@@ -45,6 +42,8 @@ import { fetchNotionTableData, isValidNewsItem, NewsItem } from '@/utils/notion'
 
 type Data = {
   newsItems: NewsItem[]
+  pending: boolean
+  error: Error | null
 }
 
 type Computed = {
@@ -55,15 +54,8 @@ export default Vue.extend<Data, unknown, Computed, unknown>({
   data() {
     return {
       newsItems: [],
-    }
-  },
-  async fetch() {
-    const rawItems = await fetchNotionTableData(
-      this.$config.newsDatabaseId
-    ).then((r) => r.json())
-    if (Array.isArray(rawItems)) {
-      const items = rawItems.filter((v) => isValidNewsItem(v))
-      this.newsItems = items
+      pending: true,
+      error: null,
     }
   },
   computed: {
@@ -71,11 +63,26 @@ export default Vue.extend<Data, unknown, Computed, unknown>({
       return this.newsItems.filter((item) => !item.isHidden)
     },
   },
+  async mounted() {
+    try {
+      const rawItems = await fetchNotionTableData(
+        this.$config.newsDatabaseId
+      ).then((r) => r.json())
+      if (Array.isArray(rawItems)) {
+        const items = rawItems.filter((v) => isValidNewsItem(v))
+        this.newsItems = items
+      }
+    } catch (e) {
+      this.error = e
+    } finally {
+      this.pending = false
+    }
+  },
 })
 </script>
 
 <style lang="scss" scoped>
-@include fadeEaseOutCubic('fade', 0s, 0.5rem);
+@include fadeEaseOutCubic('fade', $globalFadeDuration, 0s);
 </style>
 
 <style lang="scss" module></style>

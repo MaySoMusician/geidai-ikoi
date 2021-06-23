@@ -6,7 +6,7 @@ import {
   extendTheme as chakraUiExtendedTheme,
   customIcons,
 } from './nuxt-chakra-ui.config'
-import { WEBSITE_NAME, WEBSITE_DESCRIPTION } from './utils/constants'
+import { WEBSITE_NAME, WEBSITE_DESCRIPTION, VIEWPORTS } from './utils/constants'
 
 const generateLazyFontLinkTags = (url: string, preconnect?: string) => {
   const tags: MetaInfo['link'] = [
@@ -41,8 +41,9 @@ const hid = (info: Exclude<MetaInfo['meta'], undefined>[number]) => {
 }
 
 const config: NuxtConfig = {
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  // Enable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  // for full static generation
+  ssr: true,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -94,6 +95,8 @@ const config: NuxtConfig = {
     '@nuxtjs/device',
     // https://github.com/nuxt-community/style-resources-module/
     '@nuxtjs/style-resources',
+    // https://image.nuxtjs.org/
+    '@nuxt/image',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -117,6 +120,8 @@ const config: NuxtConfig = {
   // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate/
   generate: {
     fallback: true,
+    // Exclude pages from SSG
+    exclude: ['/meet/'] as any,
   },
 
   router: {
@@ -150,6 +155,10 @@ const config: NuxtConfig = {
 
   styleResources: {
     scss: ['~assets/abstracts/_mixins.scss'],
+  },
+
+  image: {
+    screens: VIEWPORTS,
   },
 }
 
