@@ -9,10 +9,7 @@
         direction="row"
       >
         <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
-          <img
-            :class="[$style.HeaderLogoImage]"
-            src="https://via.placeholder.com/96"
-          />
+          <img :class="[$style.HeaderLogoImage]" src="/logo-placeholder1.png" />
         </CLink>
         <AppSpacer :d="{ sm: 'none' }" />
         <MobileMenuOpener
