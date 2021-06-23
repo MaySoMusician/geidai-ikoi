@@ -24,11 +24,23 @@
 
     <CFlex class="noop" justify="center" align="center" pt="4" pb="6">
       <CButton
-        :variant-color="muted ? 'red' : 'blue'"
-        min-w="11em"
+        :variant-color="muted ? 'blue' : 'red'"
+        min-w="7em"
         @click="toggleMuted"
-        >{{ muted ? 'Unmute (muted)' : 'Mute' }}</CButton
       >
+        {{ muted ? 'Start' : 'Stop' }}
+        <div style="padding-left: 4px">
+          <!-- prettier-ignore -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+            :class="{ 'eq-bar--stopped': muted }" style="fill: white"
+          >
+            <rect class="eq-bar eq-bar--1" x="4" y="4" width="3.7" height="8" />
+            <rect class="eq-bar eq-bar--2" x="10.2" y="4" width="3.7" height="16" />
+            <rect class="eq-bar eq-bar--3" x="16.3" y="4" width="3.7" height="11" />
+          </svg>
+        </div>
+      </CButton>
     </CFlex>
 
     <audio id="audio1" autoplay></audio>
@@ -239,5 +251,52 @@ a {
 label {
   width: 15em;
   display: inline-block;
+}
+
+.eq-bar {
+  transform: scale(1, -1) translate(0, -24px);
+
+  &--1,
+  &--2,
+  &--3 {
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+  }
+
+  &--1,
+  &--3 {
+    animation-name: short-eq;
+  }
+
+  &--1 {
+    animation-delay: 0s;
+  }
+
+  &--3 {
+    animation-delay: 0.34s;
+  }
+
+  &--2 {
+    animation-name: tall-eq;
+    animation-delay: 0.17s;
+  }
+
+  &--stopped > .eq-bar {
+    animation-play-state: paused;
+  }
+}
+
+/* prettier-ignore */
+@keyframes short-eq {
+    0% { height: 8px; }
+   50% { height: 4px; }
+  100% { height: 8px; }
+}
+
+/* prettier-ignore */
+@keyframes tall-eq {
+    0% { height: 16px; }
+   50% { height:  6px; }
+  100% { height: 16px; }
 }
 </style>
