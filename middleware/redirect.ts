@@ -1,8 +1,12 @@
 import { Middleware } from '@nuxt/types'
 
-const authMiddleware: Middleware = ({ redirect, route }) => {
+const authMiddleware: Middleware = ({ redirect, route, app }) => {
   if (!route.path.endsWith('/')) {
-    redirect(301, `${route.path}/`)
+    const to = `${route.path}/`
+    const name = app.router?.resolve(to).resolved.name
+    if (name) {
+      redirect(301, to)
+    }
   }
 }
 
