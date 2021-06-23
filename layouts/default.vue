@@ -4,26 +4,20 @@
       <CColorModeProvider ref="colorModeProvider">
         <CBox font-family="body">
           <CReset />
-          <div :class="[$style.Container]">
+          <div
+            :class="[
+              $style.Container,
+              !loaded ? $style.FullHeightHiddenOverflowed : undefined,
+            ]"
+          >
             <CBox
               v-bind="mainStyles[colorMode]"
               :class="[$style.FullHeight]"
               max-w="48rem"
               mx="auto"
-              px="4px"
-              box-shadow="2xl"
             >
-              <CFlex class="header" h="3rem">
+              <!-- <CFlex class="header" h="3rem">
                 <AppSpacer />
-                <!--
-                <CMenu>
-                  <CMenuButton aria-label="メニューを開く" size="lg" px="unset">
-                    <CIcon name="menu" />
-                  </CMenuButton>
-                  <CMenuList placement="bottom-end">
-                    <CMenuItem>使い方</CMenuItem>
-                  </CMenuList>
-                </CMenu> -->
                 <CPopover placement="bottom-end">
                   <CPopoverTrigger>
                     <CIconButton icon="menu" size="lg" />
@@ -42,56 +36,57 @@
                     <CPopoverBody><TheDarkModeButton /></CPopoverBody>
                   </AppPopoverContent>
                 </CPopover>
-              </CFlex>
+              </CFlex> -->
               <!-- main -->
               <Nuxt />
               <!-- /main -->
-              <CBox :class="[$style.Footer]" min-h="1.8rem" :mt="4">
-                <CFlex direction="row" justify="space-between" min-h="1.8rem">
-                  <CBox
-                    font-size="0.75rem"
-                    color="gray.500"
-                    place-self="flex-end"
+              <CFlex
+                :class="[$style.Footer]"
+                direction="column"
+                align="center"
+                min-h="1.8rem"
+                :mt="4"
+                :py="2"
+                background-color="grass.50"
+              >
+                <CButton
+                  as="nuxt-link"
+                  variant="link"
+                  color="gray.500"
+                  font-size="0.8rem"
+                  font-weight="normal"
+                  to="/about/"
+                  white-space="normal"
+                  mb="0.3rem"
+                  >このサイトについて・連絡先</CButton
+                >
+                <CBox font-size="0.75rem" color="gray.500" text-align="center">
+                  <CText pb="0.2rem"
+                    >&copy; 2021 K･WATANABE a.k.a. MaySoMusician</CText
+                  ><CText pb="0.2rem">Designed by Kana Asanuma</CText
+                  ><CText pb="0.2rem"
+                    >Code available at
+                    <CLink
+                      href="https://github.com/MaySoMusician/geidai-ikoi"
+                      is-external
+                      >GitHub</CLink
+                    >, licensed under MIT license.</CText
                   >
-                    <CText pb="0.14rem"
-                      >&copy; 2021 K･WATANABE a.k.a. MaySoMusician</CText
-                    ><CText pb="0.1rem"
-                      >Code available at
-                      <CLink
-                        href="https://github.com/MaySoMusician/geidai-ikoi"
-                        is-external
-                        >GitHub</CLink
-                      >, licensed under MIT license.</CText
-                    >
-                  </CBox>
-
-                  <AppSpacer />
-                  <CButton
-                    as="nuxt-link"
-                    variant="link"
-                    color="gray.500"
-                    font-size="0.8rem"
-                    font-weight="normal"
-                    to="/about/"
-                    :ml="2"
-                    :mr="1"
-                    white-space="normal"
-                    >このサイトについて・連絡先</CButton
-                  >
-                  <CButton
-                    v-if="showDevSignOutButton"
-                    variant="ghost"
-                    variant-color="red"
-                    font-size="0.8rem"
-                    font-weight="normal"
-                    h="0.9rem"
-                    @click="signOut"
-                    >ログアウト</CButton
-                  >
-                </CFlex>
-              </CBox>
+                </CBox>
+              </CFlex>
             </CBox>
           </div>
+          <transition name="fadeOut">
+            <div
+              v-if="!loaded"
+              :class="[$style.LoaderOverlay, $style.FullHeight]"
+            >
+              <div :class="[$style.LoaderInner, $style.FullHeight]">
+                <AppSvgLoaderTea :class="[$style.LoaderIcon]" />
+                <SvgLogoTitle class="LoaderTitle" />
+              </div>
+            </div>
+          </transition>
         </CBox>
       </CColorModeProvider>
     </CThemeProvider>
@@ -102,7 +97,9 @@
 import Vue from 'vue'
 
 import { ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
-import { AppPopoverContent } from '@/components/AppPopoverContent'
+// import { AppPopoverContent } from '@/components/AppPopoverContent'
+import AppSvgLoaderTea from '@/components/AppSvgLoaderTea.vue'
+import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
 
 type ColorMode = 'light' | 'dark'
 
@@ -111,6 +108,7 @@ type Data = {
   toggleColorModeFunction: ToggleColorModeFunction | null
   mainStyles: Record<string, Partial<{ bg: string; color: string }>>
   showDevSignOutButton: boolean
+  loaded: boolean
 }
 
 type Methods = {
@@ -125,7 +123,9 @@ type Computed = {
 export default Vue.extend<Data, Methods, Computed, unknown>({
   name: 'App',
   components: {
-    AppPopoverContent,
+    // AppPopoverContent,
+    AppSvgLoaderTea,
+    SvgLogoTitle,
   },
   data() {
     return {
@@ -136,6 +136,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
         light: { bg: 'white', color: 'gray.900' },
       },
       showDevSignOutButton: !!process.env.APP_DEBUG,
+      loaded: false,
     }
   },
   computed: {
@@ -160,6 +161,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       }
       window.addEventListener('resize', setHeight)
       setHeight()
+      this.loaded = true
     })
   },
   methods: {
@@ -174,17 +176,51 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 html,
 body {
   height: 100%;
+  margin: 0;
+}
+
+:root {
+  --theme-colors-grass-50: #dbdad3;
+  --theme-colors-grass-400: #9e9d89;
+  --theme-colors-wafer: #e4d3cf;
+  --theme-colors-cavernPink: #e2bcb7;
+  --theme-colors-santafe: #b67162;
+}
+</style>
+
+<style lang="scss" scoped>
+.fadeOut {
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.4s 0.9s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+}
+
+.LoaderTitle {
+  --color: #78828a;
+  height: 1rem;
+  margin-top: 0.5rem;
 }
 </style>
 
 <style lang="scss" module>
 .Container {
-  background: #ced2d6;
+  background: white;
 }
 
 .FullHeight {
   min-height: 100vh;
   min-height: calc(var(--vh, 1vh) * 100);
+}
+
+.FullHeightHiddenOverflowed {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
 }
 
 .Footer {
@@ -210,5 +246,29 @@ body {
       }
     }
   } */
+}
+
+.Loader {
+  &Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background: white;
+    z-index: 2000;
+  }
+
+  &Inner {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    flex-direction: column;
+  }
+
+  &Icon {
+    max-width: 15vw;
+    max-height: 15vh;
+    transform: translateX(0.3em);
+  }
 }
 </style>

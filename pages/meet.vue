@@ -1,22 +1,27 @@
 <template>
   <div>
     <TheWebsiteTitle />
-    <TheNewsList
-      mx="auto"
-      :mb="3"
-      max-w="42rem"
-      align="stretch"
-      @loaded="newsLoaded = true"
-    />
-    <CText font-size="1.4rem" font-weight="bold" text-align="center">{{
-      welcomeMessage
-    }}</CText>
+    <TheNewsList mb="1.6rem" align="stretch" @loaded="newsLoaded = true" />
+    <CText :class="[$style.Heading]">どこで憩う？</CText>
+
     <transition name="fade1" mode="out-in" @after-enter="meetLinksShown = true">
       <template v-if="newsLoaded">
-        <CFlex v-if="$fetchState.pending" key="loading" justify="center">
+        <CFlex
+          v-if="$fetchState.pending"
+          key="loading"
+          justify="center"
+          :mt="10"
+        >
           <AppSpinnerLoading />
         </CFlex>
-        <div v-else-if="$fetchState.error" key="error">error</div>
+        <CFlex
+          v-else-if="$fetchState.error"
+          key="error"
+          justify="center"
+          :mt="10"
+        >
+          <AppErrorLoading />
+        </CFlex>
         <CSimpleGrid
           v-else
           key="shown"
@@ -24,7 +29,7 @@
           :p="{ base: '0 5%', sm: '0 6%' }"
           row-gap="1rem"
           :column-gap="{ base: '5%', sm: '6%' }"
-          :mt="5"
+          :mt="10"
         >
           <CFlex
             v-for="(link, index) in meetLinksAvailable"
@@ -36,7 +41,10 @@
               d="flex"
               flex-direction="row"
               width="100%"
-              variant-color="blue"
+              background-color="santafe"
+              color="white"
+              :_active="{ opacity: 0.9 }"
+              :_hover="{ opacity: 0.8 }"
               h="auto"
               :py="3"
               @click="logMeetLinkClickEvent(index)"
@@ -60,10 +68,8 @@
         </CSimpleGrid>
       </template>
     </transition>
-    <CFlex justify="center" direction="column" align="center">
-      <CButton variant-color="gray" :mt="8" @click="signOut">
-        <CIcon name="chevron-left" size="2rem" :ml="-3" :mr="0" />ログアウト
-      </CButton>
+    <CFlex justify="center" direction="column" align="center" :pt="10">
+      <AppButton text="ログアウト" chevron="left" @click="signOut" />
     </CFlex>
 
     <CFlex justify="center" direction="column" align="center"> </CFlex>
@@ -153,7 +159,25 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
 </script>
 
 <style lang="scss" scoped>
-@include fadeEaseOutCubic('fade1', 0s, 0.3rem);
+@include fadeEaseOutCubic('fade1', $globalFadeDuration, 0s);
 </style>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.Heading {
+  font-size: 1.125rem;
+  font-weight: bold;
+  min-width: 7em;
+
+  margin: {
+    left: auto;
+    right: auto;
+  }
+
+  padding: {
+    top: 0.8rem;
+    bottom: 0.8rem;
+  }
+
+  @include headingBorderAboveBelow();
+}
+</style>
