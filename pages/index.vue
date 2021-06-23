@@ -82,6 +82,10 @@ import { ChakraTheme, ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
 import { debugLog, debugError } from '@/utils/debug'
 import { TheRoomListMeetType } from '@/components/TheRoomListMeet.vue'
 import { applyOrderedStyles } from '@/utils/dom'
+import {
+  FORBIDDEN_OUTSIDE_OF_UNIV,
+  EMAIL_DOMAIN_ALLOWED,
+} from '@/utils/constants'
 
 type Photo = { src: string; width: number; height: number }
 
@@ -233,8 +237,19 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     _unwatchUser = this.$store.watch(
       (_, getters) => getters.user,
       (newUser) => {
-        // Redirect to application (for users on computers)
+        // Sign-in status changed (for users on computers)
         if (newUser) {
+          // Verify email domain
+          if (
+            !newUser.email ||
+            !newUser.email?.endsWith(EMAIL_DOMAIN_ALLOWED)
+          ) {
+            return this.$nuxt.error({
+              statusCode: 403,
+              message: FORBIDDEN_OUTSIDE_OF_UNIV,
+            })
+          }
+
           debugLog('Confirmed an user on computer signed in')
           setUserDepartment(this, newUser)
           this.$gtag.event('login', { method: 'Google', login_type: 'desktop' })
@@ -354,23 +369,37 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
   },
   async mounted() {
     try {
+      // Sign-in status changed (for users on mobile devices)
       const { user } = await this.$fire.auth.getRedirectResult()
       if (user) {
-        // Redirect to application (for users on mobile devices)
+        // Verify email domain
+        if (!user.email || !user.email?.endsWith(EMAIL_DOMAIN_ALLOWED)) {
+          return this.$nuxt.error({
+            statusCode: 403,
+            message: FORBIDDEN_OUTSIDE_OF_UNIV,
+          })
+        }
+
         debugLog('Confirmed an user on mobile signed in')
         setUserDepartment(this, user)
         this.$gtag.event('login', { method: 'Google', login_type: 'mobile' })
 
-        // Quit if 'forward' query exists
+        // Redirect and quit the function if 'forward' query exists
         if ((await this.forwardAfterSignInIfRequired()) !== false) return
       }
     } catch (e) {
       debugError(e)
     }
 
-    // If an user signed in and opens the page with 'forward' query,
+    // If an user already signed in and opens the page with 'forward' query,
     // forward them to the requested page.
     if (_userSignedInFirstLoad) {
+      if (!this.$accessor.user!.email?.endsWith(EMAIL_DOMAIN_ALLOWED)) {
+        return this.$nuxt.error({
+          statusCode: 403,
+          message: FORBIDDEN_OUTSIDE_OF_UNIV,
+        })
+      }
       if (this.forwardAfterSignInIfRequired() !== false) return
     }
 
