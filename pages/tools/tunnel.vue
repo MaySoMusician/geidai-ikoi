@@ -221,8 +221,7 @@ export default Vue.extend<Data, Methods, unknown, unknown>({
   methods: {
     toggleMuted() {
       const audioElement = document.querySelector('#audio1') as HTMLAudioElement
-      audioElement.muted = !audioElement.muted
-      this.updateMutedState()
+      this.setMuted(!audioElement.muted)
     },
     setMuted(value) {
       const audioElement = document.querySelector('#audio1') as HTMLAudioElement
