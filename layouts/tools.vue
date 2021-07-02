@@ -38,8 +38,6 @@
             :class="[$style.LoaderOverlay, $style.FullHeight]"
           >
             <div :class="[$style.LoaderInner, $style.FullHeight]">
-              <!-- <AppSvgLoaderTea :class="[$style.LoaderIcon]" />
-              <SvgLogoTitle class="LoaderTitle" /> -->
               Loading...
             </div>
           </div>
@@ -51,9 +49,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-
-import AppSvgLoaderTea from '@/components/AppSvgLoaderTea.vue'
-import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
 
 type Data = {
   loaded: boolean
@@ -67,11 +62,7 @@ type Computed = {}
 
 export default Vue.extend<Data, Methods, Computed, unknown>({
   name: 'App',
-  components: {
-    // AppPopoverContent,
-    AppSvgLoaderTea,
-    SvgLogoTitle,
-  },
+  components: {},
   data() {
     return {
       loaded: false,
