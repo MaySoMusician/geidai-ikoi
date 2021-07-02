@@ -18,10 +18,6 @@
       {
         "source": "/meet/",
         "destination": "/index.html"
-      },
-      {
-        "source": "/dr1/meet/",
-        "destination": "/dr1/index.html"
       }
     ]
   }

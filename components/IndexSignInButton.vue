@@ -4,7 +4,7 @@
     border-radius="0.5rem"
     background-color="rgba(255, 255, 255, 92%)"
     :_hover="{ backgroundColor: 'gray.100' }"
-    transition="all 0.4s"
+    transition="background-color 0.4s"
     @click="$emit('click')"
   >
     <CFlex

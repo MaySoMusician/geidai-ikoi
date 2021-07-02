@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { VIEWPORTS } from '@/utils/constants-dr1'
+import { VIEWPORTS } from '@/utils/constants'
 
 type ImageSizes = Record<keyof typeof VIEWPORTS, number>
 

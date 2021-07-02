@@ -8,11 +8,8 @@
         }"
         justify="center"
       >
-        <CLink as="nuxt-link" d="block" to="/dr1/" :_focus="{}">
-          <img
-            :class="[$style.HeaderLogoImage]"
-            src="https://via.placeholder.com/96"
-          />
+        <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
+          <img :class="[$style.HeaderLogoImage]" src="/logo-placeholder1.png" />
         </CLink>
 
         <CBox
@@ -28,9 +25,10 @@
             :py="3"
             >{{ link.text }}</CLink
           >
+          <WebsiteHeaderTwitterLink />
         </CBox>
         <AppSpacer :d="{ sm: 'none' }" />
-        <DR1MobileMenuOpener
+        <MobileMenuOpener
           :d="{ sm: 'none' }"
           mr="2"
           :z-index="1450"
@@ -55,6 +53,7 @@
           :py="3"
           >{{ link.text }}</CLink
         >
+        <WebsiteHeaderTwitterLink />
       </CFlex>
     </transition>
 
@@ -67,16 +66,33 @@
         format="jpg"
         sizes="xs:100vw sm:100vw md:100vw lg:100vw"
       />
-      <CFlex :class="[$style.AboveTheFoldSignInButtons]" direction="column">
-        <DR1IndexSignInButton
-          title="音楽学部生"
-          @click="$emit('clickMusicStudentSignIn')"
-        />
-        <DR1IndexSignInButton
-          title="美術学部生・その他の学生"
-          @click="$emit('clickOthersSignIn')"
-        />
-      </CFlex>
+      <client-only>
+        <transition name="fade">
+          <CFlex
+            v-if="!userSignedIn"
+            key="signIn"
+            :class="[$style.AboveTheFoldSignInButtons]"
+            direction="column"
+          >
+            <IndexSignInButton
+              title="音楽学部生"
+              @click="$emit('clickMusicStudentSignIn')"
+            />
+            <IndexSignInButton
+              title="美術学部生・その他の学生"
+              @click="$emit('clickOthersSignIn')"
+            />
+          </CFlex>
+          <CFlex
+            v-else
+            key="signOut"
+            :class="[$style.AboveTheFoldSignInButtons]"
+            direction="column"
+          >
+            <IndexSignOutButton title="" @click="$emit('clickSignOut')" />
+          </CFlex>
+        </transition>
+      </client-only>
     </CBox>
   </CBox>
 </template>
@@ -89,22 +105,45 @@ type Data = {
   mobileMenuOpen: boolean
 }
 
-export default Vue.extend<Data, unknown, unknown, unknown>({
+type Computed = {
+  userSignedIn: boolean
+}
+
+export default Vue.extend<Data, unknown, Computed, unknown>({
   data() {
     return {
       headerLinks: [
-        { text: '憩いとは', link: '/dr1/intro/', external: false },
-        { text: '運営より', link: '/dr1/about/', external: false },
+        { text: '憩いとは', link: '/intro/', external: false },
+        { text: '運営より', link: '/about/', external: false },
         { text: '募集案内', link: '', external: false },
       ],
       mobileMenuOpen: false,
     }
   },
+  computed: {
+    userSignedIn() {
+      return !!this.$accessor.user
+    },
+  },
 })
 </script>
 
 <style lang="scss" scoped>
-@include slideAnimation('slide', 0.8s);
+$slideDuration: 0.8s;
+@include slideAnimation('slide', $slideDuration);
+@include fadeEaseOutCubic('fade', $globalFadeDuration, 0s);
+
+.slide {
+  &-enter-active,
+  &-leave-active {
+    transition: background-color $slideDuration cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  &-enter,
+  &-leave-to {
+    background-color: rgba(255, 255, 255, 88%);
+  }
+}
 </style>
 
 <style lang="scss" module>
@@ -140,7 +179,7 @@ $pad2: 1.3rem;
     max-width: 15em;
     z-index: 1;
 
-    > button:first-child {
+    > button:not(:last-child) {
       margin: {
         bottom: 0.8rem;
       }

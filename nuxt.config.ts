@@ -6,8 +6,7 @@ import {
   extendTheme as chakraUiExtendedTheme,
   customIcons,
 } from './nuxt-chakra-ui.config'
-import { WEBSITE_NAME, WEBSITE_DESCRIPTION } from './utils/constants'
-import { VIEWPORTS } from './utils/constants-dr1'
+import { WEBSITE_NAME, WEBSITE_DESCRIPTION, VIEWPORTS } from './utils/constants'
 
 const generateLazyFontLinkTags = (url: string, preconnect?: string) => {
   const tags: MetaInfo['link'] = [
@@ -122,7 +121,7 @@ const config: NuxtConfig = {
   generate: {
     fallback: true,
     // Exclude pages from SSG
-    exclude: ['/about/', '/jitsi001/', '/meet/', '/dr1/meet/'] as any,
+    exclude: ['/meet/'] as any,
   },
 
   router: {
@@ -155,10 +154,7 @@ const config: NuxtConfig = {
   },
 
   styleResources: {
-    scss: [
-      '~assets/abstracts/_mixins.scss',
-      '~assets/abstracts/_mixins-dr1.scss',
-    ],
+    scss: ['~assets/abstracts/_mixins.scss'],
   },
 
   image: {
