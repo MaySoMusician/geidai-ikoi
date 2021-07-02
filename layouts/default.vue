@@ -40,40 +40,44 @@
               <!-- main -->
               <Nuxt />
               <!-- /main -->
-              <CFlex
-                :class="[$style.Footer]"
-                direction="column"
-                align="center"
-                min-h="1.8rem"
-                :mt="4"
-                :py="2"
-                background-color="grass.50"
-              >
-                <CButton
-                  as="nuxt-link"
-                  variant="link"
-                  color="gray.500"
-                  font-size="0.8rem"
-                  font-weight="normal"
-                  to="/about/"
-                  white-space="normal"
-                  mb="0.3rem"
-                  >このサイトについて・連絡先</CButton
+              <CBox :class="[$style.Footer]" :pt="4">
+                <CFlex
+                  direction="column"
+                  align="center"
+                  min-h="1.8rem"
+                  :py="2"
+                  background-color="grass.50"
                 >
-                <CBox font-size="0.75rem" color="gray.500" text-align="center">
-                  <CText pb="0.2rem"
-                    >&copy; 2021 K･WATANABE a.k.a. MaySoMusician</CText
-                  ><CText pb="0.2rem">Designed by Kana Asanuma</CText
-                  ><CText pb="0.2rem"
-                    >Code available at
-                    <CLink
-                      href="https://github.com/MaySoMusician/geidai-ikoi"
-                      is-external
-                      >GitHub</CLink
-                    >, licensed under MIT license.</CText
+                  <CButton
+                    as="nuxt-link"
+                    variant="link"
+                    color="gray.500"
+                    font-size="0.8rem"
+                    font-weight="normal"
+                    to="/about/"
+                    white-space="normal"
+                    mb="0.3rem"
+                    >このサイトについて・連絡先</CButton
                   >
-                </CBox>
-              </CFlex>
+                  <CBox
+                    font-size="0.75rem"
+                    color="gray.500"
+                    text-align="center"
+                  >
+                    <CText pb="0.2rem"
+                      >&copy; 2021 K･WATANABE a.k.a. MaySoMusician</CText
+                    ><CText pb="0.2rem">Designed by Kana Asanuma</CText
+                    ><CText pb="0.2rem"
+                      >Code available at
+                      <CLink
+                        href="https://github.com/MaySoMusician/geidai-ikoi"
+                        is-external
+                        >GitHub</CLink
+                      >, licensed under MIT license.</CText
+                    >
+                  </CBox>
+                </CFlex>
+              </CBox>
             </CBox>
           </div>
           <transition name="fadeOut">
