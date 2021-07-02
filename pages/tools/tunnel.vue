@@ -64,6 +64,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { debugLog, debugError } from '@/utils/debug'
 
 type Data = {
   outputSelectDisabled: boolean
@@ -101,19 +102,19 @@ export default Vue.extend<Data, Methods, unknown, unknown>({
     // Attach audio output device to video element using device/sink ID.
     async function attachSinkId(element: any, sinkId: string) {
       if (typeof element.sinkId === 'undefined') {
-        console.warn('Browser does not support output device selection.')
+        debugError('Browser does not support output device selection.')
         return
       }
 
       try {
         await element.setSinkId(sinkId)
-        console.log(`Success, audio output device attached: ${sinkId}`)
+        debugLog(`Success, audio output device attached: ${sinkId}`)
       } catch (error) {
         let errorMessage: any = error
         if (error.name === 'SecurityError') {
           errorMessage = `You need to use HTTPS for selecting audio output device: ${error}`
         }
-        console.error(errorMessage)
+        debugError(errorMessage)
         // Jump back to first output device in the list as it's the default.
         audioOutputSelect.selectedIndex = 0
       }
@@ -130,7 +131,7 @@ export default Vue.extend<Data, Methods, unknown, unknown>({
     }
 
     function handleError(error: Error) {
-      console.error(
+      debugError(
         'navigator.MediaDevices.getUserMedia error: ',
         error.message,
         error.name
@@ -162,7 +163,7 @@ export default Vue.extend<Data, Methods, unknown, unknown>({
         } else if (info.kind === 'videoinput') {
           // noop
         } else {
-          console.log('Some other kind of source/device: ', info)
+          debugLog('Some other kind of source/device: ', info)
         }
       }
 
