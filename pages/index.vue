@@ -213,6 +213,11 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       loadedPhotos: new Set(),
     }
   },
+  head() {
+    return {
+      title: '',
+    }
+  },
   computed: {
     colorMode() {
       return this.$chakraColorMode()

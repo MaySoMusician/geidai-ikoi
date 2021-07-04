@@ -57,6 +57,11 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       showModal: false,
     }
   },
+  head() {
+    return {
+      title: '憩いとは',
+    }
+  },
   computed: {
     colorMode() {
       return this.$chakraColorMode()

@@ -50,7 +50,11 @@ const config: NuxtConfig = {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: WEBSITE_NAME,
+    titleTemplate: (titleChunk) => {
+      // WEBSITE_NAME from utils/constants.ts
+      const name = '藝大 オンライン憩い ☕'
+      return titleChunk ? `${titleChunk} | ${name}` : name
+    },
     htmlAttrs: { lang: 'ja' },
     meta: [
       { charset: 'utf-8' },

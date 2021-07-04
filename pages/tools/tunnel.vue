@@ -87,6 +87,11 @@ export default Vue.extend<Data, Methods, unknown, unknown>({
       muted: false,
     }
   },
+  head() {
+    return {
+      title: 'Audio Tunnel',
+    }
+  },
   async mounted() {
     this.outputSelectDisabled = !('sinkId' in HTMLMediaElement.prototype)
 
