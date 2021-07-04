@@ -171,6 +171,11 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       ],
     }
   },
+  head() {
+    return {
+      title: '運営より',
+    }
+  },
   computed: {
     colorMode() {
       return this.$chakraColorMode()

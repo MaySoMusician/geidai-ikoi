@@ -123,6 +123,11 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       this.meetLinks = meetLinks
     }
   },
+  head() {
+    return {
+      title: 'Meet',
+    }
+  },
   computed: {
     email() {
       return this.$accessor.user?.email || 'NO EMAIL'
