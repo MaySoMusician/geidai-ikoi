@@ -74,6 +74,35 @@ export function isValidNewsItem(target: any): target is NewsItem {
   )
 }
 
+export interface ModalNoticeItem extends NotionDatabaseItem {
+  title: string
+  body: string
+  link?: string
+  releasedAt?: number
+  expiredAt?: number
+  version: string
+}
+
+export function isValidModalNoticeItem(target: any): target is ModalNoticeItem {
+  return (
+    _isValidNotionDatabaseItem(target) &&
+    isNotEmptyString(target.title) &&
+    isNotEmptyString(target.body) &&
+    ('link' in target ? isNotEmptyString(target.link) : IGNORE) &&
+    ('releasedAt' in target
+      ? isNumber(target.releasedAt) && target.releasedAt > 0
+      : IGNORE) &&
+    ('expiredAt' in target
+      ? isNumber(target.expiredAt) && target.expiredAt > 0
+      : IGNORE) &&
+    isNotEmptyString(target.version)
+  )
+}
+
 function isNotEmptyString(target: any): target is string {
   return typeof target === 'string' && target !== ''
+}
+
+function isNumber(target: any): target is number {
+  return !Number.isNaN(target)
 }
