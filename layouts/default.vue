@@ -19,6 +19,7 @@
               <!-- main -->
               <Nuxt />
               <!-- /main -->
+              <!-- footer -->
               <CBox :class="[$style.Footer]" :pt="4">
                 <CFlex
                   direction="column"
@@ -57,8 +58,30 @@
                   </CBox>
                 </CFlex>
               </CBox>
+              <!-- /footer -->
             </CBox>
           </div>
+          <div v-if="modalNoticeLoad">
+            <AppModal
+              :is-open="modalNoticeOpen"
+              :on-close="closeModalNotice"
+              :portal-z-index="1999"
+              is-centered
+            >
+              <AppModalContent>
+                <AppModalHeader>{{
+                  modalNoticeItem && modalNoticeItem.title
+                }}</AppModalHeader>
+                <AppModalCloseButton />
+                <AppModalBody>{{
+                  modalNoticeItem && modalNoticeItem.body
+                }}</AppModalBody>
+                <AppModalFooter>Footer</AppModalFooter>
+              </AppModalContent>
+              <AppModalOverlay />
+            </AppModal>
+          </div>
+
           <transition name="fadeOut">
             <div
               v-if="!loaded"
@@ -81,6 +104,20 @@ import Vue from 'vue'
 
 import { ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
 import AppSvgLoaderTea from '@/components/AppSvgLoaderTea.vue'
+import {
+  AppModal,
+  AppModalOverlay,
+  AppModalContent,
+  AppModalHeader,
+  AppModalFooter,
+  AppModalBody,
+  AppModalCloseButton,
+} from '@/components/AppModal'
+import {
+  fetchNotionTableData,
+  isValidModalNoticeItem,
+  ModalNoticeItem,
+} from '@/utils/notion'
 import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
 
 type ColorMode = 'light' | 'dark'
@@ -91,10 +128,14 @@ type Data = {
   mainStyles: Record<string, Partial<{ bg: string; color: string }>>
   showDevSignOutButton: boolean
   loaded: boolean
+  modalNoticeLoad: boolean // Lazy load to get correct client width
+  modalNoticeOpen: boolean
+  modalNoticeItem: ModalNoticeItem | null
 }
 
 type Methods = {
   signOut(): void
+  closeModalNotice(): void
 }
 
 type Computed = {
@@ -102,11 +143,20 @@ type Computed = {
   toggleColorMode: ToggleColorModeFunction
 }
 
+let _modalNoticeShownTimestamp = 0
+
 export default Vue.extend<Data, Methods, Computed, unknown>({
   name: 'App',
   components: {
     AppSvgLoaderTea,
     SvgLogoTitle,
+    AppModal,
+    AppModalOverlay,
+    AppModalContent,
+    AppModalHeader,
+    AppModalFooter,
+    AppModalBody,
+    AppModalCloseButton,
   },
   data() {
     return {
@@ -118,6 +168,9 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       },
       showDevSignOutButton: !!process.env.APP_DEBUG,
       loaded: false,
+      modalNoticeLoad: false,
+      modalNoticeOpen: true,
+      modalNoticeItem: null,
     }
   },
   computed: {
@@ -128,11 +181,41 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       return this.toggleColorModeFunction || (() => undefined)
     },
   },
-  mounted() {
+  async mounted() {
     if (this.$refs.colorModeProvider) {
       const { _provided } = this.$refs.colorModeProvider as any
       this.colorModeFunction = _provided.$chakraColorMode
       this.toggleColorModeFunction = _provided.$toggleColorMode
+    }
+
+    const getCatalog = async () => {
+      const rawItems = await fetchNotionTableData(
+        this.$config.modalNoticesDatabaseId
+      ).then((r) => r.json())
+      if (!Array.isArray(rawItems))
+        throw new Error('The items from ModalNotices database is not an array')
+      return rawItems.filter((v) =>
+        isValidModalNoticeItem(v)
+      ) as ModalNoticeItem[]
+    }
+
+    const noticesCatalog = await getCatalog()
+    const now = Math.round(Date.now() / 1000)
+    const noticesAvailable = noticesCatalog
+      .filter(
+        (item) =>
+          (item.releasedAt ? item.releasedAt <= now : true) &&
+          (item.expiredAt ? item.expiredAt > now : true)
+      )
+      .sort((a, b) => {
+        if (!a.releasedAt) {
+          return !b.releasedAt ? 0 : +1
+        }
+        return !b.releasedAt ? -1 : a.releasedAt - b.releasedAt
+      })
+
+    if (noticesAvailable.length > 0) {
+      this.modalNoticeItem = noticesAvailable[0]
     }
 
     this.$nextTick(() => {
@@ -143,11 +226,41 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       window.addEventListener('resize', setHeight)
       setHeight()
       this.loaded = true
+      this.modalNoticeOpen = !!this.modalNoticeItem
+      _modalNoticeShownTimestamp = Date.now()
+
+      // Lazy load to get correct client width
+      setTimeout(() => {
+        this.modalNoticeLoad = true
+      })
     })
   },
   methods: {
     signOut() {
       this.$fire.auth.signOut()
+    },
+    closeModalNotice() {
+      this.modalNoticeOpen = false
+
+      const existingStatus = this.$accessor.modalNotices.status.find(
+        (item) => item.id === this.modalNoticeItem?.id
+      )
+
+      if (existingStatus) {
+        this.$accessor.modalNotices.updateStatusEntry({
+          id: existingStatus.id,
+          shown: existingStatus.shown + 1,
+          lastShown: _modalNoticeShownTimestamp,
+        })
+      } else {
+        this.$accessor.modalNotices.addStatusEntry({
+          id: this.modalNoticeItem!.id,
+          shown: 1,
+          lastShown: _modalNoticeShownTimestamp,
+        })
+      }
+
+      this.modalNoticeItem = null
     },
   },
 })
