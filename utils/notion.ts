@@ -88,7 +88,7 @@ export function isValidModalNoticeItem(target: any): target is ModalNoticeItem {
     _isValidNotionDatabaseItem(target) &&
     isNotEmptyString(target.title) &&
     isNotEmptyString(target.body) &&
-    ('link' in target ? isNotEmptyString(target.link) : IGNORE) &&
+    ('link' in target ? typeof target.link === 'string' : IGNORE) &&
     ('releasedAt' in target
       ? isNumber(target.releasedAt) && target.releasedAt > 0
       : IGNORE) &&
