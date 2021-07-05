@@ -406,6 +406,7 @@ const AppModalContent = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: '-6vh',
       }
     } else {
       contentStyle = {
