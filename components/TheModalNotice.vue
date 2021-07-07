@@ -54,7 +54,9 @@ import {
   fetchNotionTableData,
   isValidModalNoticeItem,
   ModalNoticeItem,
+  validateModalNoticeConditions,
 } from '@/utils/notion'
+import { debugLog } from '@/utils/debug'
 
 type Data = {
   modalLoad: boolean // Lazy load to get correct client width
@@ -125,11 +127,42 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
     const noticesCatalog = await getCatalog()
     const now = Math.round(Date.now() / 1000)
     const noticesAvailable = noticesCatalog
-      .filter(
-        (item) =>
+      .filter((item) => {
+        const withinRange =
           (item.releasedAt ? item.releasedAt <= now : true) &&
           (item.expiredAt ? item.expiredAt > now : true)
-      )
+
+        const existingStatus = this.$accessor.modalNotices.status.find(
+          (entry) => entry.id === item.id
+        )
+        const { conditions: strConditions } = item
+
+        if (!existingStatus || !strConditions) {
+          return withinRange
+        }
+
+        const conditions = validateModalNoticeConditions(strConditions)
+        if (!conditions) {
+          return withinRange
+        }
+
+        let conditionSatisfied = true
+        const { shown, lastShown } = existingStatus
+        const { shownLimit, intervalMin } = conditions
+
+        if (shownLimit && !(shown < shownLimit)) {
+          debugLog('Condition not satisfied: shown < shownLimit')
+          conditionSatisfied = false
+        }
+        if (intervalMin && !(Date.now() - lastShown > intervalMin)) {
+          debugLog(
+            'Condition not satisfied: (Date.now() - lastShown) > intervalMin'
+          )
+          conditionSatisfied = false
+        }
+
+        return withinRange && conditionSatisfied
+      })
       .sort((a, b) => {
         if (!a.releasedAt) {
           return !b.releasedAt ? 0 : +1
@@ -156,7 +189,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       this.modalOpen = false
 
       const existingStatus = this.$accessor.modalNotices.status.find(
-        (item) => item.id === this.modalItem!.id
+        (entry) => entry.id === this.modalItem!.id
       )
 
       if (existingStatus) {
