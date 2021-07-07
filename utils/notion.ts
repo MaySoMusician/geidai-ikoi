@@ -81,6 +81,7 @@ export interface ModalNoticeItem extends NotionDatabaseItem {
   releasedAt?: number
   expiredAt?: number
   version: string
+  conditions?: string
 }
 
 export function isValidModalNoticeItem(target: any): target is ModalNoticeItem {
@@ -95,7 +96,8 @@ export function isValidModalNoticeItem(target: any): target is ModalNoticeItem {
     ('expiredAt' in target
       ? isNumber(target.expiredAt) && target.expiredAt > 0
       : IGNORE) &&
-    isNotEmptyString(target.version)
+    isNotEmptyString(target.version) &&
+    ('conditions' in target ? typeof target.conditions === 'string' : IGNORE)
   )
 }
 
@@ -105,4 +107,30 @@ function isNotEmptyString(target: any): target is string {
 
 function isNumber(target: any): target is number {
   return !Number.isNaN(target)
+}
+
+type ModalNoticeConditions = {
+  shownLimit?: number
+  intervalMin?: number
+}
+
+export function validateModalNoticeConditions(
+  str: string
+): ModalNoticeConditions | false {
+  if (str === '') return false
+
+  const arr = str.split(';')
+  const result: ModalNoticeConditions = {}
+
+  for (const expr of arr) {
+    const [property, value] = expr.split('=')
+    if (property === 'shownLimit') {
+      const num = Number.parseInt(value, 10)
+      if (!Number.isNaN(num)) result.shownLimit = num
+    } else if (property === 'intervalMin') {
+      const num = Number.parseInt(value, 10)
+      if (!Number.isNaN(num)) result.intervalMin = num
+    }
+  }
+  return result
 }
