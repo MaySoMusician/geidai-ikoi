@@ -74,6 +74,63 @@ export function isValidNewsItem(target: any): target is NewsItem {
   )
 }
 
+export interface ModalNoticeItem extends NotionDatabaseItem {
+  title: string
+  body: string
+  link?: string
+  releasedAt?: number
+  expiredAt?: number
+  version: string
+  conditions?: string
+}
+
+export function isValidModalNoticeItem(target: any): target is ModalNoticeItem {
+  return (
+    _isValidNotionDatabaseItem(target) &&
+    isNotEmptyString(target.title) &&
+    isNotEmptyString(target.body) &&
+    ('link' in target ? typeof target.link === 'string' : IGNORE) &&
+    ('releasedAt' in target
+      ? isNumber(target.releasedAt) && target.releasedAt > 0
+      : IGNORE) &&
+    ('expiredAt' in target
+      ? isNumber(target.expiredAt) && target.expiredAt > 0
+      : IGNORE) &&
+    isNotEmptyString(target.version) &&
+    ('conditions' in target ? typeof target.conditions === 'string' : IGNORE)
+  )
+}
+
 function isNotEmptyString(target: any): target is string {
   return typeof target === 'string' && target !== ''
+}
+
+function isNumber(target: any): target is number {
+  return !Number.isNaN(target)
+}
+
+type ModalNoticeConditions = {
+  shownLimit?: number
+  intervalMin?: number
+}
+
+export function validateModalNoticeConditions(
+  str: string
+): ModalNoticeConditions | false {
+  if (str === '') return false
+
+  const arr = str.split(';')
+  const result: ModalNoticeConditions = {}
+
+  for (const expr of arr) {
+    const [property, value] = expr.split('=')
+    if (property === 'shownLimit') {
+      const num = Number.parseInt(value, 10)
+      if (!Number.isNaN(num)) result.shownLimit = num
+    } else if (property === 'intervalMin') {
+      const num = Number.parseInt(value, 10)
+      if (!Number.isNaN(num)) result.intervalMin = num
+    }
+  }
+  return result
 }

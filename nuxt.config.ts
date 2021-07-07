@@ -82,7 +82,10 @@ const config: NuxtConfig = {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/vue-gtag.ts'],
+  plugins: [
+    '@/plugins/vue-gtag.ts',
+    { src: '@/plugins/vuex-persistedstate.client.ts', mode: 'client' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -155,6 +158,7 @@ const config: NuxtConfig = {
     configDatabaseId: process.env.NOTION_DATABASE_CONFIG,
     newsDatabaseId: process.env.NOTION_DATABASE_NEWS,
     meetLinksDatabaseId: process.env.NOTION_DATABASE_MEETLINKS,
+    modalNoticesDatabaseId: process.env.NOTION_DATABASE_MODALNOTICES,
   },
 
   styleResources: {

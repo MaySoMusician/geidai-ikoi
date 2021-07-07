@@ -16,30 +16,10 @@
               max-w="48rem"
               mx="auto"
             >
-              <!-- <CFlex class="header" h="3rem">
-                <AppSpacer />
-                <CPopover placement="bottom-end">
-                  <CPopoverTrigger>
-                    <CIconButton icon="menu" size="lg" />
-                  </CPopoverTrigger>
-                  <AppPopoverContent
-                    z-index="popover"
-                    :gutter="2"
-                    max-w="13em"
-                    box-shadow="lg"
-                  >
-                    <CPopoverBody
-                      ><nuxt-link to="/about/"
-                        >このサイトについて</nuxt-link
-                      ></CPopoverBody
-                    >
-                    <CPopoverBody><TheDarkModeButton /></CPopoverBody>
-                  </AppPopoverContent>
-                </CPopover>
-              </CFlex> -->
               <!-- main -->
               <Nuxt />
               <!-- /main -->
+              <!-- footer -->
               <CBox :class="[$style.Footer]" :pt="4">
                 <CFlex
                   direction="column"
@@ -78,8 +58,12 @@
                   </CBox>
                 </CFlex>
               </CBox>
+              <!-- /footer -->
             </CBox>
           </div>
+
+          <TheModalNotice />
+
           <transition name="fadeOut">
             <div
               v-if="!loaded"
@@ -101,7 +85,6 @@
 import Vue from 'vue'
 
 import { ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
-// import { AppPopoverContent } from '@/components/AppPopoverContent'
 import AppSvgLoaderTea from '@/components/AppSvgLoaderTea.vue'
 import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
 
@@ -127,7 +110,6 @@ type Computed = {
 export default Vue.extend<Data, Methods, Computed, unknown>({
   name: 'App',
   components: {
-    // AppPopoverContent,
     AppSvgLoaderTea,
     SvgLogoTitle,
   },
