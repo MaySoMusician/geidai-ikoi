@@ -2,7 +2,7 @@
   <div>
     <TheWebsiteTitle />
 
-    <transition name="fade1" mode="out-in" appear @after-enter="() => {}">
+    <transition name="fade1" mode="out-in" appear>
       <CBox
         id="comments"
         as="section"
@@ -37,7 +37,7 @@
         </template>
       </CBox>
     </transition>
-    <transition name="fade2" mode="out-in" appear @after-enter="() => {}">
+    <transition name="fade2" mode="out-in" appear>
       <CBox id="contacts" as="section" :class="[$style.SectionContainer]">
         <CHeading as="h2">お問い合わせ</CHeading>
         <CFlex justify="center">
@@ -68,18 +68,13 @@
         </CFlex>
       </CBox>
     </transition>
-    <transition name="fade3" mode="out-in" appear @after-enter="() => {}">
+    <transition name="fade3" mode="out-in" appear>
       <!-- <CBox id="attributions" as="section" :class="[$style.SectionContainer]">
         <CHeading as="h2">権利表示</CHeading>
         <CFlex justify="center"></CFlex>
       </CBox> -->
     </transition>
-    <transition
-      name="fade4"
-      mode="out-in"
-      appear
-      @after-enter="() => {}"
-    ></transition>
+    <transition name="fade4" mode="out-in" appear></transition>
   </div>
 </template>
 
