@@ -2,7 +2,7 @@
   <div>
     <TheWebsiteTitle />
 
-    <transition name="fade1" mode="out-in" appear @after-enter="() => {}">
+    <transition name="fade1" mode="out-in" appear>
       <CBox
         id="comments"
         as="section"
@@ -37,7 +37,7 @@
         </template>
       </CBox>
     </transition>
-    <transition name="fade2" mode="out-in" appear @after-enter="() => {}">
+    <transition name="fade2" mode="out-in" appear>
       <CBox id="contacts" as="section" :class="[$style.SectionContainer]">
         <CHeading as="h2">お問い合わせ</CHeading>
         <CFlex justify="center">
@@ -68,18 +68,39 @@
         </CFlex>
       </CBox>
     </transition>
-    <transition name="fade3" mode="out-in" appear @after-enter="() => {}">
+    <transition name="fade3" mode="out-in" appear>
       <!-- <CBox id="attributions" as="section" :class="[$style.SectionContainer]">
         <CHeading as="h2">権利表示</CHeading>
         <CFlex justify="center"></CFlex>
       </CBox> -->
     </transition>
-    <transition
-      name="fade4"
-      mode="out-in"
-      appear
-      @after-enter="() => {}"
-    ></transition>
+    <transition name="fade4" mode="out-in" appear>
+      <CBox id="privacy" as="section" :class="[$style.SectionContainer]">
+        <CHeading as="h2">プライバシー ポリシー</CHeading>
+        <CBox :px="{ base: '1.5rem', md: '4rem' }" text-indent="1em">
+          <CText
+            >本サイトでは、Webサイト・サービスの改善のためにGoogle
+            アナリティクスを使用しています。</CText
+          >
+          <CText
+            >Google
+            アナリティクスは、データを収集するために、Cookieの設定・読取、個人を特定しない端末情報などの送信を行います（IPアドレスは匿名化されます）。</CText
+          ><CText
+            >詳しい仕組みは<CLink
+              href="https://www.google.com/intl/ja/policies/privacy/partners"
+              is-external
+              >こちら</CLink
+            >をご覧ください。</CText
+          ><CText mt="0.8em"
+            >皆さまの使用状況にあわせてサイトを改良するために、データを収集・使用しておりますので、どうかご協力よろしくお願いいたします。データを収集されたくない場合は、ブラウザのCookieを無効にするか、<CLink
+              href="https://tools.google.com/dlpage/gaoptout?hl=ja"
+              is-external
+              >専用のアドオン</CLink
+            >（PCのみ）をご利用ください。</CText
+          >
+        </CBox>
+      </CBox>
+    </transition>
   </div>
 </template>
 
@@ -225,6 +246,10 @@ export default vue
       }
 
       @include headingBorderAboveBelow();
+    }
+
+    a {
+      color: #517d7a;
     }
   }
 }
