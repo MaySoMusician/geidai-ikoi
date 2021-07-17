@@ -19,9 +19,9 @@
         <CBox
           font-size="0.9rem"
           line-height="100%"
-          background-color="santafe"
+          background-color="azalea"
           border-radius="2rem"
-          color="white"
+          color="mineShaft"
           :px="4"
           :py="2"
           >ログアウト</CBox

@@ -1,5 +1,5 @@
 <template>
-  <CBox color="santafe">
+  <CBox color="azalea">
     <CIcon name="alert" size="1.4rem" />
     <CText as="span">読み込みエラー</CText>
   </CBox>

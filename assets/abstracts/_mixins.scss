@@ -18,8 +18,8 @@ $globalFadeDuration: 0.35s;
   text-align: center;
   width: fit-content;
 
-  border-top: 2px solid var(--theme-colors-santafe);
-  border-bottom: 2px solid var(--theme-colors-santafe);
+  border-top: 2px solid var(--theme-colors-azalea);
+  border-bottom: 2px solid var(--theme-colors-azalea);
 }
 
 @mixin slideAnimation($name, $duration) {

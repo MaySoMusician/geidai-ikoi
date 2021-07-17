@@ -32,6 +32,8 @@ export const extendTheme: Partial<ChakraTheme> = {
     wafer: '#e4d3cf',
     cavernPink: '#e2bcb7',
     santafe: '#b67162',
+    azalea: '#fad3d3',
+    mineShaft: '#272727',
   },
 }
 

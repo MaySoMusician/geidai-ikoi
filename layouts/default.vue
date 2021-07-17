@@ -170,7 +170,9 @@ body {
   --theme-colors-grass-400: #9e9d89;
   --theme-colors-wafer: #e4d3cf;
   --theme-colors-cavernPink: #e2bcb7;
-  --theme-colors-santafe: #b67162;
+  /* --theme-colors-santafe: #b67162; */
+  --theme-colors-azalea: #fad3d3;
+  --theme-colors-mineShaft: #272727;
 }
 </style>
 
