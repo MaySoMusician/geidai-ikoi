@@ -95,13 +95,7 @@ body {
   margin: 0;
 }
 
-:root {
-  --theme-colors-grass-50: #dbdad3;
-  --theme-colors-grass-400: #9e9d89;
-  --theme-colors-wafer: #e4d3cf;
-  --theme-colors-cavernPink: #e2bcb7;
-  --theme-colors-santafe: #b67162;
-}
+/* CSS variables of theme colors applied onto :root are defined in default layout */
 </style>
 
 <style lang="scss" scoped>
