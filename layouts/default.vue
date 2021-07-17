@@ -119,7 +119,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       toggleColorModeFunction: null,
       mainStyles: {
         dark: { bg: 'gray.700', color: 'whiteAlpha.900' },
-        light: { bg: 'white', color: 'gray.900' },
+        light: { bg: 'white', color: 'mineShaft' },
       },
       showDevSignOutButton: !!process.env.APP_DEBUG,
       loaded: false,
