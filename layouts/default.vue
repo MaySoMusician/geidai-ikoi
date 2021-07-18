@@ -13,7 +13,7 @@
             <CBox
               v-bind="mainStyles[colorMode]"
               :class="[$style.FullHeight]"
-              max-w="48rem"
+              max-w="66rem"
               mx="auto"
             >
               <!-- main -->
