@@ -18,9 +18,9 @@
       <CSimpleGrid
         key="shown"
         :columns="{ base: 1, sm: 2 }"
-        :p="{ base: '0 5%', sm: '0 6%' }"
+        :p="{ base: '0 5%', sm: '0 5%' }"
         row-gap="1rem"
-        :column-gap="{ base: '5%', sm: '6%' }"
+        :column-gap="{ base: '5%', sm: '5%' }"
         :mt="10"
       >
         <CFlex

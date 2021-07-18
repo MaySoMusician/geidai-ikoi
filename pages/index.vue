@@ -24,20 +24,47 @@
         :class="[$style.SectionContainer]"
         :direction="sectionFlexDirection"
       >
-        <AppNuxtImgImitated
-          :class="[$style.SectionPicture]"
-          original-src="/illust-02.png"
-          :original-width="1600"
-          :original-height="1200"
-          original-format="png"
-          :sizes="{ xs: 100, sm: 100, md: 50, lg: 50 }"
-          payload-source="noop/index"
-        />
-        <CBox :class="[$style.SectionContent]">
-          <CHeading as="h2">憩いとは</CHeading>
-          <CFlex justify="center" align="center" :mt="8">
-            <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
-          </CFlex>
+        <div
+          :class="[
+            $style.SectionPicture,
+            $style.SectionContentPositionLeft,
+            $style.SectionContentVerticallyCenter,
+          ]"
+        >
+          <AppNuxtImgImitated
+            original-src="/illust-02.png"
+            :original-width="1600"
+            :original-height="1147"
+            original-format="png"
+            :sizes="{ xs: 100, sm: 100, md: 50, lg: 50 }"
+            payload-source="noop/index"
+          />
+        </div>
+        <CBox
+          :class="[
+            $style.SectionContent,
+            $style.SectionContentPositionRight,
+            $style.SectionContentVerticallyCenter,
+          ]"
+        >
+          <div>
+            <CHeading
+              as="p"
+              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine1]"
+              >INTRO</CHeading
+            >
+            <CHeading
+              as="h2"
+              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine2]"
+              >憩いとは</CHeading
+            >
+            <CText :class="[$style.SectionDescription]"
+              >吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。</CText
+            >
+            <CFlex justify="center" align="center">
+              <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
+            </CFlex>
+          </div>
         </CBox>
       </CFlex>
 
@@ -46,31 +73,77 @@
         :class="[$style.SectionContainer]"
         :direction="sectionFlexDirectionReverse"
       >
-        <AppNuxtImgImitated
-          :class="[$style.SectionPicture]"
-          original-src="/illust-01.png"
-          :original-width="1600"
-          :original-height="1200"
-          original-format="png"
-          :sizes="{ xs: 100, sm: 100, md: 50, lg: 50 }"
-          payload-source="noop/index"
-        />
-        <CBox :class="[$style.SectionContent]">
-          <CHeading as="h2">運営より</CHeading>
-          <CGrid :class="[$style.SectionGrid]" :mt="8">
-            <AppButton
-              v-for="(link, index) in linksToAbout"
-              :key="index"
-              as="nuxt-link"
-              :text="link.text"
-              :to="link.to"
-            />
-          </CGrid>
+        <div
+          :class="[
+            $style.SectionPicture,
+            $style.SectionContentPositionRight,
+            $style.SectionContentVerticallyCenter,
+          ]"
+        >
+          <AppNuxtImgImitated
+            original-src="/illust-01.png"
+            :original-width="1600"
+            :original-height="1168"
+            original-format="png"
+            :sizes="{ xs: 100, sm: 100, md: 50, lg: 50 }"
+            payload-source="noop/index"
+          />
+        </div>
+
+        <CBox
+          :class="[
+            $style.SectionContent,
+            $style.SectionContentPositionLeft,
+            $style.SectionContentVerticallyCenter,
+          ]"
+        >
+          <div>
+            <CHeading
+              as="p"
+              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine1]"
+              >ABOUT</CHeading
+            >
+            <CHeading
+              as="h2"
+              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine2]"
+              >運営より</CHeading
+            >
+            <CText :class="[$style.SectionDescription]"
+              >吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。</CText
+            >
+            <CGrid :class="[$style.SectionGrid]">
+              <AppButton
+                v-for="(link, index) in linksToAbout"
+                :key="index"
+                as="nuxt-link"
+                :text="link.text"
+                :to="link.to"
+              />
+            </CGrid>
+          </div>
         </CBox>
       </CFlex>
 
       <CBox as="section" :class="[$style.SectionContainer]">
-        <CHeading as="h2" font-size="1.4rem">ギャラリー</CHeading>
+        <CHeading
+          as="p"
+          :class="[$style.SectionHeaderTextCenter, $style.SectionHeaderLine1]"
+          >GALLERY</CHeading
+        >
+        <CHeading
+          as="h2"
+          :class="[$style.SectionHeaderTextCenter, $style.SectionHeaderLine2]"
+          >ギャラリー</CHeading
+        >
+        <CText
+          letter-spacing="1.4px"
+          pt="3"
+          pb="5"
+          max-w="40rem"
+          text-align="center"
+          mx="auto"
+          >吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。</CText
+        >
         <CBox :class="[$style.GalleryOuterContainer]">
           <client-only>
             <CFlex
@@ -544,24 +617,74 @@ export default vue
 
   &Picture {
     height: auto;
+    object-fit: contain;
+    max-width: 30rem;
+    @media screen and (min-width: 48em) {
+      max-width: unset;
+    }
   }
 
   &Content {
-    h2 {
-      font-size: 1.4rem;
-      text-align: center;
-
+    &PositionLeft,
+    &PositionRight {
       padding: {
-        top: 0.8rem;
-        bottom: 0.8rem;
+        left: 0.8rem;
+        right: 0.8rem;
       }
+    }
 
-      @media screen and (min-width: 48em) {
-        text-align: left;
+    @media screen and (min-width: 48em) {
+      &PositionLeft {
         padding: {
-          left: 0.5em;
+          left: 4.2%;
+          right: 2.7%;
         }
       }
+      &PositionRight {
+        padding: {
+          left: 2.4%;
+          right: 4.2%;
+        }
+      }
+
+      &VerticallyCenter {
+        display: flex;
+        place-items: center;
+      }
+    }
+  }
+
+  &Header {
+    &TextLeft {
+      text-align: left;
+    }
+    &TextCenter {
+      text-align: center;
+    }
+
+    &Line1 {
+      font-size: 3rem;
+      letter-spacing: 1px;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: bold;
+      line-height: 100%;
+    }
+    &Line2 {
+      font-size: 1.5rem;
+      letter-spacing: 1.4px;
+      font-weight: bold;
+      line-height: 100%;
+      padding: {
+        top: 0.5rem;
+      }
+    }
+  }
+
+  &Description {
+    letter-spacing: 1.4px;
+    padding: {
+      top: 2rem;
+      bottom: 2.5rem;
     }
   }
 
@@ -591,9 +714,9 @@ export default vue
     position: relative;
     overflow: hidden;
 
-    padding: {
+    /* padding: {
       top: $top; // Overwrite the value of SectionContainer class
-    }
+    } */
 
     &::before {
       content: '';
@@ -605,7 +728,7 @@ export default vue
   &Image {
     &Container {
       position: absolute;
-      top: 1.6rem;
+      top: 0; // 1.6rem;
       left: 0;
       flex-wrap: nowrap;
       z-index: 0;
