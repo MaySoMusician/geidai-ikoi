@@ -9,40 +9,68 @@
 
     <client-only>
       <div ref="AuthRequiredSection" :class="[$style.AuthRequiredSection]">
-        <CBox as="section" :class="[$style.SectionContainer]">
-          <CHeading as="h2">どこで憩う？</CHeading>
+        <CBox as="section" :class="[]" pt="2rem" pb="3rem">
+          <CHeading as="h2" text-align="center" font-size="1.4rem"
+            >どこで憩う？</CHeading
+          >
           <TheRoomListMeet ref="RoomListMeet" :auto-load="meetLinkAutoLoad" />
         </CBox>
       </div>
     </client-only>
 
     <div ref="CommonSection" :class="[$style.CommonSection]">
-      <CBox as="section" :class="[$style.SectionContainer]">
-        <CHeading as="h2">憩いとは</CHeading>
-        <CFlex justify="center" align="center" :mt="8">
-          <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
-        </CFlex>
-      </CBox>
-
-      <CBox
+      <CFlex
         as="section"
         :class="[$style.SectionContainer]"
-        background-color="grass.50"
+        :direction="sectionFlexDirection"
       >
-        <CHeading as="h2">運営より</CHeading>
-        <CGrid :class="[$style.SectionGrid]" :mt="8">
-          <AppButton
-            v-for="(link, index) in linksToAbout"
-            :key="index"
-            as="nuxt-link"
-            :text="link.text"
-            :to="link.to"
-          />
-        </CGrid>
-      </CBox>
+        <AppNuxtImgImitated
+          :class="[$style.SectionPicture]"
+          original-src="/illust-02.png"
+          :original-width="1600"
+          :original-height="1200"
+          original-format="png"
+          :sizes="{ xs: 100, sm: 100, md: 50, lg: 50 }"
+          payload-source="noop/index"
+        />
+        <CBox :class="[$style.SectionContent]">
+          <CHeading as="h2">憩いとは</CHeading>
+          <CFlex justify="center" align="center" :mt="8">
+            <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
+          </CFlex>
+        </CBox>
+      </CFlex>
+
+      <CFlex
+        as="section"
+        :class="[$style.SectionContainer]"
+        :direction="sectionFlexDirectionReverse"
+      >
+        <AppNuxtImgImitated
+          :class="[$style.SectionPicture]"
+          original-src="/illust-01.png"
+          :original-width="1600"
+          :original-height="1200"
+          original-format="png"
+          :sizes="{ xs: 100, sm: 100, md: 50, lg: 50 }"
+          payload-source="noop/index"
+        />
+        <CBox :class="[$style.SectionContent]">
+          <CHeading as="h2">運営より</CHeading>
+          <CGrid :class="[$style.SectionGrid]" :mt="8">
+            <AppButton
+              v-for="(link, index) in linksToAbout"
+              :key="index"
+              as="nuxt-link"
+              :text="link.text"
+              :to="link.to"
+            />
+          </CGrid>
+        </CBox>
+      </CFlex>
 
       <CBox as="section" :class="[$style.SectionContainer]">
-        <CHeading as="h2">ギャラリー</CHeading>
+        <CHeading as="h2" font-size="1.4rem">ギャラリー</CHeading>
         <CBox :class="[$style.GalleryOuterContainer]">
           <client-only>
             <CFlex
@@ -95,6 +123,8 @@ type Data = {
   linksToAbout: { text: string; to: string }[]
   photos: Photo[]
   loadedPhotos: Set<number>
+  sectionFlexDirection: unknown
+  sectionFlexDirectionReverse: unknown
 }
 
 type Computed = {
@@ -211,6 +241,8 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         { src: '/photo-ikoi01.jpg', width: 1568, height: 1044 },
       ],
       loadedPhotos: new Set(),
+      sectionFlexDirection: { base: 'column', md: 'row' },
+      sectionFlexDirectionReverse: { base: 'column', md: 'row-reverse' },
     }
   },
   head() {
@@ -492,23 +524,44 @@ export default vue
     padding: {
       top: 2rem;
       bottom: 3rem;
+      left: 0.6rem;
+      right: 0.6rem;
+    }
+  }
+
+  &Picture,
+  &Content {
+    width: 100%;
+    margin: {
+      left: auto;
+      right: auto;
     }
 
-    h2 {
-      font-size: 1.125rem;
-      min-width: 7em;
+    @media screen and (min-width: 48em) {
+      width: 50%;
+    }
+  }
 
-      margin: {
-        left: auto;
-        right: auto;
-      }
+  &Picture {
+    height: auto;
+  }
+
+  &Content {
+    h2 {
+      font-size: 1.4rem;
+      text-align: center;
 
       padding: {
         top: 0.8rem;
         bottom: 0.8rem;
       }
 
-      @include headingBorderAboveBelow();
+      @media screen and (min-width: 48em) {
+        text-align: left;
+        padding: {
+          left: 0.5em;
+        }
+      }
     }
   }
 
