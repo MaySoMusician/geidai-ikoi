@@ -9,8 +9,12 @@
 
     <client-only>
       <div ref="AuthRequiredSection" :class="[$style.AuthRequiredSection]">
-        <CBox as="section" :class="[]" pt="2rem" pb="3rem">
-          <CHeading as="h2" text-align="center" font-size="1.4rem"
+        <CBox as="section" :class="[]" pt="4rem" pb="3rem">
+          <CHeading
+            as="h2"
+            text-align="center"
+            font-size="1.5rem"
+            letter-spacing="1.4px"
             >どこで憩う？</CHeading
           >
           <TheRoomListMeet ref="RoomListMeet" :auto-load="meetLinkAutoLoad" />
@@ -136,9 +140,7 @@
           >ギャラリー</CHeading
         >
         <CText
-          letter-spacing="1.4px"
-          pt="3"
-          pb="5"
+          :class="[$style.SectionDescription]"
           max-w="40rem"
           text-align="center"
           mx="auto"
@@ -165,7 +167,7 @@
             </CFlex>
           </client-only>
         </CBox>
-        <CFlex justify="center" align="center" :mt="2">
+        <CFlex justify="center" align="center" mt="2rem">
           <AppButton text="応募する" />
         </CFlex>
       </CBox>
@@ -595,10 +597,16 @@ export default vue
 .Section {
   &Container {
     padding: {
-      top: 2rem;
-      bottom: 3rem;
+      top: 6rem;
+      bottom: 6rem;
       left: 0.6rem;
       right: 0.6rem;
+    }
+
+    &:not(:last-child) {
+      padding: {
+        bottom: 4rem;
+      }
     }
   }
 
@@ -682,8 +690,9 @@ export default vue
 
   &Description {
     letter-spacing: 1.4px;
+    line-height: 1.7;
     padding: {
-      top: 2rem;
+      top: 2.5rem;
       bottom: 2.5rem;
     }
   }
