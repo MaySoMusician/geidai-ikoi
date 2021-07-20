@@ -18,7 +18,7 @@
       px="1em"
       min-w="10rem"
     >
-      <CBox :font-size="fontSize">
+      <CBox :font-size="fontSize" white-space="nowrap">
         <CIcon v-if="chevron === 'left'" name="chevron-left" size="1.4em" />
         <CText
           as="span"
