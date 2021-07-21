@@ -62,9 +62,14 @@
               :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine2]"
               >憩いとは</CHeading
             >
-            <CText :class="[$style.SectionDescription]"
-              >吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。</CText
-            >
+            <CBox :class="[$style.SectionDescription]">
+              <CText
+                >憩いはこれまで、学生同士で語り合ったり待ち合わせをするときなどに使われ、愛されてきました。</CText
+              >
+              <CText
+                >今でこそ使うことはかないませんが、そこにはたくさんの藝大生の日常が詰まっています。</CText
+              >
+            </CBox>
             <CFlex justify="center" align="center">
               <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
             </CFlex>
@@ -112,9 +117,14 @@
               :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine2]"
               >運営より</CHeading
             >
-            <CText :class="[$style.SectionDescription]"
-              >吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。</CText
-            >
+            <CBox :class="[$style.SectionDescription]">
+              <CText
+                >感染症対策として、「憩い」は封じられてしまっています。</CText
+              >
+              <CText
+                >しかしながら、ニュー・ノーマルに対応したオンライン憩いでは、ウイルスを気にすることなく心ゆくまで交流が図れます。気軽に入室してみてください。</CText
+              >
+            </CBox>
             <CGrid :class="[$style.SectionGrid]">
               <AppButton
                 v-for="(link, index) in linksToAbout"
@@ -139,13 +149,17 @@
           :class="[$style.SectionHeaderTextCenter, $style.SectionHeaderLine2]"
           >ギャラリー</CHeading
         >
-        <CText
+        <CBox
           :class="[$style.SectionDescription]"
-          max-w="40rem"
+          max-w="32em"
           text-align="center"
           mx="auto"
-          >吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。</CText
         >
+          <CText
+            >ここはかつての憩いの姿、いまや封じられた藝大の楽園。いつかまたここに集えることを祈りながら……。</CText
+          >
+          <CText>憩いを愛する皆様からの写真も募集しております。</CText>
+        </CBox>
         <CBox :class="[$style.GalleryOuterContainer]">
           <client-only>
             <CFlex
