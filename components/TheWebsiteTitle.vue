@@ -9,7 +9,7 @@
         direction="row"
       >
         <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
-          <img :class="[$style.HeaderLogoImage]" src="/logo-placeholder1.png" />
+          <SvgLogoTitle :class="[$style.HeaderLogoTitle]" />
         </CLink>
         <AppSpacer :d="{ sm: 'none' }" />
         <MobileMenuOpener
@@ -25,10 +25,15 @@
           :class="[$style.HeaderLinks]"
           direction="row"
           justify="center"
+          align="center"
           flex-wrap="wrap"
           text-align="center"
           font-size="0.8rem"
         >
+          <CLink as="nuxt-link" d="block" to="/" :_focus="{}" mr="1.2rem">
+            <SvgLogoTitle :class="[$style.HeaderLogoTitleDesktop]" />
+          </CLink>
+
           <CLink
             v-for="(link, index) in headerLinks"
             :key="index"
@@ -76,6 +81,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
 
 type Data = {
   headerLinks: { text: string; link: string; external: boolean }[]
@@ -83,6 +89,7 @@ type Data = {
 }
 
 export default Vue.extend<Data, unknown, unknown, unknown>({
+  components: { SvgLogoTitle },
   data() {
     return {
       headerLinks: [
@@ -125,10 +132,7 @@ $slideDuration: 0.8s;
       z-index: 1;
 
       @media screen and (min-width: 30em) {
-        width: calc(100% - 6.6rem);
-        margin: {
-          left: calc(6.6rem);
-        }
+        width: 100%;
       }
     }
   }
@@ -163,9 +167,20 @@ $slideDuration: 0.8s;
 /* Layout configurations */
 .Header {
   &Logo {
+    &TitleDesktop {
+      display: none;
+    }
+
     @media screen and (min-width: 30em) {
       &Container {
         border-bottom-right-radius: $radius1;
+      }
+      &Title {
+        display: none;
+      }
+      &TitleDesktop {
+        display: block;
+        height: 0.8rem;
       }
     }
   }

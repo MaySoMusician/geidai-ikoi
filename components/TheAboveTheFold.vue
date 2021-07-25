@@ -10,6 +10,7 @@
       >
         <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
           <img :class="[$style.HeaderLogoImage]" src="/logo-placeholder1.png" />
+          <SvgLogoTitle :class="[$style.HeaderLogoTitle]" />
         </CLink>
 
         <CBox
@@ -99,6 +100,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
 
 type Data = {
   headerLinks: { text: string; link: string; external: boolean }[]
@@ -110,6 +112,7 @@ type Computed = {
 }
 
 export default Vue.extend<Data, unknown, Computed, unknown>({
+  components: { SvgLogoTitle },
   data() {
     return {
       headerLinks: [
@@ -190,6 +193,10 @@ $pad2: 1.3rem;
 /* Layout configurations */
 .Header {
   &Logo {
+    &Image {
+      display: none;
+    }
+
     @media screen and (min-width: 30em) {
       &Container {
         margin: {
@@ -197,6 +204,10 @@ $pad2: 1.3rem;
         }
         border-bottom-left-radius: $radius1;
         border-bottom-right-radius: $radius1;
+      }
+
+      &Image {
+        display: block;
       }
     }
   }

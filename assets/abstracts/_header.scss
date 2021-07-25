@@ -18,6 +18,11 @@ $bg: rgba(255, 255, 255, 88%);
     &Image {
       width: auto;
     }
+
+    &Title,
+    &TitleDesktop {
+      --color: #78828a;
+    }
   }
 
   &Links {
@@ -30,7 +35,7 @@ $bg: rgba(255, 255, 255, 88%);
 
 .MobileMenu {
   position: fixed;
-  top: 3.25rem;
+  top: 2rem;
   width: 100%;
   height: 100%;
   background: white;
@@ -78,12 +83,19 @@ $bg: rgba(255, 255, 255, 88%);
       flex-direction: row;
     }
     &Image {
-      height: 3rem;
+      display: none;
+    }
+
+    &Title {
+      --color: #78828a;
+      height: 2rem;
       margin: {
-        top: 0.125rem;
-        bottom: 0.125rem;
         left: 0.3rem;
         right: 0.3rem;
+      }
+      padding: {
+        top: 0.55rem;
+        bottom: 0.55rem;
       }
     }
 
@@ -94,13 +106,19 @@ $bg: rgba(255, 255, 255, 88%);
         flex-direction: column;
       }
       &Image {
+        display: block;
         height: 6rem;
         margin: {
           top: 0.1rem;
-          bottom: 0.2rem;
+          bottom: 0;
           left: 0.3rem;
           right: 0.3rem;
         }
+      }
+
+      &Title {
+        height: unset;
+        padding: unset;
       }
     }
   }

@@ -8,8 +8,8 @@
   >
     <CButton
       bg="transparent"
-      h="2.5rem"
-      w="2.5rem"
+      h="2rem"
+      w="2rem"
       color="rgb(93 93 93)"
       :px="2"
       :_focus="{
