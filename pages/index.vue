@@ -644,6 +644,10 @@ export default vue
   }
 
   &Content {
+    padding: {
+      top: 3rem;
+    }
+
     &PositionLeft,
     &PositionRight {
       padding: {
@@ -653,6 +657,9 @@ export default vue
     }
 
     @media screen and (min-width: 48em) {
+      padding: {
+        top: 0;
+      }
       &PositionLeft {
         padding: {
           left: 4.2%;
