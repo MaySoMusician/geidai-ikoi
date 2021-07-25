@@ -26,7 +26,7 @@
                   align="center"
                   min-h="1.8rem"
                   :py="2"
-                  background-color="grass.50"
+                  bg="ebb"
                 >
                   <CButton
                     as="nuxt-link"
@@ -173,6 +173,7 @@ body {
   --theme-colors-santafe: #b67162;
   --theme-colors-azalea: #fad3d3;
   --theme-colors-mineShaft: #272727;
+  --theme-colors-ebb: #ebe1e1;
 }
 </style>
 

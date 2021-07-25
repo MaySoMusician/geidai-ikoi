@@ -35,6 +35,7 @@ export const extendTheme: Partial<ChakraTheme> = {
     santafe: '#b67162',
     azalea: '#fad3d3',
     mineShaft: '#272727',
+    ebb: '#ebe1e1',
   },
 }
 

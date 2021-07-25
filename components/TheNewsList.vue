@@ -11,7 +11,7 @@
         v-if="newsItemsAvailable.length < 1"
         v-bind="$attrs"
         key="shown"
-        bg="#ebe1e1"
+        bg="ebb"
         py="0.8rem"
         >お知らせはありません</CAlert
       >
