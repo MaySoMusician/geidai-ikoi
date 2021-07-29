@@ -75,6 +75,9 @@
         :sizes="{ xs: 100, sm: 100, md: 100, lg: 100 }"
         payload-source="about"
       />
+      <div class="ShapeDivider1" role="presentation">
+        <SvgShapeDivider1 />
+      </div>
     </CBox>
   </CBox>
 </template>
@@ -82,6 +85,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
+import SvgShapeDivider1 from '~/assets/shapeDivider1.svg?inline'
 
 type Data = {
   headerLinks: { text: string; link: string; external: boolean }[]
@@ -89,7 +93,7 @@ type Data = {
 }
 
 export default Vue.extend<Data, unknown, unknown, unknown>({
-  components: { SvgLogoTitle },
+  components: { SvgLogoTitle, SvgShapeDivider1 },
   data() {
     return {
       headerLinks: [
@@ -116,6 +120,26 @@ $slideDuration: 0.8s;
   &-enter,
   &-leave-to {
     background-color: rgba(255, 255, 255, 88%);
+  }
+}
+
+.ShapeDivider1 {
+  position: absolute;
+  bottom: -2px; // avoid gap when the height is sub pixel
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+
+  svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: min(35px, 6.5vw);
+  }
+  .shape-fill {
+    fill: #ffffff;
   }
 }
 </style>
@@ -152,7 +176,7 @@ $slideDuration: 0.8s;
 
 .AboveTheFold {
   padding: {
-    bottom: 12rem;
+    bottom: 14rem;
   }
 
   margin: {
@@ -160,7 +184,7 @@ $slideDuration: 0.8s;
   }
 
   &Background {
-    object-position: 50% 66%;
+    object-position: 50% 68%;
   }
 }
 

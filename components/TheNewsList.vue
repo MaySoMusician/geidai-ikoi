@@ -11,8 +11,7 @@
         v-if="newsItemsAvailable.length < 1"
         v-bind="$attrs"
         key="shown"
-        bg="ebb"
-        py="0.8rem"
+        :class="[$style.News]"
         >お知らせはありません</CAlert
       >
       <CStack v-else v-bind="$attrs" key="shown" :spacing="3">
@@ -85,4 +84,16 @@ export default Vue.extend<Data, unknown, Computed, unknown>({
 @include fadeEaseOutCubic('fade', $globalFadeDuration, 0s);
 </style>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.News {
+  padding: {
+    bottom: 1.6rem;
+  }
+  background: linear-gradient(
+    to bottom,
+    var(--theme-colors-ebb),
+    var(--theme-colors-ebb) 55%,
+    rgb(255, 255, 255)
+  );
+}
+</style>
