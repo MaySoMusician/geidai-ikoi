@@ -10,6 +10,7 @@
       >
         <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
           <img :class="[$style.HeaderLogoImage]" src="/logo-placeholder1.png" />
+          <SvgLogoTitle :class="[$style.HeaderLogoTitle]" />
         </CLink>
 
         <CBox
@@ -66,6 +67,9 @@
         format="jpg"
         sizes="xs:100vw sm:100vw md:100vw lg:100vw"
       />
+      <div class="ShapeDivider1" role="presentation">
+        <SvgShapeDivider1 />
+      </div>
       <client-only>
         <transition name="fade">
           <CFlex
@@ -99,6 +103,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
+import SvgShapeDivider1 from '~/assets/shapeDivider1.svg?inline'
 
 type Data = {
   headerLinks: { text: string; link: string; external: boolean }[]
@@ -110,6 +116,7 @@ type Computed = {
 }
 
 export default Vue.extend<Data, unknown, Computed, unknown>({
+  components: { SvgLogoTitle, SvgShapeDivider1 },
   data() {
     return {
       headerLinks: [
@@ -144,6 +151,29 @@ $slideDuration: 0.8s;
     background-color: rgba(255, 255, 255, 88%);
   }
 }
+
+.ShapeDivider1 {
+  position: absolute;
+  bottom: -2px; // avoid gap when the height is sub pixel
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+
+  svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: min(35px, 6.5vw);
+  }
+  .shape-fill {
+    fill: url(#divider-gradient-1);
+  }
+  #divider-gradient-1 {
+    --color-stop-1: var(--theme-colors-ebb);
+  }
+}
 </style>
 
 <style lang="scss" module>
@@ -166,7 +196,7 @@ $pad2: 1.3rem;
 
 .AboveTheFold {
   padding: {
-    bottom: 21rem;
+    bottom: 25rem;
   }
 
   &Background {
@@ -190,6 +220,10 @@ $pad2: 1.3rem;
 /* Layout configurations */
 .Header {
   &Logo {
+    &Image {
+      display: none;
+    }
+
     @media screen and (min-width: 30em) {
       &Container {
         margin: {
@@ -197,6 +231,10 @@ $pad2: 1.3rem;
         }
         border-bottom-left-radius: $radius1;
         border-bottom-right-radius: $radius1;
+      }
+
+      &Image {
+        display: block;
       }
     }
   }
@@ -217,21 +255,15 @@ $pad2: 1.3rem;
 }
 
 .AboveTheFold {
-  margin: {
-    bottom: 0.6rem;
-  }
   &SignInButtons {
-    bottom: 0.6rem;
+    bottom: calc(0.6rem + 20px);
     right: 50%;
     transform: translateX(50%);
   }
 
   @media screen and (min-width: 30em) {
-    margin: {
-      bottom: $pad2;
-    }
     &SignInButtons {
-      bottom: $pad2;
+      bottom: calc(#{$pad2} + 20px);
       right: $pad2;
       transform: unset;
     }

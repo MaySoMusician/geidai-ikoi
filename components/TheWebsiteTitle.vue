@@ -9,7 +9,7 @@
         direction="row"
       >
         <CLink as="nuxt-link" d="block" to="/" :_focus="{}">
-          <img :class="[$style.HeaderLogoImage]" src="/logo-placeholder1.png" />
+          <SvgLogoTitle :class="[$style.HeaderLogoTitle]" />
         </CLink>
         <AppSpacer :d="{ sm: 'none' }" />
         <MobileMenuOpener
@@ -25,10 +25,15 @@
           :class="[$style.HeaderLinks]"
           direction="row"
           justify="center"
+          align="center"
           flex-wrap="wrap"
           text-align="center"
           font-size="0.8rem"
         >
+          <CLink as="nuxt-link" d="block" to="/" :_focus="{}" mr="1.2rem">
+            <SvgLogoTitle :class="[$style.HeaderLogoTitleDesktop]" />
+          </CLink>
+
           <CLink
             v-for="(link, index) in headerLinks"
             :key="index"
@@ -70,12 +75,17 @@
         :sizes="{ xs: 100, sm: 100, md: 100, lg: 100 }"
         payload-source="about"
       />
+      <div class="ShapeDivider1" role="presentation">
+        <SvgShapeDivider1 />
+      </div>
     </CBox>
   </CBox>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
+import SvgShapeDivider1 from '~/assets/shapeDivider1.svg?inline'
 
 type Data = {
   headerLinks: { text: string; link: string; external: boolean }[]
@@ -83,6 +93,7 @@ type Data = {
 }
 
 export default Vue.extend<Data, unknown, unknown, unknown>({
+  components: { SvgLogoTitle, SvgShapeDivider1 },
   data() {
     return {
       headerLinks: [
@@ -111,6 +122,26 @@ $slideDuration: 0.8s;
     background-color: rgba(255, 255, 255, 88%);
   }
 }
+
+.ShapeDivider1 {
+  position: absolute;
+  bottom: -2px; // avoid gap when the height is sub pixel
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+
+  svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: min(35px, 6.5vw);
+  }
+  .shape-fill {
+    fill: #ffffff;
+  }
+}
 </style>
 
 <style lang="scss" module>
@@ -125,10 +156,7 @@ $slideDuration: 0.8s;
       z-index: 1;
 
       @media screen and (min-width: 30em) {
-        width: calc(100% - 6.6rem);
-        margin: {
-          left: calc(6.6rem);
-        }
+        width: 100%;
       }
     }
   }
@@ -148,7 +176,7 @@ $slideDuration: 0.8s;
 
 .AboveTheFold {
   padding: {
-    bottom: 12rem;
+    bottom: 14rem;
   }
 
   margin: {
@@ -156,16 +184,27 @@ $slideDuration: 0.8s;
   }
 
   &Background {
-    object-position: 50% 66%;
+    object-position: 50% 68%;
   }
 }
 
 /* Layout configurations */
 .Header {
   &Logo {
+    &TitleDesktop {
+      display: none;
+    }
+
     @media screen and (min-width: 30em) {
       &Container {
         border-bottom-right-radius: $radius1;
+      }
+      &Title {
+        display: none;
+      }
+      &TitleDesktop {
+        display: block;
+        height: 0.8rem;
       }
     }
   }

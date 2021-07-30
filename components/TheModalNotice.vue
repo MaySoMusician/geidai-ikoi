@@ -10,7 +10,7 @@
         <template v-if="modalItem">
           <AppModalHeader
             py="8px"
-            background-color="santafe"
+            background-color="azalea"
             color="white"
             rounded-top="0.5rem"
             >{{ modalItem.title }}</AppModalHeader

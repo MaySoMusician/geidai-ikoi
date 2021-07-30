@@ -75,6 +75,9 @@ const config: NuxtConfig = {
       ...generateLazyFontLinkTags(
         'https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'
       ),
+      ...generateLazyFontLinkTags(
+        'https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap'
+      ),
     ],
   },
 

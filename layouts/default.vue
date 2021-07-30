@@ -13,7 +13,7 @@
             <CBox
               v-bind="mainStyles[colorMode]"
               :class="[$style.FullHeight]"
-              max-w="48rem"
+              max-w="66rem"
               mx="auto"
             >
               <!-- main -->
@@ -26,7 +26,7 @@
                   align="center"
                   min-h="1.8rem"
                   :py="2"
-                  background-color="grass.50"
+                  bg="ebb"
                 >
                   <CButton
                     as="nuxt-link"
@@ -119,7 +119,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       toggleColorModeFunction: null,
       mainStyles: {
         dark: { bg: 'gray.700', color: 'whiteAlpha.900' },
-        light: { bg: 'white', color: 'gray.900' },
+        light: { bg: 'white', color: 'mineShaft' },
       },
       showDevSignOutButton: !!process.env.APP_DEBUG,
       loaded: false,
@@ -171,6 +171,9 @@ body {
   --theme-colors-wafer: #e4d3cf;
   --theme-colors-cavernPink: #e2bcb7;
   --theme-colors-santafe: #b67162;
+  --theme-colors-azalea: #fad3d3;
+  --theme-colors-mineShaft: #272727;
+  --theme-colors-ebb: #ebe1e1;
 }
 </style>
 
