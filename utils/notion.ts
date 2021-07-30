@@ -57,7 +57,7 @@ export type NewsType = typeof newsTypes[number]
 export interface NewsItem extends NotionDatabaseItem {
   title: string
   type: NewsType
-  onPublished?: string
+  publishedOn?: string
   content?: string
   isHidden?: boolean
 }
@@ -68,7 +68,7 @@ export function isValidNewsItem(target: any): target is NewsItem {
     isNotEmptyString(target.title) &&
     isNotEmptyString(target.type) &&
     newsTypes.includes(target.type) &&
-    ('onPublished' in target ? isNotEmptyString(target.onPublished) : IGNORE) &&
+    ('publishedOn' in target ? isNotEmptyString(target.publishedOn) : IGNORE) &&
     ('content' in target ? isNotEmptyString(target.content) : IGNORE) &&
     ('isHidden' in target ? typeof target.isHidden === 'boolean' : IGNORE)
   )
