@@ -78,6 +78,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import TheWebsiteTitle from '@/components/TheWebsiteTitle.vue'
 import {
   fetchNotionTableData,
   isValidMeetLinkItem,
@@ -105,6 +106,7 @@ type Methods = {
 }
 
 export default Vue.extend<Data, Methods, Computed, unknown>({
+  components: { TheWebsiteTitle },
   inject: ['$chakraColorMode', '$toggleColorMode'],
   middleware: ['auth'],
   data() {
