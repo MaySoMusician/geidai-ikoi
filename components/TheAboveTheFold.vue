@@ -255,9 +255,6 @@ $pad2: 1.3rem;
 }
 
 .AboveTheFold {
-  margin: {
-    // bottom: 0.6rem;
-  }
   &SignInButtons {
     bottom: calc(0.6rem + 20px);
     right: 50%;
@@ -265,9 +262,6 @@ $pad2: 1.3rem;
   }
 
   @media screen and (min-width: 30em) {
-    margin: {
-      // bottom: $pad2;
-    }
     &SignInButtons {
       bottom: calc(#{$pad2} + 20px);
       right: $pad2;

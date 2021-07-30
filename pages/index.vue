@@ -741,10 +741,6 @@ export default vue
     position: relative;
     overflow: hidden;
 
-    /* padding: {
-      top: $top; // Overwrite the value of SectionContainer class
-    } */
-
     &::before {
       content: '';
       display: block;
@@ -755,7 +751,7 @@ export default vue
   &Image {
     &Container {
       position: absolute;
-      top: 0; // 1.6rem;
+      top: 0;
       left: 0;
       flex-wrap: nowrap;
       z-index: 0;
