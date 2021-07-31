@@ -52,16 +52,7 @@
           ]"
         >
           <div>
-            <CHeading
-              as="p"
-              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine1]"
-              >INTRO</CHeading
-            >
-            <CHeading
-              as="h2"
-              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine2]"
-              >憩いとは</CHeading
-            >
+            <AppHeadingTwoLine line1="INTRO" line2="憩いとは" position="left" />
             <CBox :class="[$style.SectionDescription]">
               <CText
                 >憩いはこれまで、学生同士で語り合ったり待ち合わせをするときなどに使われ、愛されてきました。</CText
@@ -107,16 +98,7 @@
           ]"
         >
           <div>
-            <CHeading
-              as="p"
-              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine1]"
-              >ABOUT</CHeading
-            >
-            <CHeading
-              as="h2"
-              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine2]"
-              >運営より</CHeading
-            >
+            <AppHeadingTwoLine line1="ABOUT" line2="運営より" position="left" />
             <CBox :class="[$style.SectionDescription]">
               <CText
                 >感染症対策として、「憩い」は封じられてしまっています。しかしながら、ニュー・ノーマルに対応したオンライン憩いでは、ウイルスを気にすることなく心ゆくまで交流が図れます。気軽に入室してみてください。</CText
@@ -136,16 +118,11 @@
       </CFlex>
 
       <CBox as="section" :class="[$style.SectionContainer]">
-        <CHeading
-          as="p"
-          :class="[$style.SectionHeaderTextCenter, $style.SectionHeaderLine1]"
-          >GALLERY</CHeading
-        >
-        <CHeading
-          as="h2"
-          :class="[$style.SectionHeaderTextCenter, $style.SectionHeaderLine2]"
-          >ギャラリー</CHeading
-        >
+        <AppHeadingTwoLine
+          line1="GALLERY"
+          line2="ギャラリー"
+          position="center"
+        />
         <CBox
           :class="[$style.SectionDescription]"
           max-w="32em"
@@ -676,32 +653,6 @@ export default vue
       &VerticallyCenter {
         display: flex;
         place-items: center;
-      }
-    }
-  }
-
-  &Header {
-    &TextLeft {
-      text-align: left;
-    }
-    &TextCenter {
-      text-align: center;
-    }
-
-    &Line1 {
-      font-size: 3rem;
-      letter-spacing: 1px;
-      font-family: 'Open Sans', sans-serif;
-      font-weight: bold;
-      line-height: 100%;
-    }
-    &Line2 {
-      font-size: 1.5rem;
-      letter-spacing: 1.4px;
-      font-weight: bold;
-      line-height: 100%;
-      padding: {
-        top: 0.5rem;
       }
     }
   }
