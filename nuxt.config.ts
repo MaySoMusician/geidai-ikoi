@@ -57,16 +57,9 @@ const config: NuxtConfig = {
     },
     htmlAttrs: { lang: 'ja' },
     meta: [
-      // { charset: 'utf-8' },
-      // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      // hid({ name: 'description', content: WEBSITE_DESCRIPTION }),
-      // hid({ property: 'og:type', content: 'website' }),
-      // hid({ property: 'og:site_name', content: WEBSITE_NAME }),
-      // hid({ property: 'og:description', content: WEBSITE_DESCRIPTION }),
-      hid({ property: 'og:locale', content: 'website' }),
+      hid({ property: 'og:locale', content: 'ja' }),
       hid({ name: 'robots', content: 'noindex' }),
       hid({ name: 'msapplication-TileColor', content: '#00aba9' }),
-      // hid({ name: 'theme-color', content: '#ffffff' }),
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
