@@ -65,9 +65,29 @@ const config: NuxtConfig = {
       hid({ property: 'og:description', content: WEBSITE_DESCRIPTION }),
       hid({ property: 'og:locale', content: 'website' }),
       hid({ name: 'robots', content: 'noindex' }),
+      hid({ name: 'msapplication-TileColor', content: '#00aba9' }),
+      hid({ name: 'theme-color', content: '#ffffff' }),
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'apple-touch-icon',
+        href: '/apple-touch-icon.png',
+        sizes: '180x180',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/favicon-32x32.png',
+        sizes: '32x32',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/favicon-16x16.png',
+        sizes: '16x16',
+      },
+      { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#545b61' },
       ...generateLazyFontLinkTags(
         'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap',
         'https://fonts.gstatic.com'
