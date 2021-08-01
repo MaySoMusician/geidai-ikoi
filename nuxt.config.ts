@@ -57,16 +57,16 @@ const config: NuxtConfig = {
     },
     htmlAttrs: { lang: 'ja' },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      hid({ name: 'description', content: WEBSITE_DESCRIPTION }),
-      hid({ property: 'og:type', content: 'website' }),
-      hid({ property: 'og:site_name', content: WEBSITE_NAME }),
-      hid({ property: 'og:description', content: WEBSITE_DESCRIPTION }),
+      // { charset: 'utf-8' },
+      // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      // hid({ name: 'description', content: WEBSITE_DESCRIPTION }),
+      // hid({ property: 'og:type', content: 'website' }),
+      // hid({ property: 'og:site_name', content: WEBSITE_NAME }),
+      // hid({ property: 'og:description', content: WEBSITE_DESCRIPTION }),
       hid({ property: 'og:locale', content: 'website' }),
       hid({ name: 'robots', content: 'noindex' }),
       hid({ name: 'msapplication-TileColor', content: '#00aba9' }),
-      hid({ name: 'theme-color', content: '#ffffff' }),
+      // hid({ name: 'theme-color', content: '#ffffff' }),
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -127,6 +127,8 @@ const config: NuxtConfig = {
     '@nuxtjs/style-resources',
     // https://image.nuxtjs.org/
     '@nuxt/image',
+    // https://pwa.nuxtjs.org/
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -190,6 +192,51 @@ const config: NuxtConfig = {
 
   image: {
     screens: VIEWPORTS,
+  },
+
+  pwa: {
+    icon: false,
+    meta: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      modileApp: true,
+      mobileAppIOS: true,
+      appleStatusBarStyle: 'default',
+      favicon: false,
+      name: undefined,
+      author: 'MaySoMusician',
+      description: WEBSITE_DESCRIPTION,
+      theme_color: '#ffffff',
+      lang: 'ja',
+      ogType: 'website',
+      ogSiteName: WEBSITE_NAME,
+      ogDescription: WEBSITE_DESCRIPTION,
+      nativeUI: true,
+    },
+    manifest: {
+      name: WEBSITE_NAME,
+      short_name: 'オンライン憩い',
+      description: WEBSITE_DESCRIPTION,
+      icons: [
+        {
+          src: '/android-chrome-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: '/android-chrome-256x256.png',
+          sizes: '256x256',
+          type: 'image/png',
+        },
+      ],
+      theme_color: '#ffffff',
+      background_color: '#ffffff',
+      display: 'standalone',
+      lang: 'ja',
+    },
+    workbox: {
+      offline: false,
+    },
   },
 }
 
