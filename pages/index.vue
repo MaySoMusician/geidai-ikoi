@@ -239,7 +239,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       newsLoaded: false,
       unwatchUser: null,
       linksToAbout: [
-        { text: 'コメント', to: '/about/#comments' },
+        { text: 'コメント', to: '/about/#team' },
         { text: 'お問い合わせ', to: '/about/#contacts' },
         { text: '募集案内', to: '/about/#' },
         { text: '権利表示', to: '/about/#attributions' },
