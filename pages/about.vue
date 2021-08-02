@@ -55,7 +55,7 @@
               v-for="(contact, index) in contacts"
               :key="index"
               :class="[$style.ContactListItem]"
-              font-size="0.875rem"
+              font-size="1rem"
             >
               <CListIcon
                 :icon="contact.icon"
