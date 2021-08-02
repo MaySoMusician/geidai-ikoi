@@ -1,11 +1,11 @@
 <template>
-  <CFlex
-    :id="anchor"
-    as="section"
-    :class="[$style.Container]"
-    :direction="flexDirection"
+  <DocSectionTwoColumns
+    :anchor="anchor"
+    :classes-column1="[$style.Picture]"
+    :classes-column2="[$style.Content]"
+    :direction="direction"
   >
-    <div :class="[$style.Picture, $style.VerticallyCenter, classPosition1]">
+    <template #column1>
       <AppNuxtImgImitated
         :original-src="pictureSrc"
         :original-width="pictureWidth"
@@ -14,25 +14,24 @@
         :sizes="{ xs: 100, sm: 100, md: 50, lg: 50 }"
         :payload-source="pictureSource"
       />
-    </div>
-    <CBox :class="[$style.Content, $style.VerticallyCenter, classPosition2]">
+    </template>
+    <template #column2>
       <div>
         <slot />
       </div>
-    </CBox>
-  </CFlex>
+    </template>
+  </DocSectionTwoColumns>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+import { Direction } from '@/components/DocSectionTwoColumns.vue'
 
 type LeftRight = 'left' | 'right'
 
 type Data = {
   format: string
-  flexDirection: { base: string; md: string }
-  classPosition1: string
-  classPosition2: string
+  direction: Direction
 }
 
 type Props = {
@@ -72,41 +71,15 @@ export default Vue.extend<Data, unknown, unknown, Props>({
     },
   },
   data() {
-    const directionNormal = { base: 'column', md: 'row' }
-    const directionReverse = { base: 'column', md: 'row-reverse' }
     return {
       format: this.pictureSrc.split('.').pop() || '',
-      flexDirection:
-        this.picturePosition === 'left' ? directionNormal : directionReverse,
-      classPosition1:
-        this.picturePosition === 'left'
-          ? this.$style.PositionLeft
-          : this.$style.PositionRight,
-      classPosition2:
-        this.picturePosition === 'left'
-          ? this.$style.PositionRight
-          : this.$style.PositionLeft,
+      direction: this.picturePosition === 'left' ? 'normal' : 'reversed',
     }
   },
 })
 </script>
 
 <style lang="scss" module>
-.Container {
-  padding: {
-    top: 6rem;
-    bottom: 6rem;
-    left: 0.6rem;
-    right: 0.6rem;
-  }
-
-  /* &:not(:last-child) {
-      padding: {
-        bottom: 4rem;
-      }
-    } */
-}
-
 .Picture,
 .Content {
   width: 100%;
@@ -138,34 +111,6 @@ export default Vue.extend<Data, unknown, unknown, Props>({
     padding: {
       top: 0;
     }
-  }
-}
-
-.PositionLeft,
-.PositionRight {
-  padding: {
-    left: 0.8rem;
-    right: 0.8rem;
-  }
-}
-
-@media screen and (min-width: 48em) {
-  .PositionLeft {
-    padding: {
-      left: 4.2%;
-      right: 2.7%;
-    }
-  }
-  .PositionRight {
-    padding: {
-      left: 2.4%;
-      right: 4.2%;
-    }
-  }
-
-  .VerticallyCenter {
-    display: flex;
-    place-items: center;
   }
 }
 </style>
