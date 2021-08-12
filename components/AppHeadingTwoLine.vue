@@ -1,11 +1,27 @@
 <template>
   <div :id="anchor">
-    <CHeading as="p" :class="[classPosition, $style.HeadingLine1]">{{
-      line1
-    }}</CHeading>
-    <CHeading as="h2" :class="[classPosition, $style.HeadingLine2]">{{
-      line2
-    }}</CHeading>
+    <!-- overwrites default CHeading css here since they are at higher
+    priority than $style styles -->
+    <CHeading
+      as="p"
+      :class="[classPosition]"
+      font-size="3rem"
+      font-family="latin"
+      line-height="100%"
+      font-weight="bold"
+      letter-spacing="0.0625rem"
+      >{{ line1 }}</CHeading
+    >
+    <CHeading
+      as="h2"
+      :class="[classPosition]"
+      font-size="1.5rem"
+      line-height="100%"
+      font-weight="bold"
+      letter-spacing="0.0875rem"
+      pt="0.5rem"
+      >{{ line2 }}</CHeading
+    >
   </div>
 </template>
 
@@ -62,23 +78,6 @@ export default Vue.extend<Data, unknown, unknown, Props>({
   }
   &Center {
     text-align: center;
-  }
-
-  &Line1 {
-    font-size: 3rem;
-    letter-spacing: 1px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: bold;
-    line-height: 100%;
-  }
-  &Line2 {
-    font-size: 1.5rem;
-    letter-spacing: 1.4px;
-    font-weight: bold;
-    line-height: 100%;
-    padding: {
-      top: 0.5rem;
-    }
   }
 }
 </style>
