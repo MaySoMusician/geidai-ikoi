@@ -1,0 +1,2 @@
+assets/fonts/**/complete/**/*.woff filter=lfs diff=lfs merge=lfs -text
+assets/fonts/**/complete/**/*.woff2 filter=lfs diff=lfs merge=lfs -text
