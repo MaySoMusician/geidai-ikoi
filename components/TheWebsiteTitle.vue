@@ -29,6 +29,7 @@
           flex-wrap="wrap"
           text-align="center"
           font-size="0.8rem"
+          font-weight="500"
         >
           <CLink as="nuxt-link" d="block" to="/" :_focus="{}" mr="1.2rem">
             <SvgLogoTitle :class="[$style.HeaderLogoTitleDesktop]" />
@@ -52,6 +53,7 @@
         :class="[$style.MobileMenu]"
         text-align="center"
         font-size="1rem"
+        font-weight="500"
         direction="column"
       >
         <CLink
@@ -163,7 +165,7 @@ $slideDuration: 0.8s;
 
   &LinkItem {
     padding: {
-      top: 0.25rem;
+      top: 0.425rem;
       bottom: 0.3rem;
       left: 1rem;
       right: 1rem;
