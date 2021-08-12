@@ -136,7 +136,9 @@ const config: NuxtConfig = {
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    quiet: false,
+  },
 
   // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate/
   generate: {
