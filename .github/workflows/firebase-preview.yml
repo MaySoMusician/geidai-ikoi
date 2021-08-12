@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          lfs: true
 
       # https://mflash.dev/blog/2020/09/05/using-git-lfs-in-ci/
       - name: Generate LFS files list
