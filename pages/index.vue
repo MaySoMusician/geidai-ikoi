@@ -14,7 +14,7 @@
             as="h2"
             text-align="center"
             font-size="1.5rem"
-            letter-spacing="1.4px"
+            letter-spacing="0.0875rem"
             >どこで憩う？</CHeading
           >
           <TheRoomListMeet ref="RoomListMeet" :auto-load="meetLinkAutoLoad" />
@@ -546,7 +546,7 @@ export default vue
   }
 
   &Description {
-    letter-spacing: 1.4px;
+    letter-spacing: 0.0875rem;
     line-height: 1.7;
     padding: {
       top: 2.5rem;
