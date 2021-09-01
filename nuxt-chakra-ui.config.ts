@@ -1,8 +1,8 @@
 import { ChakraTheme } from './types/chakra-ui-bridge'
 export const extendTheme: Partial<ChakraTheme> = {
   fonts: {
-    heading: "'Noto Sans JP', sans-serif",
-    body: "'Noto Sans JP', sans-serif",
+    heading: "'IBM Plex Sans JP', sans-serif",
+    body: "'IBM Plex Sans JP', sans-serif",
     mono: "'Roboto Mono', monospace",
     latin: "'Open Sans', sans-serif",
   },

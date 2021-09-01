@@ -174,6 +174,7 @@ body {
   --theme-colors-azalea: #fad3d3;
   --theme-colors-mineShaft: #272727;
   --theme-colors-ebb: #ebe1e1;
+  font-weight: 450;
 }
 </style>
 

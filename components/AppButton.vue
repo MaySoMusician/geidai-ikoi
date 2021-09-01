@@ -24,6 +24,7 @@
           as="span"
           d="inline-block"
           font-size="1em"
+          font-weight="500"
           line-height="1.4em"
           :ml="chevron === 'right' ? '0.67em' : undefined"
           :mr="chevron === 'left' ? '0.67em' : undefined"
@@ -86,7 +87,7 @@ export default Vue.extend<unknown, unknown, unknown, Props>({
 .Button {
   &Container {
     svg {
-      vertical-align: bottom;
+      vertical-align: top;
     }
   }
 }

@@ -17,6 +17,7 @@
           :class="[$style.HeaderLinks, $style.LinksVertical]"
           text-align="center"
           font-size="1rem"
+          font-weight="500"
         >
           <CLink
             v-for="(link, index) in headerLinks"
@@ -44,6 +45,7 @@
         :class="[$style.MobileMenu]"
         text-align="center"
         font-size="1rem"
+        font-weight="500"
         direction="column"
       >
         <CLink
@@ -51,7 +53,8 @@
           :key="index"
           :as="!link.external && link.link ? 'nuxt-link' : 'a'"
           :to="link.link"
-          :py="3"
+          pt="0.875rem"
+          :pb="3"
           >{{ link.text }}</CLink
         >
         <WebsiteHeaderTwitterLink />
