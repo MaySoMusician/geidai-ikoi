@@ -175,6 +175,7 @@ const config: NuxtConfig = {
     newsDatabaseId: process.env.NOTION_DATABASE_NEWS,
     meetLinksDatabaseId: process.env.NOTION_DATABASE_MEETLINKS,
     modalNoticesDatabaseId: process.env.NOTION_DATABASE_MODALNOTICES,
+    appointmentCalendarsId: process.env.NOTION_DATABASE_APPOINTMENTCALS,
   },
 
   styleResources: {

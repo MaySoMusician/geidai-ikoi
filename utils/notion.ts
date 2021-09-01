@@ -101,6 +101,24 @@ export function isValidModalNoticeItem(target: any): target is ModalNoticeItem {
   )
 }
 
+export interface AppointmentCalendarItem extends NotionDatabaseItem {
+  title: string
+  url: string
+  category: string
+}
+
+export function isValidAppointmentCalendarItem(
+  target: any
+): target is AppointmentCalendarItem {
+  return (
+    _isValidNotionDatabaseItem(target) &&
+    isNotEmptyString(target.title) &&
+    isNotEmptyString(target.url) &&
+    isNotEmptyString(target.slug) &&
+    isNotEmptyString(target.category)
+  )
+}
+
 function isNotEmptyString(target: any): target is string {
   return typeof target === 'string' && target !== ''
 }
