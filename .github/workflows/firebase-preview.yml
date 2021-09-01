@@ -47,6 +47,7 @@ jobs:
           NOTION_DATABASE_NEWS: ${{ secrets.NOTION_DATABASE_NEWS }}
           NOTION_DATABASE_MEETLINKS: ${{ secrets.NOTION_DATABASE_MEETLINKS }}
           NOTION_DATABASE_MODALNOTICES: ${{ secrets.NOTION_DATABASE_MODALNOTICES }}
+          NOTION_DATABASE_APPOINTMENTCALS: ${{ secrets.NOTION_DATABASE_APPOINTMENTCALS }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
