@@ -48,6 +48,7 @@
     "sass-loader": "10"
   },
   "resolutions": {
-    "@chakra-ui/nuxt/chakra-loader/module/lodash.template": "^4.5.0"
+    "@chakra-ui/nuxt/chakra-loader/module/lodash.template": "^4.5.0",
+    "@chakra-ui/nuxt/chakra-loader/module/concat-stream": "^1.5.2"
   }
 }
