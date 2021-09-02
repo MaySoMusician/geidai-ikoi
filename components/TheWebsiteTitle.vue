@@ -20,7 +20,7 @@
           @click="mobileMenuOpen = !mobileMenuOpen"
         />
       </CFlex>
-      <CFlex :class="[$style.HeaderLinksOuter]">
+      <CBox :class="[$style.HeaderLinksOuter]">
         <CFlex
           :class="[$style.HeaderLinks]"
           direction="row"
@@ -45,7 +45,7 @@
           >
           <WebsiteHeaderTwitterLink font-size="0.7rem" :py="0" min-w="5em" />
         </CFlex>
-      </CFlex>
+      </CBox>
     </CBox>
     <transition name="slide" mode="out-in" @after-enter="() => {}">
       <CFlex
