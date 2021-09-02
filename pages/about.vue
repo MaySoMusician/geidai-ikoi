@@ -2,58 +2,69 @@
   <div>
     <TheWebsiteTitle />
 
-    <transition name="fade1" mode="out-in" appear @after-enter="() => {}">
-      <CBox
-        id="comments"
-        as="section"
-        :class="[$style.SectionContainer]"
-        mb="-2rem"
+    <transition name="fade1" mode="out-in" appear>
+      <DocSectionWithPicture
+        picture-src="/illust-03.png"
+        :picture-width="1194"
+        :picture-height="937"
+        picture-source="noop/index"
+        picture-position="left"
+        anchor="team"
       >
-        <CHeading as="h2">運営より</CHeading>
+        <AppHeadingTwoLine line1="TEAM" line2="運営より" position="left" />
         <template v-for="(content, index) in contents">
           <CFlex
             :key="index"
             px="0.2rem"
-            mb="2rem"
+            my="2rem"
             direction="column"
-            align="center"
+            align="stretch"
           >
-            <CFlex
-              :class="[$style.CommentAroundSlash]"
-              justify="center"
-              align="center"
-              direction="row"
-            >
-              <CText :class="[$style.CommentAroundSlashInside]">
-                {{ content.body }}
-              </CText>
+            <CFlex justify="center" align="center" direction="row">
+              {{ content.body }}
             </CFlex>
             <CBox :class="[$style.CommentAuthor]">
               <CText as="span"
-                >{{ content.role }} {{ content.age }} {{ content.name }}</CText
+                >&mdash;&mdash; {{ content.role }}&ensp;{{ content.name }}（{{
+                  content.age
+                }}）</CText
               >
             </CBox>
           </CFlex>
         </template>
-      </CBox>
+      </DocSectionWithPicture>
     </transition>
+
     <transition name="fade2" mode="out-in" appear @after-enter="() => {}">
-      <CBox id="contacts" as="section" :class="[$style.SectionContainer]">
-        <CHeading as="h2">お問い合わせ</CHeading>
-        <CFlex justify="center">
-          <CList :spacing="4">
+      <DocSectionTwoColumns
+        direction="normal"
+        :classes-column1="[$style.VerticallyTop, $style.ContactHeading]"
+        :classes-column2="[$style.ContactContent]"
+      >
+        <template #column1>
+          <AppHeadingTwoLine
+            :class="[$style.ContactHeadingInner]"
+            line1="CONTACTS"
+            line2="お問い合わせ"
+            position="left"
+          />
+        </template>
+        <template #column2>
+          <CList :class="[$style.ContactContentInner]" :spacing="4">
             <CListItem
               v-for="(contact, index) in contacts"
               :key="index"
               :class="[$style.ContactListItem]"
-              font-size="0.875rem"
+              font-size="1rem"
             >
               <CListIcon
                 :icon="contact.icon"
                 :color="contact.color || 'gray.500'"
                 size="1.375rem"
               />
-              <CText as="span" :mr="2">{{ contact.prependText }}</CText>
+              <CText class="dummy" as="span" :mr="2">{{
+                contact.prependText
+              }}</CText>
               <CLink
                 :href="
                   contact.type === 'email'
@@ -65,9 +76,10 @@
               >
             </CListItem>
           </CList>
-        </CFlex>
-      </CBox>
+        </template>
+      </DocSectionTwoColumns>
     </transition>
+
     <transition name="fade3" mode="out-in" appear @after-enter="() => {}">
       <!-- <CBox id="attributions" as="section" :class="[$style.SectionContainer]">
         <CHeading as="h2">権利表示</CHeading>
@@ -120,13 +132,13 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           body:
             'コロナ禍において諸活動が制限される中、学生同士の交流の場としてこのサイトを作ることになりました。ぜひご活用ください！',
           role: '発起人',
-          age: '作曲科3年',
+          age: '作曲3年',
           name: '姫野七弦',
         },
         {
           body: '開発担当しました。みんな使ってね～～～～',
-          role: 'プログラミング担当',
-          age: '作曲科3年',
+          role: 'プログラマー',
+          age: '作曲3年',
           name: '渡邊響',
         },
       ],
@@ -228,13 +240,20 @@ export default vue
     }
   }
 }
+@media screen and (min-width: 48em) {
+  .VerticallyTop {
+    align-self: start;
+  }
+}
 
 .Comment {
   &Author {
     font-size: 0.875rem;
+    margin-top: 0.2rem;
     > span {
       display: block;
       white-space: nowrap;
+      text-align: right;
     }
   }
   &AroundSlash {
@@ -284,12 +303,53 @@ export default vue
   }
 }
 
-.ContactList {
-  &Item {
-    > svg,
-    > span,
-    > a {
-      vertical-align: middle;
+.Contact {
+  &Heading,
+  &Content {
+    width: 100%;
+    margin: {
+      left: auto;
+      right: auto;
+    }
+
+    @media screen and (min-width: 48em) {
+      width: 50%;
+    }
+  }
+
+  &Heading {
+    &Inner {
+      @media screen and (min-width: 48em) {
+        padding: {
+          left: 25%;
+        }
+      }
+    }
+  }
+
+  &Content {
+    flex-shrink: 0;
+    &Inner {
+      padding: {
+        top: 3rem;
+        left: 30%;
+      }
+      @media screen and (min-width: 48em) {
+        padding: {
+          top: 1rem;
+          left: 10%;
+        }
+      }
+    }
+  }
+
+  &List {
+    &Item {
+      > svg,
+      > span,
+      > a {
+        vertical-align: middle;
+      }
     }
   }
 }

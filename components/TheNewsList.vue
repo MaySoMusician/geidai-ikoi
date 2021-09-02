@@ -112,7 +112,7 @@ export default Vue.extend<Data, unknown, Computed, unknown>({
     );
   }
   &Item {
-    letter-spacing: 0.4px;
+    letter-spacing: 0.025rem;
     font-size: 0.92rem;
   }
 }

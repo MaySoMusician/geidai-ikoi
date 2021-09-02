@@ -5,6 +5,7 @@
     background-color="rgba(255, 255, 255, 92%)"
     :_hover="{ backgroundColor: 'gray.100' }"
     transition="background-color 0.4s"
+    font-weight="500"
     @click="$emit('click')"
   >
     <CFlex
@@ -23,7 +24,8 @@
           border-radius="2rem"
           color="mineShaft"
           :px="4"
-          :py="2"
+          pt="0.625rem"
+          :pb="2"
           >ログアウト</CBox
         >
         <!-- <CIcon name="login" size="1.4rem" :ml="1" /> -->

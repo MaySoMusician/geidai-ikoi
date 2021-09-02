@@ -14,7 +14,7 @@
             as="h2"
             text-align="center"
             font-size="1.5rem"
-            letter-spacing="1.4px"
+            letter-spacing="0.0875rem"
             >どこで憩う？</CHeading
           >
           <TheRoomListMeet ref="RoomListMeet" :auto-load="meetLinkAutoLoad" />
@@ -23,129 +23,57 @@
     </client-only>
 
     <div ref="CommonSection" :class="[$style.CommonSection]">
-      <CFlex
-        as="section"
-        :class="[$style.SectionContainer]"
-        :direction="sectionFlexDirection"
+      <DocSectionWithPicture
+        picture-src="/illust-02.png"
+        :picture-width="1600"
+        :picture-height="1147"
+        picture-source="noop/index"
+        picture-position="left"
       >
-        <div
-          :class="[
-            $style.SectionPicture,
-            $style.SectionContentPositionLeft,
-            $style.SectionContentVerticallyCenter,
-          ]"
-        >
-          <AppNuxtImgImitated
-            original-src="/illust-02.png"
-            :original-width="1600"
-            :original-height="1147"
-            original-format="png"
-            :sizes="{ xs: 100, sm: 100, md: 50, lg: 50 }"
-            payload-source="noop/index"
-          />
-        </div>
-        <CBox
-          :class="[
-            $style.SectionContent,
-            $style.SectionContentPositionRight,
-            $style.SectionContentVerticallyCenter,
-          ]"
-        >
-          <div>
-            <CHeading
-              as="p"
-              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine1]"
-              >INTRO</CHeading
-            >
-            <CHeading
-              as="h2"
-              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine2]"
-              >憩いとは</CHeading
-            >
-            <CBox :class="[$style.SectionDescription]">
-              <CText
-                >憩いはこれまで、学生同士で語り合ったり待ち合わせをするときなどに使われ、愛されてきました。</CText
-              >
-              <CText
-                >今でこそ使うことはかないませんが、そこにはたくさんの藝大生の日常が詰まっています。</CText
-              >
-            </CBox>
-            <CFlex justify="center" align="center">
-              <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
-            </CFlex>
-          </div>
+        <AppHeadingTwoLine line1="INTRO" line2="憩いとは" position="left" />
+        <CBox :class="[$style.SectionDescription]">
+          <CText
+            >憩いはこれまで、学生同士で語り合ったり待ち合わせをするときなどに使われ、愛されてきました。</CText
+          >
+          <CText
+            >今でこそ使うことはかないませんが、そこにはたくさんの藝大生の日常が詰まっています。</CText
+          >
         </CBox>
-      </CFlex>
+        <CFlex justify="center" align="center">
+          <AppButton as="nuxt-link" text="詳しく" to="/intro/" />
+        </CFlex>
+      </DocSectionWithPicture>
 
-      <CFlex
-        as="section"
-        :class="[$style.SectionContainer]"
-        :direction="sectionFlexDirectionReverse"
+      <DocSectionWithPicture
+        picture-src="/illust-01.png"
+        :picture-width="1600"
+        :picture-height="1168"
+        picture-source="noop/index"
+        picture-position="right"
       >
-        <div
-          :class="[
-            $style.SectionPicture,
-            $style.SectionContentPositionRight,
-            $style.SectionContentVerticallyCenter,
-          ]"
-        >
-          <AppNuxtImgImitated
-            original-src="/illust-01.png"
-            :original-width="1600"
-            :original-height="1168"
-            original-format="png"
-            :sizes="{ xs: 100, sm: 100, md: 50, lg: 50 }"
-            payload-source="noop/index"
-          />
-        </div>
-
-        <CBox
-          :class="[
-            $style.SectionContent,
-            $style.SectionContentPositionLeft,
-            $style.SectionContentVerticallyCenter,
-          ]"
-        >
-          <div>
-            <CHeading
-              as="p"
-              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine1]"
-              >ABOUT</CHeading
-            >
-            <CHeading
-              as="h2"
-              :class="[$style.SectionHeaderTextLeft, $style.SectionHeaderLine2]"
-              >運営より</CHeading
-            >
-            <CBox :class="[$style.SectionDescription]">
-              <CText
-                >感染症対策として、「憩い」は封じられてしまっています。しかしながら、ニュー・ノーマルに対応したオンライン憩いでは、ウイルスを気にすることなく心ゆくまで交流が図れます。気軽に入室してみてください。</CText
-              >
-            </CBox>
-            <CGrid :class="[$style.SectionGrid]">
-              <AppButton
-                v-for="(link, index) in linksToAbout"
-                :key="index"
-                as="nuxt-link"
-                :text="link.text"
-                :to="link.to"
-              />
-            </CGrid>
-          </div>
+        <AppHeadingTwoLine line1="ABOUT" line2="運営より" position="left" />
+        <CBox :class="[$style.SectionDescription]">
+          <CText
+            >感染症対策として、「憩い」は封じられてしまっています。しかしながら、ニュー・ノーマルに対応したオンライン憩いでは、ウイルスを気にすることなく心ゆくまで交流が図れます。気軽に入室してみてください。</CText
+          >
         </CBox>
-      </CFlex>
+        <CGrid :class="[$style.SectionGrid]">
+          <AppButton
+            v-for="(link, index) in linksToAbout"
+            :key="index"
+            as="nuxt-link"
+            :text="link.text"
+            :to="link.to"
+          />
+        </CGrid>
+      </DocSectionWithPicture>
 
       <CBox as="section" :class="[$style.SectionContainer]">
-        <CHeading
-          as="p"
-          :class="[$style.SectionHeaderTextCenter, $style.SectionHeaderLine1]"
-          >GALLERY</CHeading
-        >
-        <CHeading
-          as="h2"
-          :class="[$style.SectionHeaderTextCenter, $style.SectionHeaderLine2]"
-          >ギャラリー</CHeading
-        >
+        <AppHeadingTwoLine
+          line1="GALLERY"
+          line2="ギャラリー"
+          position="center"
+        />
         <CBox
           :class="[$style.SectionDescription]"
           max-w="32em"
@@ -209,8 +137,6 @@ type Data = {
   linksToAbout: { text: string; to: string }[]
   photos: Photo[]
   loadedPhotos: Set<number>
-  sectionFlexDirection: unknown
-  sectionFlexDirectionReverse: unknown
 }
 
 type Computed = {
@@ -313,7 +239,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       newsLoaded: false,
       unwatchUser: null,
       linksToAbout: [
-        { text: 'コメント', to: '/about/#comments' },
+        { text: 'コメント', to: '/about/#team' },
         { text: 'お問い合わせ', to: '/about/#contacts' },
         { text: '募集案内', to: '/about/#' },
         { text: '権利表示', to: '/about/#attributions' },
@@ -327,8 +253,6 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         { src: '/photo-ikoi01.jpg', width: 1568, height: 1044 },
       ],
       loadedPhotos: new Set(),
-      sectionFlexDirection: { base: 'column', md: 'row' },
-      sectionFlexDirectionReverse: { base: 'column', md: 'row-reverse' },
     }
   },
   head() {
@@ -621,93 +545,8 @@ export default vue
     }
   }
 
-  &Picture,
-  &Content {
-    width: 100%;
-    margin: {
-      left: auto;
-      right: auto;
-    }
-
-    @media screen and (min-width: 48em) {
-      width: 50%;
-    }
-  }
-
-  &Picture {
-    height: auto;
-    object-fit: contain;
-    max-width: 30rem;
-    @media screen and (min-width: 48em) {
-      max-width: unset;
-    }
-  }
-
-  &Content {
-    padding: {
-      top: 3rem;
-    }
-
-    &PositionLeft,
-    &PositionRight {
-      padding: {
-        left: 0.8rem;
-        right: 0.8rem;
-      }
-    }
-
-    @media screen and (min-width: 48em) {
-      padding: {
-        top: 0;
-      }
-      &PositionLeft {
-        padding: {
-          left: 4.2%;
-          right: 2.7%;
-        }
-      }
-      &PositionRight {
-        padding: {
-          left: 2.4%;
-          right: 4.2%;
-        }
-      }
-
-      &VerticallyCenter {
-        display: flex;
-        place-items: center;
-      }
-    }
-  }
-
-  &Header {
-    &TextLeft {
-      text-align: left;
-    }
-    &TextCenter {
-      text-align: center;
-    }
-
-    &Line1 {
-      font-size: 3rem;
-      letter-spacing: 1px;
-      font-family: 'Open Sans', sans-serif;
-      font-weight: bold;
-      line-height: 100%;
-    }
-    &Line2 {
-      font-size: 1.5rem;
-      letter-spacing: 1.4px;
-      font-weight: bold;
-      line-height: 100%;
-      padding: {
-        top: 0.5rem;
-      }
-    }
-  }
-
   &Description {
-    letter-spacing: 1.4px;
+    letter-spacing: 0.0875rem;
     line-height: 1.7;
     padding: {
       top: 2.5rem;

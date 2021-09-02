@@ -82,10 +82,6 @@ const config: NuxtConfig = {
       },
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#545b61' },
       ...generateLazyFontLinkTags(
-        'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap',
-        'https://fonts.gstatic.com'
-      ),
-      ...generateLazyFontLinkTags(
         'https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'
       ),
       ...generateLazyFontLinkTags(
@@ -95,7 +91,7 @@ const config: NuxtConfig = {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~assets/fonts/css/ibm-plex-sans-jp.min.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -140,7 +136,9 @@ const config: NuxtConfig = {
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    quiet: false,
+  },
 
   // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate/
   generate: {
@@ -177,6 +175,7 @@ const config: NuxtConfig = {
     newsDatabaseId: process.env.NOTION_DATABASE_NEWS,
     meetLinksDatabaseId: process.env.NOTION_DATABASE_MEETLINKS,
     modalNoticesDatabaseId: process.env.NOTION_DATABASE_MODALNOTICES,
+    appointmentCalendarsId: process.env.NOTION_DATABASE_APPOINTMENTCALS,
   },
 
   styleResources: {
