@@ -2,44 +2,69 @@
   <div>
     <TheWebsiteTitle />
 
-    <transition name="fade1" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="3" :pb="4">
-        <CHeading as="h2" text-align="center" size="lg" :mb="4">
-          このサイトについて
-        </CHeading>
+    <transition name="fade1" mode="out-in" appear>
+      <DocSectionWithPicture
+        picture-src="/illust-03.png"
+        :picture-width="1194"
+        :picture-height="937"
+        picture-source="noop/index"
+        picture-position="left"
+        anchor="team"
+      >
+        <AppHeadingTwoLine line1="TEAM" line2="運営より" position="left" />
         <template v-for="(content, index) in contents">
-          <CBox
+          <CFlex
             :key="index"
-            :px="{ base: '1.5rem', sm: '2rem', md: '4rem' }"
-            :mb="3"
+            px="0.2rem"
+            my="2rem"
+            direction="column"
+            align="stretch"
           >
-            <CText :pt="2" :pb="2">{{ content.body }}</CText>
-            <CText text-align="end" font-size="0.8rem">{{
-              content.name
-            }}</CText>
-          </CBox>
+            <CFlex justify="center" align="center" direction="row">
+              {{ content.body }}
+            </CFlex>
+            <CBox :class="[$style.CommentAuthor]">
+              <CText as="span"
+                >&mdash;&mdash; {{ content.role }}&ensp;{{ content.name }}（{{
+                  content.age
+                }}）</CText
+              >
+            </CBox>
+          </CFlex>
         </template>
-      </CBox>
+      </DocSectionWithPicture>
     </transition>
+
     <transition name="fade2" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="3" :pb="4">
-        <CHeading as="h2" text-align="center" size="lg" :mb="4">
-          連絡先
-        </CHeading>
-        <CFlex justify="center">
-          <CList :spacing="4">
+      <DocSectionTwoColumns
+        direction="normal"
+        :classes-column1="[$style.VerticallyTop, $style.ContactHeading]"
+        :classes-column2="[$style.ContactContent]"
+      >
+        <template #column1>
+          <AppHeadingTwoLine
+            :class="[$style.ContactHeadingInner]"
+            line1="CONTACTS"
+            line2="お問い合わせ"
+            position="left"
+          />
+        </template>
+        <template #column2>
+          <CList :class="[$style.ContactContentInner]" :spacing="4">
             <CListItem
               v-for="(contact, index) in contacts"
               :key="index"
               :class="[$style.ContactListItem]"
-              :font-size="{ base: 'sm', sm: 'md' }"
+              font-size="1rem"
             >
               <CListIcon
                 :icon="contact.icon"
                 :color="contact.color || 'gray.500'"
-                :size="{ base: '1.5rem', sm: '2rem' }"
+                size="1.375rem"
               />
-              <CText as="span" :mr="2">{{ contact.prependText }}</CText>
+              <CText class="dummy" as="span" :mr="2">{{
+                contact.prependText
+              }}</CText>
               <CLink
                 :href="
                   contact.type === 'email'
@@ -51,45 +76,22 @@
               >
             </CListItem>
           </CList>
-        </CFlex>
-      </CBox>
+        </template>
+      </DocSectionTwoColumns>
     </transition>
+
     <transition name="fade3" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="10" :pb="4">
-        <CHeading as="h2" text-align="center" size="md" :mb="4">
-          帰属表示
-        </CHeading>
-        <CFlex justify="center">
-          <CText font-size="sm" text-align="center"
-            >Icons made by
-            <CLink
-              href="https://www.flaticon.com/authors/pixel-perfect"
-              title="Pixel perfect"
-              is-external
-              >Pixel perfect</CLink
-            >
-            from
-            <CLink href="https://www.flaticon.com/" title="Flaticon" is-external
-              >www.flaticon.com</CLink
-            ></CText
-          >
-        </CFlex>
-      </CBox>
+      <!-- <CBox id="attributions" as="section" :class="[$style.SectionContainer]">
+        <CHeading as="h2">権利表示</CHeading>
+        <CFlex justify="center"></CFlex>
+      </CBox> -->
     </transition>
-    <transition name="fade4" mode="out-in" appear @after-enter="() => {}">
-      <CBox :pt="4" :pb="4">
-        <CFlex justify="center">
-          <CButton
-            variant-color="gray"
-            font-weight="normal"
-            font-size="xl"
-            @click="$router.back()"
-          >
-            もどる
-          </CButton>
-        </CFlex>
-      </CBox>
-    </transition>
+    <transition
+      name="fade4"
+      mode="out-in"
+      appear
+      @after-enter="() => {}"
+    ></transition>
   </div>
 </template>
 
@@ -101,7 +103,7 @@ import { ChakraTheme, ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
 
 type Data = {
   showModal: boolean
-  contents: { body: string; name: string }[]
+  contents: { body: string; role: string; age: string; name: string }[]
   contacts: {
     icon: string
     type: 'email' | 'link'
@@ -129,11 +131,15 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         {
           body:
             'コロナ禍において諸活動が制限される中、学生同士の交流の場としてこのサイトを作ることになりました。ぜひご活用ください！',
-          name: '発起人 作曲科3年 姫野七弦',
+          role: '発起人',
+          age: '作曲3年',
+          name: '姫野七弦',
         },
         {
           body: '開発担当しました。みんな使ってね～～～～',
-          name: 'プログラミング担当 作曲科3年 渡邊響',
+          role: 'プログラマー',
+          age: '作曲3年',
+          name: '渡邊響',
         },
       ],
       contacts: [
@@ -177,6 +183,11 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
       ],
     }
   },
+  head() {
+    return {
+      title: '運営より',
+    }
+  },
   computed: {
     colorMode() {
       return this.$chakraColorMode()
@@ -196,19 +207,149 @@ export default vue
 </script>
 
 <style lang="scss" scoped>
-@include fadeEaseOutCubic('fade1', 0.3s, 0.3rem);
-@include fadeEaseOutCubic('fade2', 0.5s, 0.3rem);
-@include fadeEaseOutCubic('fade3', 0.7s, 0.3rem);
-@include fadeEaseOutCubic('fade4', 0.9s, 0.3rem);
+@include fadeEaseOutCubic('fade1', $globalFadeDuration, 0s);
+@include fadeEaseOutCubic('fade2', $globalFadeDuration, 0.15s);
+@include fadeEaseOutCubic('fade3', $globalFadeDuration, 0.3s);
+@include fadeEaseOutCubic('fade4', $globalFadeDuration, 0.45s);
 </style>
 
 <style lang="scss" module>
-.ContactList {
-  &Item {
-    > svg,
-    > span,
-    > a {
-      vertical-align: middle;
+.Section {
+  &Container {
+    padding: {
+      top: 2rem;
+      bottom: 3rem;
+    }
+
+    h2 {
+      font-size: 1.125rem;
+      min-width: 7em;
+
+      margin: {
+        left: auto;
+        right: auto;
+        bottom: 2rem;
+      }
+
+      padding: {
+        top: 0.8rem;
+        bottom: 0.8rem;
+      }
+
+      @include headingBorderAboveBelow();
+    }
+  }
+}
+@media screen and (min-width: 48em) {
+  .VerticallyTop {
+    align-self: start;
+  }
+}
+
+.Comment {
+  &Author {
+    font-size: 0.875rem;
+    margin-top: 0.2rem;
+    > span {
+      display: block;
+      white-space: nowrap;
+      text-align: right;
+    }
+  }
+  &AroundSlash {
+    $borderColor: #333;
+    $angle: 64deg;
+
+    position: relative;
+    width: 100%;
+    text-align: center;
+
+    margin: {
+      left: auto;
+      right: auto;
+      bottom: 0.2rem;
+    }
+
+    font-size: 1rem;
+
+    &Inside {
+      max-width: 23em;
+      padding: {
+        top: 0.8rem;
+        bottom: 0.4rem;
+        left: 0.2rem;
+        right: 0.2rem;
+      }
+    }
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      align-items: center;
+      width: 4em;
+      height: 2px;
+      border-top: 1px solid $borderColor;
+      border-bottom: 1px solid $borderColor;
+      flex-shrink: 0;
+    }
+
+    &::before {
+      transform: rotate($angle);
+    }
+
+    &::after {
+      transform: rotate($angle * -1);
+    }
+  }
+}
+
+.Contact {
+  &Heading,
+  &Content {
+    width: 100%;
+    margin: {
+      left: auto;
+      right: auto;
+    }
+
+    @media screen and (min-width: 48em) {
+      width: 50%;
+    }
+  }
+
+  &Heading {
+    &Inner {
+      @media screen and (min-width: 48em) {
+        padding: {
+          left: 25%;
+        }
+      }
+    }
+  }
+
+  &Content {
+    flex-shrink: 0;
+    &Inner {
+      padding: {
+        top: 3rem;
+        left: 30%;
+      }
+      @media screen and (min-width: 48em) {
+        padding: {
+          top: 1rem;
+          left: 10%;
+        }
+      }
+    }
+  }
+
+  &List {
+    &Item {
+      > svg,
+      > span,
+      > a {
+        vertical-align: middle;
+      }
     }
   }
 }

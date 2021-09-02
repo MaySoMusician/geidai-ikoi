@@ -1,6 +1,36 @@
 # geidai-ikoi (藝大オンライン憩い)
 [![Deploy to Firebase](https://github.com/MaySoMusician/geidai-ikoi/actions/workflows/firebase-deploy.yml/badge.svg)](https://github.com/MaySoMusician/geidai-ikoi/actions/workflows/firebase-deploy.yml)
 
+## Prerequisites 
+
+You must install a git-lfs client **before cloning this repository**, that are used here to store large font files.
+
+```bash
+$ # some installing-git-lfs commands
+$ git lfs install
+```
+
+Make sure the filters set up in your `.gitconfig`.
+```bash
+$ git config -l
+
+...
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+...
+
+```
+
+If you forgot to install or initialize git-lfs before cloning, you can fetch Git LFS data by `git lfs pull`.
+
+MEMO
+```bash
+$ git lfs track "assets/fonts/**/complete/**/*.woff"
+$ git lfs track "assets/fonts/**/complete/**/*.woff2"
+```
+
 ## Installation
 
 ```bash

@@ -17,12 +17,27 @@ jobs:
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@master
+        with:
+          lfs: true
+
+      # https://mflash.dev/blog/2020/09/05/using-git-lfs-in-ci/
+      - name: Generate LFS files list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+      - name: Restore LFS cache
+        uses: actions/cache@v2
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}-v1
+      - name: Pull LFS files
+        run: git lfs pull
 
       - name: Setup node env 🏗
-        uses: actions/setup-node@v2.1.2
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
+          cache: 'yarn'
 
       - name: Get yarn cache directory path 🛠
         id: yarn-cache-dir-path
@@ -49,6 +64,8 @@ jobs:
           NOTION_DATABASE_CONFIG: ${{ secrets.NOTION_DATABASE_CONFIG }}
           NOTION_DATABASE_NEWS: ${{ secrets.NOTION_DATABASE_NEWS }}
           NOTION_DATABASE_MEETLINKS: ${{ secrets.NOTION_DATABASE_MEETLINKS }}
+          NOTION_DATABASE_MODALNOTICES: ${{ secrets.NOTION_DATABASE_MODALNOTICES }}
+          NOTION_DATABASE_APPOINTMENTCALS: ${{ secrets.NOTION_DATABASE_APPOINTMENTCALS }}
 
       - name: Deploy to Firebase Hosting
         run: |

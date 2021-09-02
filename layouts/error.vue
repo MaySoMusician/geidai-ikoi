@@ -3,9 +3,8 @@
     v-if="message === FORBIDDEN_OUTSIDE_OF_UNIV"
     justify="center"
     align="center"
-    h="calc(100vh - 10rem)"
   >
-    <CBox>
+    <CBox mt="20vh">
       <CFlex justify="center" align="center">
         <CIcon
           name="account-cancel"
@@ -15,23 +14,28 @@
           :mb="0"
         />
       </CFlex>
-      <CHeading as="h1" text-align="center" :mb="4">
+      <CHeading
+        as="h1"
+        text-align="center"
+        :mb="4"
+        font-size="max(calc(100vw / 20), 1.5rem)"
+      >
         {{ friendlyMessage }}
       </CHeading>
       <CFlex justify="center" direction="column" align="center">
-        <CButton variant-color="red" mt="3" @click="signOut">
-          <CIcon
-            name="chevron-left"
-            size="2rem"
-            :ml="-3"
-            :mr="0"
-          />ログアウトして戻る
-        </CButton>
+        <AppButton
+          bg-color="red.200"
+          hover-bg-color="red.300"
+          mt="3"
+          text="ログアウトして戻る"
+          @click="signOut"
+        >
+        </AppButton>
       </CFlex>
     </CBox>
   </CFlex>
-  <CFlex v-else justify="center" align="center" h="calc(100vh - 10rem)">
-    <CBox>
+  <CFlex v-else justify="center" align="center">
+    <CBox mt="20vh">
       <CFlex justify="center" align="center">
         <CIcon
           name="warning-alt"
@@ -45,9 +49,15 @@
         {{ friendlyMessage }}
       </CHeading>
       <CFlex justify="center" direction="column" align="center">
-        <CButton as="a" variant-color="red" mt="3" href="/">
-          <CIcon name="chevron-left" size="2rem" :ml="-3" :mr="0" />ホームへ戻る
-        </CButton>
+        <AppButton
+          as="a"
+          bg-color="red.200"
+          hover-bg-color="red.300"
+          mt="3"
+          text="TOPへ戻る"
+          href="/"
+        >
+        </AppButton>
       </CFlex>
     </CBox>
   </CFlex>
@@ -114,7 +124,8 @@ export default Vue.extend<Data, Methods, Computed, Props>({
   methods: {
     async signOut() {
       await this.$fire.auth.signOut()
-      await this.$router.push('/')
+
+      window.location.reload()
     },
   },
 })

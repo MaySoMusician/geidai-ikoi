@@ -6,8 +6,7 @@ import {
   extendTheme as chakraUiExtendedTheme,
   customIcons,
 } from './nuxt-chakra-ui.config'
-import { WEBSITE_NAME, WEBSITE_DESCRIPTION } from './utils/constants'
-import { VIEWPORTS } from './utils/constants-dr1'
+import { WEBSITE_NAME, WEBSITE_DESCRIPTION, VIEWPORTS } from './utils/constants'
 
 const generateLazyFontLinkTags = (url: string, preconnect?: string) => {
   const tags: MetaInfo['link'] = [
@@ -51,35 +50,54 @@ const config: NuxtConfig = {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: WEBSITE_NAME,
+    titleTemplate: (titleChunk) => {
+      // WEBSITE_NAME from utils/constants.ts
+      const name = '藝大 オンライン憩い ☕'
+      return titleChunk ? `${titleChunk} | ${name}` : name
+    },
     htmlAttrs: { lang: 'ja' },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      hid({ name: 'description', content: WEBSITE_DESCRIPTION }),
-      hid({ property: 'og:type', content: 'website' }),
-      hid({ property: 'og:site_name', content: WEBSITE_NAME }),
-      hid({ property: 'og:description', content: WEBSITE_DESCRIPTION }),
-      hid({ property: 'og:locale', content: 'website' }),
+      hid({ property: 'og:locale', content: 'ja' }),
       hid({ name: 'robots', content: 'noindex' }),
+      hid({ name: 'msapplication-TileColor', content: '#00aba9' }),
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      ...generateLazyFontLinkTags(
-        'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap',
-        'https://fonts.gstatic.com'
-      ),
+      {
+        rel: 'apple-touch-icon',
+        href: '/apple-touch-icon.png',
+        sizes: '180x180',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/favicon-32x32.png',
+        sizes: '32x32',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/favicon-16x16.png',
+        sizes: '16x16',
+      },
+      { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#545b61' },
       ...generateLazyFontLinkTags(
         'https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'
+      ),
+      ...generateLazyFontLinkTags(
+        'https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap'
       ),
     ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~assets/fonts/css/ibm-plex-sans-jp.min.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/vue-gtag.ts'],
+  plugins: [
+    '@/plugins/vue-gtag.ts',
+    { src: '@/plugins/vuex-persistedstate.client.ts', mode: 'client' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -98,6 +116,8 @@ const config: NuxtConfig = {
     '@nuxtjs/style-resources',
     // https://image.nuxtjs.org/
     '@nuxt/image',
+    // https://pwa.nuxtjs.org/
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -116,13 +136,15 @@ const config: NuxtConfig = {
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    quiet: false,
+  },
 
   // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate/
   generate: {
     fallback: true,
     // Exclude pages from SSG
-    exclude: ['/about/', '/jitsi001/', '/meet/', '/dr1/meet/'] as any,
+    exclude: ['/meet/'] as any,
   },
 
   router: {
@@ -152,17 +174,61 @@ const config: NuxtConfig = {
     configDatabaseId: process.env.NOTION_DATABASE_CONFIG,
     newsDatabaseId: process.env.NOTION_DATABASE_NEWS,
     meetLinksDatabaseId: process.env.NOTION_DATABASE_MEETLINKS,
+    modalNoticesDatabaseId: process.env.NOTION_DATABASE_MODALNOTICES,
+    appointmentCalendarsId: process.env.NOTION_DATABASE_APPOINTMENTCALS,
   },
 
   styleResources: {
-    scss: [
-      '~assets/abstracts/_mixins.scss',
-      '~assets/abstracts/_mixins-dr1.scss',
-    ],
+    scss: ['~assets/abstracts/_mixins.scss'],
   },
 
   image: {
     screens: VIEWPORTS,
+  },
+
+  pwa: {
+    icon: false,
+    meta: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      modileApp: true,
+      mobileAppIOS: true,
+      appleStatusBarStyle: 'default',
+      favicon: false,
+      name: undefined,
+      author: 'MaySoMusician',
+      description: WEBSITE_DESCRIPTION,
+      theme_color: '#ffffff',
+      lang: 'ja',
+      ogType: 'website',
+      ogSiteName: WEBSITE_NAME,
+      ogDescription: WEBSITE_DESCRIPTION,
+      nativeUI: true,
+    },
+    manifest: {
+      name: WEBSITE_NAME,
+      short_name: 'オンライン憩い',
+      description: WEBSITE_DESCRIPTION,
+      icons: [
+        {
+          src: '/android-chrome-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: '/android-chrome-256x256.png',
+          sizes: '256x256',
+          type: 'image/png',
+        },
+      ],
+      theme_color: '#ffffff',
+      background_color: '#ffffff',
+      display: 'standalone',
+      lang: 'ja',
+    },
+    workbox: {
+      offline: false,
+    },
   },
 }
 
