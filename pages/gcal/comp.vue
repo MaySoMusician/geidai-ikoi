@@ -113,6 +113,7 @@ type Methods = {
 
 const vue = Vue.extend<Data, Methods, Computed, unknown>({
   inject: ['$chakraColorMode', '$toggleColorMode'],
+  middleware: ['auth'],
   data() {
     return {
       showModal: false,
@@ -139,6 +140,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
     await this.load()
     const iframes = document.querySelectorAll(
       'iframe[data-src]'
+      // eslint-disable-next-line no-undef
     ) as NodeListOf<HTMLIFrameElement>
 
     iframes.forEach((iframe) => {
