@@ -1,9 +1,10 @@
 import { ChakraTheme } from './types/chakra-ui-bridge'
 export const extendTheme: Partial<ChakraTheme> = {
   fonts: {
-    heading: "'Noto Sans JP', sans-serif",
-    body: "'Noto Sans JP', sans-serif",
+    heading: "'IBM Plex Sans JP', sans-serif",
+    body: "'IBM Plex Sans JP', sans-serif",
     mono: "'Roboto Mono', monospace",
+    latin: "'Open Sans', sans-serif",
   },
   /* https://github.com/chakra-ui/chakra-ui/blob/1c8cb04fb0ae90fb9656056d331d314936b0489a/packages/theme/src/foundations/shadows.ts
    * MIT © Segun Adebayo
@@ -32,6 +33,9 @@ export const extendTheme: Partial<ChakraTheme> = {
     wafer: '#e4d3cf',
     cavernPink: '#e2bcb7',
     santafe: '#b67162',
+    azalea: '#fad3d3',
+    mineShaft: '#272727',
+    ebb: '#ebe1e1',
   },
 }
 

@@ -5,6 +5,8 @@ import {
   actionTree,
 } from 'nuxt-typed-vuex'
 
+import * as modalNotices from './modalNotices'
+
 type User = {
   uid: string
   email: string
@@ -45,4 +47,7 @@ export const accessorType = getAccessorType({
   getters,
   mutations,
   actions,
+  modules: {
+    modalNotices,
+  },
 })

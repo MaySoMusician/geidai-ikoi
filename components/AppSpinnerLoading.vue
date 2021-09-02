@@ -1,17 +1,35 @@
 <template>
   <CSpinner
     d="flex"
-    size="3rem"
+    :size="size"
     thickness="4px"
     speed="0.8s"
-    color="blue.100"
+    :color="color"
+    v-bind="$attrs"
   />
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 
-export default Vue.extend<unknown, unknown, unknown, unknown>({})
+type Props = {
+  color: string
+  size: string
+}
+
+export default Vue.extend<unknown, unknown, unknown, Props>({
+  inheritAttrs: false,
+  props: {
+    color: {
+      type: String,
+      default: 'wafer',
+    },
+    size: {
+      type: String,
+      default: '3rem',
+    },
+  },
+})
 </script>
 
 <style></style>

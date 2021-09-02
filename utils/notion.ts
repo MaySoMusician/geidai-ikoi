@@ -57,7 +57,7 @@ export type NewsType = typeof newsTypes[number]
 export interface NewsItem extends NotionDatabaseItem {
   title: string
   type: NewsType
-  onPublished?: string
+  publishedOn?: string
   content?: string
   isHidden?: boolean
 }
@@ -68,12 +68,87 @@ export function isValidNewsItem(target: any): target is NewsItem {
     isNotEmptyString(target.title) &&
     isNotEmptyString(target.type) &&
     newsTypes.includes(target.type) &&
-    ('onPublished' in target ? isNotEmptyString(target.onPublished) : IGNORE) &&
+    ('publishedOn' in target ? isNotEmptyString(target.publishedOn) : IGNORE) &&
     ('content' in target ? isNotEmptyString(target.content) : IGNORE) &&
     ('isHidden' in target ? typeof target.isHidden === 'boolean' : IGNORE)
   )
 }
 
+export interface ModalNoticeItem extends NotionDatabaseItem {
+  title: string
+  body: string
+  link?: string
+  releasedAt?: number
+  expiredAt?: number
+  version: string
+  conditions?: string
+}
+
+export function isValidModalNoticeItem(target: any): target is ModalNoticeItem {
+  return (
+    _isValidNotionDatabaseItem(target) &&
+    isNotEmptyString(target.title) &&
+    isNotEmptyString(target.body) &&
+    ('link' in target ? typeof target.link === 'string' : IGNORE) &&
+    ('releasedAt' in target
+      ? isNumber(target.releasedAt) && target.releasedAt > 0
+      : IGNORE) &&
+    ('expiredAt' in target
+      ? isNumber(target.expiredAt) && target.expiredAt > 0
+      : IGNORE) &&
+    isNotEmptyString(target.version) &&
+    ('conditions' in target ? typeof target.conditions === 'string' : IGNORE)
+  )
+}
+
+export interface AppointmentCalendarItem extends NotionDatabaseItem {
+  title: string
+  url: string
+  category: string
+}
+
+export function isValidAppointmentCalendarItem(
+  target: any
+): target is AppointmentCalendarItem {
+  return (
+    _isValidNotionDatabaseItem(target) &&
+    isNotEmptyString(target.title) &&
+    isNotEmptyString(target.url) &&
+    isNotEmptyString(target.slug) &&
+    isNotEmptyString(target.category)
+  )
+}
+
 function isNotEmptyString(target: any): target is string {
   return typeof target === 'string' && target !== ''
+}
+
+function isNumber(target: any): target is number {
+  return !Number.isNaN(target)
+}
+
+type ModalNoticeConditions = {
+  shownLimit?: number
+  intervalMin?: number
+}
+
+export function validateModalNoticeConditions(
+  str: string
+): ModalNoticeConditions | false {
+  if (str === '') return false
+
+  const arr = str.split(';')
+  const result: ModalNoticeConditions = {}
+
+  for (const expr of arr) {
+    const [property, value] = expr.split('=')
+    if (property === 'shownLimit') {
+      const num = Number.parseInt(value, 10)
+      if (!Number.isNaN(num)) result.shownLimit = num
+    } else if (property === 'intervalMin') {
+      const num = Number.parseInt(value, 10)
+      if (!Number.isNaN(num)) result.intervalMin = num
+    }
+  }
+  return result
 }

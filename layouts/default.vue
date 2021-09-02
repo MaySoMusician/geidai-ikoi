@@ -13,37 +13,41 @@
             <CBox
               v-bind="mainStyles[colorMode]"
               :class="[$style.FullHeight]"
-              max-w="48rem"
+              max-w="66rem"
               mx="auto"
-              px="4px"
-              box-shadow="2xl"
             >
-              <CBox
-                max-w="48rem"
-                w="100%"
-                pr="8px"
-                :pt="1"
-                text-align="right"
-                position="absolute"
-                z-index="banner"
-              >
-                <CLink as="nuxt-link" to="/dr1/" color="blue.400"
-                  >新しいデザインを試す</CLink
-                >
-              </CBox>
               <!-- main -->
               <Nuxt />
               <!-- /main -->
-              <CBox :class="[$style.Footer]" min-h="1.8rem" :mt="4">
-                <CFlex direction="row" justify="space-between" min-h="1.8rem">
+              <!-- footer -->
+              <CBox :class="[$style.Footer]" :pt="4">
+                <CFlex
+                  direction="column"
+                  align="center"
+                  min-h="1.8rem"
+                  :py="2"
+                  bg="ebb"
+                >
+                  <CButton
+                    as="nuxt-link"
+                    variant="link"
+                    color="gray.500"
+                    font-size="0.8rem"
+                    font-weight="normal"
+                    to="/about/"
+                    white-space="normal"
+                    mb="0.3rem"
+                    >このサイトについて・連絡先</CButton
+                  >
                   <CBox
                     font-size="0.75rem"
                     color="gray.500"
-                    place-self="flex-end"
+                    text-align="center"
                   >
-                    <CText pb="0.14rem"
+                    <CText pb="0.2rem"
                       >&copy; 2021 K･WATANABE a.k.a. MaySoMusician</CText
-                    ><CText pb="0.1rem"
+                    ><CText pb="0.2rem">Designed by Kana Asanuma</CText
+                    ><CText pb="0.2rem"
                       >Code available at
                       <CLink
                         href="https://github.com/MaySoMusician/geidai-ikoi"
@@ -52,41 +56,22 @@
                       >, licensed under MIT license.</CText
                     >
                   </CBox>
-
-                  <AppSpacer />
-                  <CButton
-                    as="nuxt-link"
-                    variant="link"
-                    color="gray.500"
-                    font-size="0.8rem"
-                    font-weight="normal"
-                    to="/about/"
-                    :ml="2"
-                    :mr="1"
-                    white-space="normal"
-                    >このサイトについて・連絡先</CButton
-                  >
-                  <CButton
-                    v-if="showDevSignOutButton"
-                    variant="ghost"
-                    variant-color="red"
-                    font-size="0.8rem"
-                    font-weight="normal"
-                    h="0.9rem"
-                    @click="signOut"
-                    >ログアウト</CButton
-                  >
                 </CFlex>
               </CBox>
+              <!-- /footer -->
             </CBox>
           </div>
+
+          <TheModalNotice />
+
           <transition name="fadeOut">
             <div
               v-if="!loaded"
               :class="[$style.LoaderOverlay, $style.FullHeight]"
             >
               <div :class="[$style.LoaderInner, $style.FullHeight]">
-                Loading
+                <AppSvgLoaderTea :class="[$style.LoaderIcon]" />
+                <SvgLogoTitle class="LoaderTitle" />
               </div>
             </div>
           </transition>
@@ -100,7 +85,8 @@
 import Vue from 'vue'
 
 import { ToggleColorModeFunction } from '@/types/chakra-ui-bridge'
-import { AppPopoverContent } from '@/components/AppPopoverContent'
+import AppSvgLoaderTea from '@/components/AppSvgLoaderTea.vue'
+import SvgLogoTitle from '~/assets/logoTitle.min.svg?inline'
 
 type ColorMode = 'light' | 'dark'
 
@@ -124,7 +110,8 @@ type Computed = {
 export default Vue.extend<Data, Methods, Computed, unknown>({
   name: 'App',
   components: {
-    AppPopoverContent,
+    AppSvgLoaderTea,
+    SvgLogoTitle,
   },
   data() {
     return {
@@ -132,7 +119,7 @@ export default Vue.extend<Data, Methods, Computed, unknown>({
       toggleColorModeFunction: null,
       mainStyles: {
         dark: { bg: 'gray.700', color: 'whiteAlpha.900' },
-        light: { bg: 'white', color: 'gray.900' },
+        light: { bg: 'white', color: 'mineShaft' },
       },
       showDevSignOutButton: !!process.env.APP_DEBUG,
       loaded: false,
@@ -184,6 +171,10 @@ body {
   --theme-colors-wafer: #e4d3cf;
   --theme-colors-cavernPink: #e2bcb7;
   --theme-colors-santafe: #b67162;
+  --theme-colors-azalea: #fad3d3;
+  --theme-colors-mineShaft: #272727;
+  --theme-colors-ebb: #ebe1e1;
+  font-weight: 450;
 }
 </style>
 
@@ -208,7 +199,7 @@ body {
 
 <style lang="scss" module>
 .Container {
-  background: #ced2d6;
+  background: white;
 }
 
 .FullHeight {
@@ -254,7 +245,7 @@ body {
     left: 0;
     width: 100vw;
     background: white;
-    z-index: 100;
+    z-index: 2000;
   }
 
   &Inner {

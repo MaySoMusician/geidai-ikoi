@@ -2,6 +2,7 @@ import { Middleware } from '@nuxt/types'
 import {
   QUERY_ERROR_SIGNIN_REQUIRED,
   FORBIDDEN_OUTSIDE_OF_UNIV,
+  EMAIL_DOMAIN_ALLOWED,
 } from '@/utils/constants'
 
 const authMiddleware: Middleware = ({
@@ -15,7 +16,7 @@ const authMiddleware: Middleware = ({
       error: QUERY_ERROR_SIGNIN_REQUIRED,
       forward: encodeURIComponent(route.path.substr(1)),
     })
-  } else if (!$accessor.user.email.endsWith('.geidai.ac.jp')) {
+  } else if (!$accessor.user.email.endsWith(EMAIL_DOMAIN_ALLOWED)) {
     return error({
       statusCode: 403,
       message: FORBIDDEN_OUTSIDE_OF_UNIV,
