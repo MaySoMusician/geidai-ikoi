@@ -6,7 +6,7 @@
       ref="logsTextArea"
       :value="getNavigator()"
       readonly
-      rows="15"
+      rows="3"
       style="
         width: 100%;
         font-family: monospace;
@@ -17,13 +17,20 @@
       @click="() => $refs.logsTextArea && $refs.logsTextArea.select()"
     >
     </textarea>
+
+    <CText font-size="0.8rem">
+      {{ permissionPrompted }} / {{ promptStatus }}
+    </CText>
   </CBox>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 
-type Data = {}
+type Data = {
+  permissionPrompted: boolean | null
+  promptStatus: string
+}
 
 type Computed = {
   userAgent: string
@@ -36,12 +43,28 @@ type Methods = {
 export default Vue.extend<Data, unknown, Computed, Methods>({
   components: {},
   data() {
-    return {}
+    return {
+      permissionPrompted: null,
+      promptStatus: 'none',
+    }
   },
   computed: {
     userAgent() {
       return process.client ? navigator.userAgent : ''
     },
+  },
+  mounted() {
+    if (this.permissionPrompted === null) this.permissionPrompted = false
+
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: false })
+      .then((_stream) => {
+        this.promptStatus = 'success'
+      })
+      .catch((_error) => {
+        this.promptStatus = 'error'
+      })
+    this.permissionPrompted = true
   },
   methods: {
     getNavigator() {
@@ -57,7 +80,6 @@ export default Vue.extend<Data, unknown, Computed, Methods>({
           }
 
           const cur = object[key]
-          // console.log(key, cur)
 
           if (typeof cur === 'function') {
             r += `${s}${key} : function\n`
@@ -70,23 +92,7 @@ export default Vue.extend<Data, unknown, Computed, Methods>({
         return r
       }
 
-      let result = ''
-
-      result = getObject(navigator, 0)
-      // console.dir(navigator, { depth: null })
-
-      /* for (const v in navigator) {
-        const cur = navigator[v]
-
-        if (typeof cur === 'function') {
-          result += `  ${v} : function\n`
-        } else {
-          result += `  ${v} : ${JSON.stringify(cur)}\n`
-        }
-      } */
-
-      console.log(result)
-      return result
+      return getObject(navigator, 0)
     },
   },
 })
