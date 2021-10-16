@@ -1,6 +1,22 @@
 <template>
   <CBox :mb="1">
     <CText font-size="0.8rem">{{ userAgent }} </CText>
+
+    <textarea
+      ref="logsTextArea"
+      :value="getNavigator()"
+      readonly
+      rows="15"
+      style="
+        width: 100%;
+        font-family: monospace;
+        font-size: 11px;
+        line-height: 110%;
+        padding: 3px;
+      "
+      @click="() => $refs.logsTextArea && $refs.logsTextArea.select()"
+    >
+    </textarea>
   </CBox>
 </template>
 
@@ -13,7 +29,11 @@ type Computed = {
   userAgent: string
 }
 
-export default Vue.extend<Data, unknown, Computed, unknown>({
+type Methods = {
+  getNavigator(): string
+}
+
+export default Vue.extend<Data, unknown, Computed, Methods>({
   components: {},
   data() {
     return {}
@@ -21,6 +41,52 @@ export default Vue.extend<Data, unknown, Computed, unknown>({
   computed: {
     userAgent() {
       return process.client ? navigator.userAgent : ''
+    },
+  },
+  methods: {
+    getNavigator() {
+      if (!process.client) return ''
+
+      const getObject = function (object: any, space: number) {
+        let r = ''
+        for (const key in object) {
+          const s = ' '.repeat(space)
+          if (['plugins', 'enabledPlugin'].includes(key)) {
+            r += `${s}${key} : *omitted*\n`
+            continue
+          }
+
+          const cur = object[key]
+          // console.log(key, cur)
+
+          if (typeof cur === 'function') {
+            r += `${s}${key} : function\n`
+          } else if (typeof cur === 'object') {
+            r += `${s}${key} : \n${getObject(cur, space + 2)}\n`
+          } else {
+            r += `${s}${key} : "${cur}" [${typeof cur}]\n`
+          }
+        }
+        return r
+      }
+
+      let result = ''
+
+      result = getObject(navigator, 0)
+      // console.dir(navigator, { depth: null })
+
+      /* for (const v in navigator) {
+        const cur = navigator[v]
+
+        if (typeof cur === 'function') {
+          result += `  ${v} : function\n`
+        } else {
+          result += `  ${v} : ${JSON.stringify(cur)}\n`
+        }
+      } */
+
+      console.log(result)
+      return result
     },
   },
 })
