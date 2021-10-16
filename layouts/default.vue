@@ -16,6 +16,7 @@
               max-w="66rem"
               mx="auto"
             >
+              <TheInternalBrowserGuard />
               <!-- main -->
               <Nuxt />
               <!-- /main -->
