@@ -17,20 +17,13 @@
       @click="() => $refs.logsTextArea && $refs.logsTextArea.select()"
     >
     </textarea>
-
-    <CText font-size="0.8rem">
-      {{ permissionPrompted }} / {{ promptStatus }}
-    </CText>
   </CBox>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 
-type Data = {
-  permissionPrompted: boolean | null
-  promptStatus: string
-}
+type Data = {}
 
 type Computed = {
   userAgent: string
@@ -43,29 +36,14 @@ type Methods = {
 export default Vue.extend<Data, unknown, Computed, Methods>({
   components: {},
   data() {
-    return {
-      permissionPrompted: null,
-      promptStatus: 'none',
-    }
+    return {}
   },
   computed: {
     userAgent() {
       return process.client ? navigator.userAgent : ''
     },
   },
-  mounted() {
-    if (this.permissionPrompted === null) this.permissionPrompted = false
-
-    navigator.mediaDevices
-      .getUserMedia({ audio: true, video: false })
-      .then((_stream) => {
-        this.promptStatus = 'success'
-      })
-      .catch((_error) => {
-        this.promptStatus = 'error'
-      })
-    this.permissionPrompted = true
-  },
+  mounted() {},
   methods: {
     getNavigator() {
       if (!process.client) return ''
