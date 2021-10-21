@@ -104,11 +104,14 @@ export default Vue.extend<Data, unknown, Computed, Methods>({
     },
   },
   mounted() {
-    if (['FB_IAB'].includes(navigator.userAgent)) {
+    const uaMatches = (search: string[]) =>
+      search.some((s) => navigator.userAgent.includes(s))
+
+    if (uaMatches(['FB_IAB'])) {
       this.browserType = 'Facebook'
-    } else if (['Line'].includes(navigator.userAgent)) {
+    } else if (uaMatches(['Line'])) {
       this.browserType = 'LINE'
-    } else if (['Instagram'].includes(navigator.userAgent)) {
+    } else if (uaMatches(['Instagram'])) {
       this.browserType = 'Instagram'
     } else if (
       document.referrer.includes('https://t.co/') &&
