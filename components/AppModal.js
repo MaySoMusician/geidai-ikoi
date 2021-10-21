@@ -23,17 +23,17 @@ import {
   cleanChildren,
   wrapEvent,
   createStyledAttrsMixin,
-} from '@chakra-ui/vue/src//utils'
+} from '@chakra-ui/vue/src/utils'
 
-import { CFade } from '@chakra-ui/vue/src//CTransition'
-import CPortal from '@chakra-ui/vue/src//CPortal'
-import CBox from '@chakra-ui/vue/src//CBox'
-import CIcon from '@chakra-ui/vue/src//CIcon'
-import closeButtonProps from '@chakra-ui/vue/src//CCloseButton/utils/closebutton.props'
+import { CFade } from '@chakra-ui/vue/src/CTransition'
+import CPortal from '@chakra-ui/vue/src/CPortal'
+import CBox from '@chakra-ui/vue/src/CBox'
+import CIcon from '@chakra-ui/vue/src/CIcon'
+import closeButtonProps from '@chakra-ui/vue/src/CCloseButton/utils/closebutton.props'
 import {
   sizes,
   baseProps,
-} from '@chakra-ui/vue/src//CCloseButton/utils/closebutton.styles'
+} from '@chakra-ui/vue/src/CCloseButton/utils/closebutton.styles'
 import props from '@chakra-ui/vue/src/CModal/utils/modal.props'
 
 /**
