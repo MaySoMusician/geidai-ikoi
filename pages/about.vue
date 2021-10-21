@@ -15,6 +15,7 @@
         <template v-for="(content, index) in contents">
           <CFlex
             :key="index"
+            class="dummy"
             px="0.2rem"
             my="2rem"
             direction="column"
