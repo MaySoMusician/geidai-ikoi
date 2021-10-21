@@ -43,7 +43,7 @@ import {
   AppModalBody,
   AppModalCloseButton,
 } from '@/components/AppModal'
-import SvgArrowTopRight from '~/assets/arrowTopRight.min.svg?inline'
+import SvgArrowTopRight from '~/assets/arrowTopRight2.min.svg?inline'
 
 type InAppBrowserType = 'Facebook' | 'Instagram' | 'LINE' | 'Twitter'
 
@@ -116,10 +116,14 @@ export default Vue.extend<Data, unknown, Computed, Methods>({
 .Arrow {
   position: fixed;
   top: 4px;
-  right: 10px;
+  right: 4px;
   height: auto;
-  width: 20%;
+  width: 15%;
   max-width: 200px;
   z-index: 1350;
+
+  > svg {
+    transform: rotateZ(356deg);
+  }
 }
 </style>
