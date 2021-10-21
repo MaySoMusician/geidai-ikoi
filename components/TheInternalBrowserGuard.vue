@@ -53,7 +53,6 @@ type Data = {
 }
 
 type Computed = {
-  userAgent: string
   modalOpen: boolean
   browserTypeName: string
   openBrowserLabel: string
@@ -74,13 +73,10 @@ export default Vue.extend<Data, unknown, Computed, Methods>({
   data() {
     return {
       modalClosed: false,
-      browserType: 'Facebook',
+      browserType: null,
     }
   },
   computed: {
-    userAgent() {
-      return process.client ? navigator.userAgent : ''
-    },
     modalOpen() {
       return !!this.browserType && !this.modalClosed
     },
@@ -107,7 +103,20 @@ export default Vue.extend<Data, unknown, Computed, Methods>({
       return labels[this.browserType]
     },
   },
-  mounted() {},
+  mounted() {
+    if (['FB_IAB'].includes(navigator.userAgent)) {
+      this.browserType = 'Facebook'
+    } else if (['Line'].includes(navigator.userAgent)) {
+      this.browserType = 'LINE'
+    } else if (['Instagram'].includes(navigator.userAgent)) {
+      this.browserType = 'Instagram'
+    } else if (
+      document.referrer.includes('https://t.co/') &&
+      this.$device.isMobileOrTablet
+    ) {
+      this.browserType = 'Twitter'
+    }
+  },
   methods: {},
 })
 </script>
