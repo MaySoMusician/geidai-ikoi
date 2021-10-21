@@ -75,6 +75,8 @@
               </div>
             </div>
           </transition>
+
+          <TheInternalBrowserGuard />
         </CBox>
       </CColorModeProvider>
     </CThemeProvider>
