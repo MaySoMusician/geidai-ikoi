@@ -491,7 +491,7 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
         return this.forwardAfterSignInIfRequired()
       }
 
-      await _signIn(this, { hd: 'fa.geidai.ac.jp' })
+      await _signIn(this, { hd: '' })
     },
     forwardAfterSignInIfRequired() {
       const { forward } = this.$route.query
