@@ -16,7 +16,6 @@
               max-w="66rem"
               mx="auto"
             >
-              <TheInternalBrowserGuard />
               <!-- main -->
               <Nuxt />
               <!-- /main -->
@@ -76,6 +75,8 @@
               </div>
             </div>
           </transition>
+
+          <TheInternalBrowserGuard />
         </CBox>
       </CColorModeProvider>
     </CThemeProvider>
