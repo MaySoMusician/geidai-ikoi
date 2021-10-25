@@ -162,13 +162,16 @@
       >
 
       <CBox :mt="4" text-align="center">
-        <CText>
-          選挙に関心のある有志により、今回の選挙の期日前投票所マップが制作・公開されています。（<CLink
+        <CText :mb="1">
+          選挙に関心のある有志により、今回の選挙の期日前投票所マップが制作・公開されています。
+        </CText>
+        <CText
+          >（<CLink
             href="https://xn--ldrs20bjha00j3wbt69c.jp/2016-sangiin/#member"
             is-external
             >「KIJIM@P」制作チーム</CLink
-          >、その他有志）
-        </CText>
+          >、その他有志）</CText
+        >
       </CBox>
 
       <CBox :mt="8">
