@@ -18,7 +18,12 @@
     <nuxt-img
       src="/illust-election1.png"
       format="png"
-      sizes="xs:100vw sm:100vw md:50vw lg:50vw"
+      sizes="xs:100vw sm:100vw md:100vw lg:50vw"
+    />
+    <nuxt-img
+      src="/illust-question1.png"
+      format="png"
+      sizes="xs:100vw sm:100vw md:100vw lg:50vw"
     />
   </div>
 </template>

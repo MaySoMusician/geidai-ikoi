@@ -17,12 +17,12 @@
           payload-source="noop/index"
           :sizes="{ xs: 100, sm: 100, md: 100, lg: 50 }"
         />
-        <CLink
+        <!-- <CLink
           href="https://www.freepik.com/free-vector/isometric-election-flowchart-composition-with-human-characters-voters-political-figures-teams-with-text-captions_13767763.htm"
           is-external
           :class="[$style.Attribution]"
           >Vector created by macrovector - www.freepik.com</CLink
-        >
+        > -->
       </template>
       <template #column2>
         <div>
@@ -66,6 +66,96 @@
               >
             </CBox>
           </CBox>
+        </div>
+      </template>
+    </DocSectionTwoColumns>
+
+    <DocSectionTwoColumns
+      :class="[$style.Section2]"
+      :classes-column1="[$style.Section2Picture]"
+      :classes-column2="[$style.Section2Content]"
+      direction="normal"
+    >
+      <template #column1>
+        <AppNuxtImgImitated
+          original-src="/illust-question1.png"
+          :original-width="1000"
+          :original-height="893"
+          original-format="png"
+          payload-source="noop/index"
+          :sizes="{ xs: 100, sm: 100, md: 100, lg: 50 }"
+        />
+      </template>
+      <template #column2>
+        <div>
+          <div>
+            <CHeading
+              as="h2"
+              class="dummy"
+              font-size="2.5rem"
+              line-height="120%"
+              font-weight="bold"
+              letter-spacing="0.0625rem"
+              text-align="left"
+              >投票先<br />どうすればいいの？</CHeading
+            >
+          </div>
+
+          <CBox :my="6" letter-spacing="0.0875rem" line-height="1.7">
+            <CText :mb="1"
+              >いざ投票所に来ても「誰に投票していいかわからない……」</CText
+            >
+            <CText :mb="4">悩んでしまう方は多いのではないでしょうか？</CText>
+            <CText :mb="4"
+              >近年は、投票率を上げるべく、それぞれの候補者のプロフィールや各政党の公約をまとめたり、過去の公約の達成度を計測したりし、投票先を選びやすくする取り組みも増えてきています。</CText
+            >
+            <CText :mb="4"
+              >JAPAN CHOICEの<CLink
+                href="https://japanchoice.jp/vote-navi/"
+                rel="noopener noreferrer"
+                target="_blank"
+                >投票ナビ</CLink
+              >では、16個の質問に答えるだけで各政党の公約と自分の意見のマッチング度を測ることができます。</CText
+            >
+            <CText
+              >また、自分の選挙区の候補者一覧をみたり、争点別に公約を比較したり、これまでの内閣支持率をチェックしたりする機能もあります。ぜひ使ってみてください。</CText
+            >
+          </CBox>
+          <CFlex justify="center" align="center">
+            <AppButton
+              as="a"
+              text="投票ナビ"
+              href="https://japanchoice.jp/vote-navi/"
+              rel="noopener noreferrer"
+              target="_blank"
+            />
+          </CFlex>
+          <CFlex
+            :mt="2"
+            justify="center"
+            align="center"
+            direction="column"
+            text-align="center"
+            color="gray.400"
+            font-size="0.65rem"
+            font-weight="400"
+          >
+            <CText>
+              JAPAN CHOICEは、NPO法人Mielkaが運営するウェブサイトです。
+            </CText>
+            <CText
+              >JAPAN
+              CHOICE内で入力されたデータ等は、オンライン憩いには一切共有されません。</CText
+            >
+            <CText
+              >ウェブサイト内で発生した損害等については、オンライン憩いは一切責任を負いません。<CLink
+                href="https://japanchoice.jp/terms-of-service"
+                rel="noopener noreferrer"
+                target="_blank"
+                >利用規約</CLink
+              >をご確認ください。</CText
+            >
+          </CFlex>
         </div>
       </template>
     </DocSectionTwoColumns>
@@ -237,6 +327,64 @@ export default vue
         top: 0;
       }
       z-index: 10;
+    }
+  }
+}
+
+.Section2 {
+  /* position: relative;
+  background: #accaec; */
+  padding: {
+    top: 3rem;
+    bottom: 3rem;
+  }
+
+  /* color: white;
+  text-shadow: -2px 2px 8px rgb(91 115 163); */
+
+  &Picture,
+  &Content {
+    width: 100%;
+    margin: {
+      left: auto;
+      right: auto;
+    }
+  }
+
+  &Picture {
+    height: auto;
+    object-fit: contain;
+    max-width: 30rem;
+
+    @media screen and (min-width: 48em) {
+      width: 40%;
+      max-width: unset;
+
+      /* > img {
+        position: absolute;
+        top: 5%;
+        right: 0;
+        width: 63%;
+      } */
+    }
+  }
+
+  &Content {
+    padding: {
+      top: 3rem;
+    }
+
+    p a {
+      color: #3f588b;
+      font-weight: 600;
+    }
+
+    @media screen and (min-width: 48em) {
+      width: 60%;
+      padding: {
+        top: 0;
+      }
+      /* z-index: 10; */
     }
   }
 }
