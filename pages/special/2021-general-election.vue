@@ -21,18 +21,16 @@
       </template>
       <template #column2>
         <div>
-          <div>
-            <CHeading
-              as="h2"
-              class="dummy"
-              font-size="2.5rem"
-              line-height="120%"
-              font-weight="bold"
-              letter-spacing="0.0625rem"
-              text-align="left"
-              >そうだ、<br />選挙に行こう</CHeading
-            >
-          </div>
+          <CHeading
+            as="h2"
+            class="dummy"
+            font-size="2.5rem"
+            line-height="120%"
+            font-weight="bold"
+            letter-spacing="0.0625rem"
+            text-align="left"
+            >そうだ、<br />選挙に行こう</CHeading
+          >
 
           <CBox mt="2rem">
             <CBox mb="2.5rem">
@@ -83,18 +81,16 @@
       </template>
       <template #column2>
         <div>
-          <div>
-            <CHeading
-              as="h2"
-              class="dummy"
-              font-size="2.5rem"
-              line-height="120%"
-              font-weight="bold"
-              letter-spacing="0.0625rem"
-              text-align="left"
-              >投票先<br />どうすればいいの？</CHeading
-            >
-          </div>
+          <CHeading
+            as="h2"
+            class="dummy"
+            font-size="2.5rem"
+            line-height="120%"
+            font-weight="bold"
+            letter-spacing="0.0625rem"
+            text-align="left"
+            >投票先<br />どうすればいいの？</CHeading
+          >
 
           <CBox :my="6" letter-spacing="0.0875rem" line-height="1.7">
             <CText :mb="1"
@@ -152,6 +148,107 @@
         </div>
       </template>
     </DocSectionTwoColumns>
+
+    <CBox :class="[$style.Section3]">
+      <CHeading
+        as="h2"
+        class="dummy"
+        font-size="2.5rem"
+        line-height="120%"
+        font-weight="bold"
+        letter-spacing="0.0625rem"
+        text-align="center"
+        >期日前投票所はどこ？</CHeading
+      >
+
+      <CBox :mt="4" text-align="center">
+        <CText :mb="1">
+          選挙に関心のある有志により、今回の選挙の期日前投票所マップが制作・公開されています。（<CLink
+            href="https://xn--ldrs20bjha00j3wbt69c.jp/2016-sangiin/#member"
+            is-external
+            >「KIJIM@P」制作チーム</CLink
+          >、その他有志）
+        </CText>
+        <CText font-size="0.875rem">
+          <CText as="span" font-weight="700"
+            >自分の自治体のデータが表示されませんか？</CText
+          >
+          入力はボランティアによる手作業です。もしご協力いただける方は、<CLink
+            href="https://note.com/hal_sk/n/n4ed1aea40220"
+            is-external
+            >こちらをご覧ください</CLink
+          >。
+        </CText>
+      </CBox>
+
+      <CBox :mt="8">
+        <iframe
+          src="https://www.google.com/maps/d/embed?mid=1fc6bOggiZKNuRoKE-fMnq-hojYzBlgwP"
+          style="width: 100%; height: 80vh"
+        ></iframe>
+      </CBox>
+
+      <CBox :mt="8" text-align="center">
+        <CText
+          ><CLink
+            href="https://xn--ldrs20bjha00j3wbt69c.jp/2021-shuugiin/"
+            is-external
+            >こちらのページ</CLink
+          >に、都道府県別のマップや期日前投票に関するデータや解説があります。</CText
+        >
+      </CBox>
+
+      <CBox :mt="8">
+        <CBox text-align="center">
+          <CHeading as="h3" font-size="1.2rem"
+            >「期日前投票所マップ」 利用について・出典</CHeading
+          >
+        </CBox>
+        <CBox :mt="4" font-size="0.8rem" max-w="32rem" mx="auto">
+          <CText :mb="1" font-size="1rem">
+            <strong>誰でも無料でお使い頂けます。</strong>
+          </CText>
+          <CText :mb="2">
+            但し、下記の使用方法はマップ環境を提供元である「Google社」の規約に違反しますので、ご遠慮ください。
+          </CText>
+          <CList :ml="2" :mb="2" :spacing="1">
+            <CListItem>
+              <CListIcon
+                icon="close"
+                color="red.500"
+              />スクリーンショットを撮影して、ウェブページに掲載する</CListItem
+            >
+            <CListItem
+              ><CListIcon
+                icon="close"
+                color="red.500"
+              />スクリーンショットを撮影して、配布物資料に掲載する</CListItem
+            >
+            <CListItem
+              ><CListIcon
+                icon="close"
+                color="red.500"
+              />地図を印刷・あるいは印刷物に掲載して、不特定多数に配布・販売する</CListItem
+            >
+          </CList>
+          <CText :mb="4"
+            >詳しくは<CLink
+              href="https://www.google.co.jp/help/terms_maps/"
+              is-external
+              >Google マップ / Google Earth 追加利用規約</CLink
+            >を参照下さい（Google社の規約）</CText
+          >
+          <CText
+            >出典:
+            <CLink
+              href="https://xn--ldrs20bjha00j3wbt69c.jp/description/"
+              is-external
+              >期日前投票所マップ（KIJIM@P）</CLink
+            ></CText
+          >
+        </CBox>
+      </CBox>
+    </CBox>
 
     <CFlex
       :mt="6"
@@ -253,38 +350,6 @@ export default vue
 </style>
 
 <style lang="scss" module>
-/* .Section {
-  &Container {
-    padding: {
-      top: 2rem;
-      bottom: 3rem;
-    }
-
-    h2 {
-      font-size: 1.125rem;
-      min-width: 7em;
-
-      margin: {
-        left: auto;
-        right: auto;
-        bottom: 2rem;
-      }
-
-      padding: {
-        top: 0.8rem;
-        bottom: 0.8rem;
-      }
-
-      @include headingBorderAboveBelow();
-    }
-  }
-} */
-/* @media screen and (min-width: 48em) {
-  .VerticallyTop {
-    align-self: start;
-  }
-} */
-
 .Section1 {
   position: relative;
   background: #accaec;
@@ -392,6 +457,18 @@ export default vue
         top: 0;
       }
     }
+  }
+}
+
+.Section3 {
+  padding: {
+    top: 3rem;
+    bottom: 3rem;
+  }
+
+  p a {
+    color: #3f588b;
+    font-weight: 600;
   }
 }
 
