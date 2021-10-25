@@ -17,12 +17,7 @@
           payload-source="noop/index"
           :sizes="{ xs: 100, sm: 100, md: 100, lg: 50 }"
         />
-        <!-- <CLink
-          href="https://www.freepik.com/free-vector/isometric-election-flowchart-composition-with-human-characters-voters-political-figures-teams-with-text-captions_13767763.htm"
-          is-external
-          :class="[$style.Attribution]"
-          >Vector created by macrovector - www.freepik.com</CLink
-        > -->
+        <!--  -->
       </template>
       <template #column2>
         <div>
@@ -112,8 +107,7 @@
             <CText :mb="4"
               >JAPAN CHOICEの<CLink
                 href="https://japanchoice.jp/vote-navi/"
-                rel="noopener noreferrer"
-                target="_blank"
+                is-external
                 >投票ナビ</CLink
               >では、16個の質問に答えるだけで各政党の公約と自分の意見のマッチング度を測ることができます。</CText
             >
@@ -150,8 +144,7 @@
             <CText
               >ウェブサイト内で発生した損害等については、オンライン憩いは一切責任を負いません。<CLink
                 href="https://japanchoice.jp/terms-of-service"
-                rel="noopener noreferrer"
-                target="_blank"
+                is-external
                 >利用規約</CLink
               >をご確認ください。</CText
             >
@@ -159,6 +152,32 @@
         </div>
       </template>
     </DocSectionTwoColumns>
+
+    <CFlex
+      :mt="6"
+      justify="center"
+      align="center"
+      direction="column"
+      text-align="center"
+    >
+      <CHeading color="gray.400" font-size="0.9rem" font-weight="500" :mb="2"
+        >Attributions</CHeading
+      >
+      <CBox color="gray.400" font-size="0.65rem" font-weight="400">
+        <CLink
+          d="block"
+          href="https://www.freepik.com/free-vector/isometric-election-flowchart-composition-with-human-characters-voters-political-figures-teams-with-text-captions_13767763.htm"
+          is-external
+          >Vector created by macrovector - www.freepik.com</CLink
+        >
+        <CLink
+          d="block"
+          href="https://www.vecteezy.com/vector-art/1218825-group-of-people-holding-question-mark-icons"
+          is-external
+          >Question Vectors by Vecteezy</CLink
+        >
+      </CBox>
+    </CFlex>
 
     <transition name="fade2" mode="out-in" appear @after-enter="() => {}">
     </transition>
@@ -332,15 +351,10 @@ export default vue
 }
 
 .Section2 {
-  /* position: relative;
-  background: #accaec; */
   padding: {
     top: 3rem;
     bottom: 3rem;
   }
-
-  /* color: white;
-  text-shadow: -2px 2px 8px rgb(91 115 163); */
 
   &Picture,
   &Content {
@@ -359,13 +373,6 @@ export default vue
     @media screen and (min-width: 48em) {
       width: 40%;
       max-width: unset;
-
-      /* > img {
-        position: absolute;
-        top: 5%;
-        right: 0;
-        width: 63%;
-      } */
     }
   }
 
@@ -384,19 +391,8 @@ export default vue
       padding: {
         top: 0;
       }
-      /* z-index: 10; */
     }
   }
-}
-
-.Attribution {
-  display: block;
-  color: rgba(113, 128, 150, 0.635);
-  font-size: 0.6rem;
-  font-style: italic;
-  font-weight: 400;
-  z-index: 1;
-  text-shadow: none;
 }
 
 .Schedule {
