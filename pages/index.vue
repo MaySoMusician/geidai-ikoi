@@ -7,6 +7,22 @@
     />
     <TheNewsList align="stretch" @loaded="newsLoaded = true" />
 
+    <CFlex justify="center" align="center" direction="column" :mt="6">
+      <AppButton
+        as="nuxt-link"
+        text="そうだ、選挙に行こう"
+        to="/special/2021-general-election"
+      />
+      <CText
+        color="gray.500"
+        font-size="0.9rem"
+        font-weight="400"
+        :mt="1"
+        letter-spacing="0.06rem"
+        >衆議院選挙2021 特設サイト</CText
+      >
+    </CFlex>
+
     <client-only>
       <div ref="AuthRequiredSection" :class="[$style.AuthRequiredSection]">
         <CBox as="section" :class="[]" pt="4rem" pb="3rem">
