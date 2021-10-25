@@ -162,16 +162,34 @@
       >
 
       <CBox :mt="4" text-align="center">
-        <CText :mb="1">
+        <CText>
           選挙に関心のある有志により、今回の選挙の期日前投票所マップが制作・公開されています。（<CLink
             href="https://xn--ldrs20bjha00j3wbt69c.jp/2016-sangiin/#member"
             is-external
             >「KIJIM@P」制作チーム</CLink
           >、その他有志）
         </CText>
+      </CBox>
+
+      <CBox :mt="8">
+        <iframe
+          src="https://www.google.com/maps/d/embed?mid=15MZfCVC1rMCLnQWaH7r0xHKP8aJX14mN"
+          style="width: 100%; height: 80vh"
+        ></iframe>
+      </CBox>
+
+      <CBox :mt="8" text-align="center">
+        <CText :mb="1"
+          ><CText as="span" font-weight="700">東京都以外</CText
+          >の都道府県別のマップや期日前投票に関するデータや解説は<CLink
+            href="https://xn--ldrs20bjha00j3wbt69c.jp/2021-shuugiin/"
+            is-external
+            >こちら</CLink
+          >。</CText
+        >
         <CText font-size="0.875rem">
-          <CText as="span" font-weight="700"
-            >自分の自治体のデータが表示されませんか？</CText
+          <CText as="span" font-weight="600"
+            >自分の自治体のデータがありませんか？</CText
           >
           入力はボランティアによる手作業です。もしご協力いただける方は、<CLink
             href="https://note.com/hal_sk/n/n4ed1aea40220"
@@ -179,23 +197,6 @@
             >こちらをご覧ください</CLink
           >。
         </CText>
-      </CBox>
-
-      <CBox :mt="8">
-        <iframe
-          src="https://www.google.com/maps/d/embed?mid=1fc6bOggiZKNuRoKE-fMnq-hojYzBlgwP"
-          style="width: 100%; height: 80vh"
-        ></iframe>
-      </CBox>
-
-      <CBox :mt="8" text-align="center">
-        <CText
-          ><CLink
-            href="https://xn--ldrs20bjha00j3wbt69c.jp/2021-shuugiin/"
-            is-external
-            >こちらのページ</CLink
-          >に、都道府県別のマップや期日前投票に関するデータや解説があります。</CText
-        >
       </CBox>
 
       <CBox :mt="8">
@@ -464,6 +465,15 @@ export default vue
   padding: {
     top: 3rem;
     bottom: 3rem;
+    left: 1rem;
+    right: 1rem;
+  }
+
+  @media screen and (min-width: 67em) {
+    padding: {
+      left: 0;
+      right: 0;
+    }
   }
 
   p a {
