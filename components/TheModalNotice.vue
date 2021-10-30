@@ -11,11 +11,11 @@
           <AppModalHeader
             py="8px"
             background-color="azalea"
-            color="white"
+            color="mineShaft"
             rounded-top="0.5rem"
             >{{ modalItem.title }}</AppModalHeader
           >
-          <AppModalCloseButton color="white" top="6px" />
+          <AppModalCloseButton color="mineShaft" top="6px" />
           <AppModalBody>
             <CBox>{{ modalItem.body }}</CBox>
             <CFlex justify="center" :pt="6" :pb="2">
@@ -24,6 +24,7 @@
                 v-bind="linkButtonAttrs"
                 chevron="none"
                 text="詳細"
+                @click="closeModalNotice"
               />
               <AppButton
                 v-else
