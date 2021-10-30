@@ -24,6 +24,7 @@
                 v-bind="linkButtonAttrs"
                 chevron="none"
                 text="詳細"
+                @click="closeModalNotice"
               />
               <AppButton
                 v-else
