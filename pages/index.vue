@@ -9,6 +9,24 @@
 
     <p><a href="https://youtu.be/qHLEZCTGPMU">link1</a></p>
     <p><a href="https://youtu.be/qHLEZCTGPMU" target="_blank">link2</a></p>
+    <p>
+      <a href="https://youtu.be/qHLEZCTGPMU" target="_blank" rel="noopener"
+        >link3</a
+      >
+    </p>
+    <p>
+      <a href="https://youtu.be/qHLEZCTGPMU" target="_blank" rel="noreferrer"
+        >link4</a
+      >
+    </p>
+    <p>
+      <a
+        href="https://youtu.be/qHLEZCTGPMU"
+        target="_blank"
+        rel="noopener noreferrer"
+        >link5</a
+      >
+    </p>
 
     <AppTimeGuard :end="new Date('2021-11-01T00:00:00+09:00')">
       <CFlex justify="center" align="center" direction="column" :mt="6">
