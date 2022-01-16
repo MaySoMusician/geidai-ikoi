@@ -50,6 +50,12 @@
   "resolutions": {
     "@chakra-ui/nuxt/chakra-loader/module/lodash.template": "^4.5.0",
     "@chakra-ui/nuxt/chakra-loader/module/concat-stream": "^1.5.2",
-    "**/glob-parent": "^5.1.2"
+    "**/glob-parent": "^5.1.2",
+    "**/axios": "^0.21.2",
+    "**/follow-redirects": "^1.14.7",
+    "@chakra-ui/nuxt/chakra-loader/module/yargs/yargs-parser": "^5.0.1",
+    "**/nth-check": "^2.0.1",
+    "**/ansi-regex": "^5.0.1",
+    "@chakra-ui/nuxt/chakra-loader/module/vinyl-fs/glob-stream/micromatch/braces": "^2.3.1"
   }
 }
