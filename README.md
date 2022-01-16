@@ -92,3 +92,4 @@ To enable APPLICATION DEBUG (in-app logging), set `APP_DEBUG=1`
 - `"@chakra-ui/nuxt/chakra-loader/module/concat-stream": "^1.5.2"` - [GHSA-g74r-ffvr-5q9f](https://github.com/advisories/GHSA-g74r-ffvr-5q9f)
 - `"**/glob-parent": "^5.1.2"` - [CVE-2020-28469](https://github.com/advisories/GHSA-ww39-953v-wcq6)
 - `"**/axios": "^0.21.2"` - [CVE-2021-3749](https://github.com/advisories/GHSA-cph5-m8f7-6c5x)
+- `"**/follow-redirects": "^1.14.7"` - [CVE-2022-0155](https://github.com/advisories/GHSA-74fj-2j2h-c42q)
