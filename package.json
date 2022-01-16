@@ -50,6 +50,7 @@
   "resolutions": {
     "@chakra-ui/nuxt/chakra-loader/module/lodash.template": "^4.5.0",
     "@chakra-ui/nuxt/chakra-loader/module/concat-stream": "^1.5.2",
-    "**/glob-parent": "^5.1.2"
+    "**/glob-parent": "^5.1.2",
+    "**/axios": "^0.21.2"
   }
 }
