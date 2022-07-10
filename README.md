@@ -107,3 +107,4 @@ To enable APPLICATION DEBUG (in-app logging), set `APP_DEBUG=1`
 - `"**/node-fetch": "^2.6.7"` - [CVE-2022-0235](https://github.com/advisories/GHSA-r683-j2x4-v87g)
 - `"**/node-forge": "^1.3.0"` - [CVE-2022-24771](https://github.com/advisories/GHSA-cfm4-qjh2-4765), [CVE-2022-24772](https://github.com/advisories/GHSA-x4jg-mjrx-434g), [CVE-2022-24773](https://github.com/advisories/GHSA-2r2c-g63r-vccr), [CVE-2022-0122](https://github.com/advisories/GHSA-8fr3-hfg3-gpgp), [GHSA-5rrq-pxf6-6jx5](https://github.com/advisories/GHSA-5rrq-pxf6-6jx5), [GHSA-gf8q-jrpm-jvxq](https://github.com/advisories/GHSA-gf8q-jrpm-jvxq)
 - `"**/sharp": "^0.30.5"` - [CVE-2022-29256](https://github.com/advisories/GHSA-gp95-ppv5-3jc5)
+- `"**/nanoid": "^3.1.31"` - [CVE-2021-23566](https://github.com/advisories/GHSA-qrpm-p2h7-hrv2)
