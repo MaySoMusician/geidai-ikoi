@@ -59,6 +59,7 @@
     "@chakra-ui/nuxt/chakra-loader/module/vinyl-fs/glob-stream/micromatch/braces": "^2.3.1",
     "**/parse-url": "^6.0.1",
     "**/protobufjs": "^6.11.3",
-    "**/parse-url/parse-path": "^5.0.0"
+    "**/parse-url/parse-path": "^5.0.0",
+    "**/shell-quote": "^1.7.3"
   }
 }
