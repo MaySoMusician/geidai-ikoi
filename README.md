@@ -97,4 +97,5 @@ To enable APPLICATION DEBUG (in-app logging), set `APP_DEBUG=1`
 - `"**/nth-check": "^2.0.1"` - [CVE-2021-3803](https://github.com/advisories/GHSA-rp65-9cf3-cjxr)
 - `"**/ansi-regex": "^5.0.1"` - [CVE-2021-3807](https://github.com/advisories/GHSA-93q8-gq69-wqmw)
 - `"@chakra-ui/nuxt/chakra-loader/module/vinyl-fs/glob-stream/micromatch/braces": "^2.3.1"` - [GHSA-g95f-p29q-9xw4](https://github.com/advisories/GHSA-g95f-p29q-9xw4)
-- `**/parse-url": "^6.0.1"` - [CVE-2022-2216](https://github.com/advisories/GHSA-7f3x-x4pr-wqhj)
+- `"**/parse-url": "^6.0.1"` - [CVE-2022-2216](https://github.com/advisories/GHSA-7f3x-x4pr-wqhj)
+- `"**/protobufjs": "^6.11.3"` - [CVE-2022-25878](https://github.com/advisories/GHSA-g954-5hwp-pp24)
