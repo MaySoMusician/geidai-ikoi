@@ -101,3 +101,4 @@ To enable APPLICATION DEBUG (in-app logging), set `APP_DEBUG=1`
 - `"**/protobufjs": "^6.11.3"` - [CVE-2022-25878](https://github.com/advisories/GHSA-g954-5hwp-pp24)
 - `"**/parse-url/parse-path": "^5.0.0"` - [CVE-2022-0624](https://github.com/advisories/GHSA-3j8f-xvm3-ffx4)
 - `"**/shell-quote": "^1.7.3"` - [CVE-2021-42740](https://github.com/advisories/GHSA-g4rg-993r-mgx7)
+- `"**/minimist": "^1.2.6"` - [CVE-2021-44906](https://github.com/advisories/GHSA-xvch-5gv4-984h)
