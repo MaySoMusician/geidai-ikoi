@@ -104,6 +104,6 @@ To enable APPLICATION DEBUG (in-app logging), set `APP_DEBUG=1`
 - `"**/minimist": "^1.2.6"` - [CVE-2021-44906](https://github.com/advisories/GHSA-xvch-5gv4-984h)
 - `"**/async": "^3.2.2"` - [CVE-2021-43138](https://github.com/advisories/GHSA-fwr7-v2mv-hh25)
 - `"**/ansi-html": "^0.0.8"` - [CVE-2021-23424](https://github.com/advisories/GHSA-whgm-jr23-g3j9)
-- `"@nuxt/image/ipx/sharp/**/simple-get": "^3.1.1"` - [CVE-2022-0355](https://github.com/advisories/GHSA-wpg7-2c88-r8xv)
 - `"**/node-fetch": "^2.6.7"` - [CVE-2022-0235](https://github.com/advisories/GHSA-r683-j2x4-v87g)
 - `"**/node-forge": "^1.3.0"` - [CVE-2022-24771](https://github.com/advisories/GHSA-cfm4-qjh2-4765), [CVE-2022-24772](https://github.com/advisories/GHSA-x4jg-mjrx-434g), [CVE-2022-24773](https://github.com/advisories/GHSA-2r2c-g63r-vccr), [CVE-2022-0122](https://github.com/advisories/GHSA-8fr3-hfg3-gpgp), [GHSA-5rrq-pxf6-6jx5](https://github.com/advisories/GHSA-5rrq-pxf6-6jx5), [GHSA-gf8q-jrpm-jvxq](https://github.com/advisories/GHSA-gf8q-jrpm-jvxq)
+- `"**/sharp": "^0.30.5"` - [CVE-2022-29256](https://github.com/advisories/GHSA-gp95-ppv5-3jc5)
