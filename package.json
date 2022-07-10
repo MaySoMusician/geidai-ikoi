@@ -62,6 +62,7 @@
     "**/parse-url/parse-path": "^5.0.0",
     "**/shell-quote": "^1.7.3",
     "**/minimist": "^1.2.6",
-    "**/async": "^3.2.2"
+    "**/async": "^3.2.2",
+    "**/ansi-html": "^0.0.8"
   }
 }

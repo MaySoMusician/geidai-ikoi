@@ -103,3 +103,4 @@ To enable APPLICATION DEBUG (in-app logging), set `APP_DEBUG=1`
 - `"**/shell-quote": "^1.7.3"` - [CVE-2021-42740](https://github.com/advisories/GHSA-g4rg-993r-mgx7)
 - `"**/minimist": "^1.2.6"` - [CVE-2021-44906](https://github.com/advisories/GHSA-xvch-5gv4-984h)
 - `"**/async": "^3.2.2"` - [CVE-2021-43138](https://github.com/advisories/GHSA-fwr7-v2mv-hh25)
+- `"**/ansi-html": "^0.0.8"` - [CVE-2021-23424](https://github.com/advisories/GHSA-whgm-jr23-g3j9)
