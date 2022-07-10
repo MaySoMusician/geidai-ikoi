@@ -63,6 +63,7 @@
     "**/shell-quote": "^1.7.3",
     "**/minimist": "^1.2.6",
     "**/async": "^3.2.2",
-    "**/ansi-html": "^0.0.8"
+    "**/ansi-html": "^0.0.8",
+    "@nuxt/image/ipx/sharp/**/simple-get": "^3.1.1"
   }
 }
