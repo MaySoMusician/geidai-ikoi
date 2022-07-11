@@ -29,7 +29,49 @@
           justify="stretch"
           align="center"
         >
+          <CTooltip
+            v-if="link.slug === 'general-02'"
+            has-arrow
+            label="Meet 2は現在工事中です"
+            placement="top"
+            bg="red.500"
+          >
+            <CButton
+              d="flex"
+              flex-direction="row"
+              width="100%"
+              background-color="azalea"
+              color="mineShaft"
+              :_active="{}"
+              :_hover="{}"
+              :_focus="{
+                outline: 'none',
+                boxShadow: '0 0 0 1px rgb(66 153 225 / 60%)',
+              }"
+              h="auto"
+              :py="3"
+              opacity="0.5"
+            >
+              <CIcon name="google-hangouts" size="3rem" :mr="1" />
+              <CFlex direction="column" place-items="flex-start">
+                <CBox font-size="1.2rem">{{
+                  link.name || `Meet ${index + 1}`
+                }}</CBox>
+                <CBox
+                  font-weight="normal"
+                  font-size="0.8rem"
+                  font-family="mono"
+                  mt="0.2rem"
+                  pl="0.0625rem"
+                  min-width="7.5em"
+                  text-align="start"
+                  >unavailable</CBox
+                >
+              </CFlex>
+            </CButton>
+          </CTooltip>
           <CButton
+            v-else
             d="flex"
             flex-direction="row"
             width="100%"
