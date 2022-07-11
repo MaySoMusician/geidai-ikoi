@@ -32,7 +32,7 @@
           <CTooltip
             v-if="link.slug === 'general-02'"
             has-arrow
-            label="Meet2は現在工事中です"
+            label="Meet 2は現在工事中です"
             placement="top"
             bg="red.500"
           >
