@@ -230,6 +230,11 @@ const config: NuxtConfig = {
       offline: false,
     },
   },
+  watchers: {
+    webpack: {
+      poll: true,
+    },
+  },
 }
 
 if (!config.env) {
