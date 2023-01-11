@@ -34,6 +34,7 @@ export interface MeetLinkItem extends NotionDatabaseItem {
   category?: string[]
   name?: string
   isHidden?: boolean
+  isUnavailable?: boolean
 }
 
 export function isValidMeetLinkItem(target: any): target is MeetLinkItem {
@@ -47,7 +48,10 @@ export function isValidMeetLinkItem(target: any): target is MeetLinkItem {
         target.category.every((v: any) => isNotEmptyString(v))
       : IGNORE) &&
     ('name' in target ? isNotEmptyString(target.name) : IGNORE) &&
-    ('isHidden' in target ? typeof target.isHidden === 'boolean' : IGNORE)
+    ('isHidden' in target ? typeof target.isHidden === 'boolean' : IGNORE) &&
+    ('isUnavailable' in target
+      ? typeof target.isUnavailable === 'boolean'
+      : IGNORE)
   )
 }
 

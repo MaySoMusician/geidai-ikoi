@@ -30,9 +30,9 @@
           align="center"
         >
           <CTooltip
-            v-if="link.slug === 'general-02'"
+            v-if="link.isUnavailable"
             has-arrow
-            label="Meet 2は現在工事中です"
+            :label="`${link.name}は現在工事中です`"
             placement="top"
             bg="red.500"
           >
@@ -185,6 +185,7 @@ const vue = Vue.extend<Data, Methods, Computed, Props>({
         const rawItems = await fetchNotionTableData(
           this.$config.meetLinksDatabaseId
         ).then((r) => r.json())
+        console.log(rawItems)
         if (Array.isArray(rawItems)) {
           const items = rawItems.filter((v) => isValidMeetLinkItem(v))
           this.meetLinks = items
