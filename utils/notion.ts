@@ -6,6 +6,7 @@ export function fetchNotionData(type: string, id: string) {
     method: 'GET',
     headers: {
       'Content-Type': 'text/plain',
+      pragma: 'no-cache',
     },
   })
 }
