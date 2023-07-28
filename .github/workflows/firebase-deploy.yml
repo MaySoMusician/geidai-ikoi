@@ -54,7 +54,7 @@ jobs:
 
       - name: Install firebase-tools
         run: |
-          npm install -g firebase-tools
+          npm install -g firebase-tools@^11
 
       - name: Build app
         run: |
