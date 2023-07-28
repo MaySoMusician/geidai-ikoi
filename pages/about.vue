@@ -133,13 +133,13 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           body:
             'コロナ禍において諸活動が制限される中、学生同士の交流の場としてこのサイトを作ることになりました。ぜひご活用ください！',
           role: '発起人',
-          age: '作曲3年',
+          age: '作曲5年',
           name: '姫野七弦',
         },
         {
           body: '開発担当しました。みんな使ってね～～～～',
           role: 'プログラマー',
-          age: '作曲3年',
+          age: '旧作曲科',
           name: '渡邊響',
         },
       ],
@@ -158,20 +158,6 @@ const vue = Vue.extend<Data, Methods, Computed, unknown>({
           title: 'contact@mg.geidai-ikoi.net',
           link: 'contact@mg.geidai-ikoi.net',
           prependText: 'お問い合わせ',
-        },
-        {
-          icon: 'email',
-          type: 'email',
-          title: 's2119008+ikoi@ms.geidai.ac.jp',
-          link: 's2119008+ikoi@ms.geidai.ac.jp',
-          prependText: '姫野七弦',
-        },
-        {
-          icon: 'email',
-          type: 'email',
-          title: 's2119015@ms.geidai.ac.jp',
-          link: 's2119015@ms.geidai.ac.jp',
-          prependText: '渡邊響',
         },
         {
           icon: 'github',
